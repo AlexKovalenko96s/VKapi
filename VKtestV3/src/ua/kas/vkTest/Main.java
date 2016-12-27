@@ -13,7 +13,7 @@ import org.apache.http.client.ClientProtocolException;
 public class Main {
 
 	private static ArrayList<String> list = new ArrayList<>();
-	private static String access_token = "79222237511ddbac02022ad71746c99c1cce71dbb7cb3a725105fd5af9f1c79f039f0026fe110a21a2568";
+	private static String access_token = "ed3ffdef7c885ef6863a50259f8fdfc93f6920bc5e3fc2bb548dceb5036637e586455d3dd7d24458e1871";
 
 	public static String getFriendsList() throws IOException {
 		String url = "https://api.vk.com/method/" + "friends.get" + "?user_id=224429310" + "&return_system=1"
@@ -42,8 +42,12 @@ public class Main {
 	}
 
 	public static String sendMessage() throws IOException {
-		String url = "https://api.vk.com/method/" + "messages.send" + "?user_id=110602479" + "&title=приветствую"
-				+ "&message=(нет)" + "&access_token=" + access_token;
+		String space = "%20";
+
+		// %0A
+		// String enter = ""
+		String url = "https://api.vk.com/method/" + "messages.send" + "?user_id=110602479" + "&title=title"
+				+ "&message=віпвіі%20ds%0Anпа" + "&access_token=" + access_token;
 		String line = "";
 		URL url2 = new URL(url);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
@@ -86,7 +90,7 @@ public class Main {
 		}
 		// System.out.println(list);
 		// getUserName();
-		// System.out.println(sendMessage());
-		System.out.println(wallPost());
+		System.out.println(sendMessage());
+		// System.out.println(wallPost());
 	}
 }
