@@ -12,11 +12,11 @@ public class Main {
 	private static ArrayList<String> listIdWall = new ArrayList<>();
 	private static ArrayList<Integer> like = new ArrayList<>();
 
-	private static String access_token = "70b6fb754c2b39085ae447c80b6e2cea3aea304c5551e9ff7dbfe1c3ff77015e020b378f6502a5597dad2";
+	private static String access_token = "d76eeec54a9a637e3873561ecd7787e67616ca6ad579f0056681d437f9ffd460d435578fc12d680aa3987";
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		// список всех постов
-		String url = "https://api.vk.com/method/" + "wall.get" + "?owner_id=34582594" + "&filter=owner"
+		String url = "https://api.vk.com/method/" + "wall.get" + "?owner_id=18472340" + "&filter=all" + "&count=99"
 				+ "&access_token=" + access_token;
 		String line = "";
 		URL url2 = new URL(url);
@@ -29,11 +29,12 @@ public class Main {
 			line = line.substring(line.indexOf("\"id\":") + 1);
 		}
 		listIdWall.remove(0);
+		System.out.println(listIdWall.size());
 
 		// получаем лайкнувших
 		for (int i = 0; i < listIdWall.size(); i++) {
 			Thread.sleep(250);
-			url = "https://api.vk.com/method/" + "likes.getList" + "?type=post" + "&owner_id=34582594" + "&item_id="
+			url = "https://api.vk.com/method/" + "likes.getList" + "?type=post" + "&owner_id=18472340" + "&item_id="
 					+ listIdWall.get(i) + "&access_token=" + access_token;
 			line = "";
 			url2 = new URL(url);
@@ -44,15 +45,31 @@ public class Main {
 			for (int j = 0;; j++) {
 				if (j == 0) {
 					line = line.substring(line.indexOf(",") + 1);
-
-					if (list.contains(line.substring(line.indexOf("[") + 1, line.indexOf(",")))) {
-						like.set(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf(","))),
-								like.get(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf(",")))) + 1);
-						line = line.substring(line.indexOf(",") + 1);
-					} else {
-						list.add(line.substring(line.indexOf("[") + 1, line.indexOf(",")));
-						like.add(1);
-						line = line.substring(line.indexOf(",") + 1);
+					try {
+						if (list.contains(line.substring(line.indexOf("[") + 1, line.indexOf(",")))) {
+							like.set(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf(","))),
+									like.get(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf(","))))
+											+ 1);
+							line = line.substring(line.indexOf(",") + 1);
+						} else {
+							list.add(line.substring(line.indexOf("[") + 1, line.indexOf(",")));
+							like.add(1);
+							line = line.substring(line.indexOf(",") + 1);
+						}
+					} catch (Exception ex) {
+						if (line.substring(line.indexOf("[") + 1, line.indexOf("]")).length() == 0) {
+							break;
+						} else if (line.substring(line.indexOf("[") + 1, line.indexOf("]")).length() != 0) {
+							if (list.contains(line.substring(line.indexOf("[") + 1, line.indexOf("]")))) {
+								like.set(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf("]"))),
+										like.get(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf("]"))))
+												+ 1);
+							} else {
+								list.add(line.substring(line.indexOf("[") + 1, line.indexOf("]")));
+								like.add(1);
+							}
+							break;
+						}
 					}
 				} else {
 					try {
