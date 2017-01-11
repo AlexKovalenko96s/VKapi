@@ -18,7 +18,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Main {
 
-	static String access_token = "";
+	private static String access_token = "";
 
 	public static void main(String[] args)
 			throws InterruptedException, AWTException, IOException, URISyntaxException, NoSuchAlgorithmException {
