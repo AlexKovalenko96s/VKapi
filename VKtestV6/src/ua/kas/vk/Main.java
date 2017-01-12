@@ -15,8 +15,13 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 public class Main {
+
+	private static ArrayList<String> list = new ArrayList<>();
+	private static ArrayList<String> checkList = new ArrayList<>();
+	private static ArrayList<String> newList = new ArrayList<>();
 
 	private static String access_token = "";
 
@@ -44,40 +49,59 @@ public class Main {
 		trayIcon.setImageAutoSize(true);
 		// добавим иконку в трей
 		systemTray.add(trayIcon);
-		trayIcon.displayMessage("VK_Online", "Соединяемся с сервером", TrayIcon.MessageType.INFO);
+		trayIcon.displayMessage("VK_Friends", "Соединяемся с сервером", TrayIcon.MessageType.INFO);
 
-		access_token = "bc6ddc16e426c0983c7f78420e32e693a543911520ff5f20846134b7e78c723c52b1b99f779a0abcfe398";
+		access_token = "eb6581e2f31964f8046910070b60223a2cf73759f18ad18552f2dd9ac2f95e9e67e60c335329090103fc6";
 
-		trayIcon.displayMessage("VK_Online", "Соединение установлено", TrayIcon.MessageType.INFO);
-		String status = getOnline();
+		trayIcon.displayMessage("VK_Friends", "Соединение установлено", TrayIcon.MessageType.INFO);
+
+		list = getFriends();
+
 		// Бескоечный цикл
 		for (;;) {
-			Thread.sleep(3000); // ждем три секунды
+			Thread.sleep(3000);
 			// Здесь отработка
-
-			if (!status.equals(getOnline())) {
-				status = getOnline();
-				if (Integer.parseInt(status) == 1) {
-					trayIcon.displayMessage("VKNotifer", "Online", TrayIcon.MessageType.INFO);
-				} else if (Integer.parseInt(status) == 0) {
-					trayIcon.displayMessage("VKNotifer", "Offline", TrayIcon.MessageType.INFO);
-				} else if (Integer.parseInt(status) == 2) {
-					trayIcon.displayMessage("VKNotifer", "Online_mobile", TrayIcon.MessageType.INFO);
+			checkList = getFriends();
+			if (!list.equals(checkList)) {
+				for (String item1 : checkList) {
+					for (String item2 : list) {
+						if (item1.equals(item2)) {
+							break;
+						} else if (item1.compareTo(item2) < 0) {
+							newList.add(item2);
+						}
+					}
 				}
 			}
+			System.out.println(newList);
 		}
 	}
 
-	static String getOnline() throws IOException {
-		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + "224429310" + "&fields=online"
-				+ "&access_token=" + access_token;
+	// trayIcon.displayMessage("VK_Friends", "",
+	// TrayIcon.MessageType.INFO);
+	static ArrayList<String> getFriends() throws IOException {
+		ArrayList<String> list = new ArrayList<>();
+
+		String url = "https://api.vk.com/method/" + "friends.get" + "?user_id=" + "224429310" + "&access_token="
+				+ access_token;
 		URL url2 = new URL(url);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 		String line = reader.readLine();
-		System.out.println(line);
-		if (line.contains("online_mobile")) {
-			return "2";
+
+		for (int i = 0;; i++) {
+			if (i == 0) {
+				list.add(line.substring(line.indexOf("[") + 1, line.indexOf(",")));
+				line = line.substring(line.indexOf(",") + 1);
+			} else {
+				try {
+					list.add(line.substring(0, line.indexOf(",")));
+					line = line.substring(line.indexOf(",") + 1);
+				} catch (Exception ex) {
+					list.add(line.substring(0, line.indexOf("]")));
+					break;
+				}
+			}
 		}
-		return line.substring(line.indexOf("\"online\":") + 9, line.indexOf("}"));
+		return list;
 	}
 }
