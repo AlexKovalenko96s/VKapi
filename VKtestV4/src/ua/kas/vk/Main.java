@@ -12,12 +12,12 @@ public class Main {
 	private static ArrayList<String> listIdWall = new ArrayList<>();
 	private static ArrayList<Integer> like = new ArrayList<>();
 
-	private static String access_token = "d76eeec54a9a637e3873561ecd7787e67616ca6ad579f0056681d437f9ffd460d435578fc12d680aa3987";
+	// static String access_token =
+	// "bc6ddc16e426c0983c7f78420e32e693a543911520ff5f20846134b7e78c723c52b1b99f779a0abcfe398";
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		// список всех постов
-		String url = "https://api.vk.com/method/" + "wall.get" + "?owner_id=18472340" + "&filter=all" + "&count=99"
-				+ "&access_token=" + access_token;
+		String url = "https://api.vk.com/method/" + "wall.get" + "?owner_id=18472340" + "&filter=all" + "&count=99";
 		String line = "";
 		URL url2 = new URL(url);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
@@ -29,13 +29,12 @@ public class Main {
 			line = line.substring(line.indexOf("\"id\":") + 1);
 		}
 		listIdWall.remove(0);
-		System.out.println(listIdWall.size());
 
 		// получаем лайкнувших
 		for (int i = 0; i < listIdWall.size(); i++) {
 			Thread.sleep(250);
 			url = "https://api.vk.com/method/" + "likes.getList" + "?type=post" + "&owner_id=18472340" + "&item_id="
-					+ listIdWall.get(i) + "&access_token=" + access_token;
+					+ listIdWall.get(i);
 			line = "";
 			url2 = new URL(url);
 			reader = new BufferedReader(new InputStreamReader(url2.openStream()));
@@ -95,15 +94,10 @@ public class Main {
 				}
 			}
 		}
-
-		System.out.println(list.size());
-
 		reader = null;
 		for (int i = 0; i < list.size(); i++) {
 			Thread.sleep(250);
-			url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + list.get(i) + "&access_token="
-					+ access_token;
-
+			url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + list.get(i);
 			url2 = new URL(url);
 			reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 			System.out.println(reader.readLine() + " поставил/ла:" + like.get(i));
