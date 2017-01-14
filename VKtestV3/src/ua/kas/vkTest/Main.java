@@ -17,6 +17,7 @@ public class Main {
 	private static ArrayList<String> list = new ArrayList<>();
 	private static ArrayList<String> listIdWall = new ArrayList<>();
 	private static Map countLike = new HashMap<String, Integer>();
+	private static ArrayList<String> photoId = new ArrayList<>();
 
 	// http://oauth.vk.com/authorize?client_id=5809983&scope=messages,wall,friends,likes,users&redirect_uri=http://oauth.vk.com/blank.html&display=popup&response_type=token
 	private static String access_token = "70b6fb754c2b39085ae447c80b6e2cea3aea304c5551e9ff7dbfe1c3ff77015e020b378f6502a5597dad2";
@@ -125,6 +126,26 @@ public class Main {
 		}
 	}
 
+	public static String getPhoto() throws IOException {
+		String url = "https://api.vk.com/method/" + "photos.get" + "?owner_id=224429310" + "&extended=1"
+				+ "&album_id=profile" + "&count=1000";
+		String line = "";
+		URL url2 = new URL(url);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+		line = reader.readLine();
+		reader.close();
+		return line;
+	}
+
+	public static void getPhotoId() throws IOException {
+		String line = getPhoto();
+		while (line.contains("\"post_id\"")) {
+			line = line.substring(line.indexOf("\"post_id\":") + 10);
+			System.out.println(line);
+			photoId.add(line.substring(0, (line.indexOf(","))));
+		}
+	}
+
 	public static void main(String[] args) throws ClientProtocolException, NoSuchAlgorithmException, IOException,
 			URISyntaxException, InterruptedException {
 
@@ -150,9 +171,11 @@ public class Main {
 		// System.out.println(sendMessage());
 		// System.out.println(wallPost());
 
-		likes();
+		// likes();
 		// getUserName();
 
 		// wall();
+
+		getPhotoId();
 	}
 }
