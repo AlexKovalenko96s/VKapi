@@ -17,6 +17,7 @@ import ua.kas.spyOnline.SpyOnline;
 public class MainController {
 	// 224429310
 	// 18472340
+
 	@FXML
 	CheckBox cb_wall;
 	@FXML
@@ -40,10 +41,28 @@ public class MainController {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 		String line = reader.readLine();
 
-		if (!line.contains("\"error\"")) {
-			Thread thread = new Thread(new CheckLikes(id));
-			thread.start();
-			btn_first.setDisable(true);
+		if (!line.contains("\"error\"") && !(line.length() == 15)) {
+			Thread thread = null;
+			if (cb_photo.isSelected() || cb_wall.isSelected()) {
+				if (cb_wall.isSelected() && !cb_photo.isSelected()) {
+					thread = new Thread(new CheckLikes(id, 0));
+				} else if (cb_photo.isSelected() && !cb_wall.isSelected()) {
+					thread = new Thread(new CheckLikes(id, 1));
+				} else if (cb_photo.isSelected() && cb_wall.isSelected()) {
+					thread = new Thread(new CheckLikes(id, 2));
+				}
+				thread.start();
+				btn_first.setDisable(true);
+				// for (;;) {
+				// if (thread.isInterrupted()) {
+				// System.out.println("dd");
+				// btn_first.setDisable(false);
+				// break;
+				// }
+				// }
+			} else {
+				JOptionPane.showMessageDialog(null, "Please select categories!");
+			}
 		} else {
 			JOptionPane.showMessageDialog(null, "Not correct ID!");
 		}

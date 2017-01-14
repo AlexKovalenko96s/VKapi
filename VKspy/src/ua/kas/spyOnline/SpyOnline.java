@@ -25,7 +25,6 @@ public class SpyOnline implements Runnable {
 	}
 
 	private String getOnline() throws IOException {
-		System.out.println("ddd");
 		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id + "&fields=online";
 		URL url2 = new URL(url);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
