@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class CheckLikes implements Runnable {
 
 	private static ArrayList<String> list = new ArrayList<>();
@@ -62,6 +64,7 @@ public class CheckLikes implements Runnable {
 
 	@Override
 	public void run() {
+
 		if (check == 0) {
 			try {
 				wall();
@@ -85,75 +88,79 @@ public class CheckLikes implements Runnable {
 
 		// получаем лайкнувших
 		for (int i = 0; i < listIdWall.size(); i++) {
-			try {
-				Thread.sleep(250);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			url = "https://api.vk.com/method/" + "likes.getList" + "?type=post" + "&owner_id=" + id + "&item_id="
-					+ listIdWall.get(i);
-			line = "";
-			try {
-				url2 = new URL(url);
-				reader = new BufferedReader(new InputStreamReader(url2.openStream()));
-				line = reader.readLine();
-				reader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			if (!Thread.currentThread().isInterrupted()) {
+				try {
+					Thread.sleep(250);
+				} catch (InterruptedException e) {
+					break;
+				}
+				url = "https://api.vk.com/method/" + "likes.getList" + "?type=post" + "&owner_id=" + id + "&item_id="
+						+ listIdWall.get(i);
+				line = "";
+				try {
+					url2 = new URL(url);
+					reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+					line = reader.readLine();
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
-			for (int j = 0;; j++) {
-				if (j == 0) {
-					line = line.substring(line.indexOf(",") + 1);
-					try {
-						if (list.contains(line.substring(line.indexOf("[") + 1, line.indexOf(",")))) {
-							like.set(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf(","))),
-									like.get(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf(","))))
-											+ 1);
-							line = line.substring(line.indexOf(",") + 1);
-						} else {
-							list.add(line.substring(line.indexOf("[") + 1, line.indexOf(",")));
-							like.add(1);
-							line = line.substring(line.indexOf(",") + 1);
-						}
-					} catch (Exception ex) {
-						if (line.substring(line.indexOf("[") + 1, line.indexOf("]")).length() == 0) {
-							break;
-						} else if (line.substring(line.indexOf("[") + 1, line.indexOf("]")).length() != 0) {
-							if (list.contains(line.substring(line.indexOf("[") + 1, line.indexOf("]")))) {
-								like.set(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf("]"))),
-										like.get(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf("]"))))
+				for (int j = 0;; j++) {
+					if (j == 0) {
+						line = line.substring(line.indexOf(",") + 1);
+						try {
+							if (list.contains(line.substring(line.indexOf("[") + 1, line.indexOf(",")))) {
+								like.set(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf(","))),
+										like.get(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf(","))))
 												+ 1);
+								line = line.substring(line.indexOf(",") + 1);
 							} else {
-								list.add(line.substring(line.indexOf("[") + 1, line.indexOf("]")));
+								list.add(line.substring(line.indexOf("[") + 1, line.indexOf(",")));
+								like.add(1);
+								line = line.substring(line.indexOf(",") + 1);
+							}
+						} catch (Exception ex) {
+							if (line.substring(line.indexOf("[") + 1, line.indexOf("]")).length() == 0) {
+								break;
+							} else if (line.substring(line.indexOf("[") + 1, line.indexOf("]")).length() != 0) {
+								if (list.contains(line.substring(line.indexOf("[") + 1, line.indexOf("]")))) {
+									like.set(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf("]"))),
+											like.get(list
+													.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf("]"))))
+													+ 1);
+								} else {
+									list.add(line.substring(line.indexOf("[") + 1, line.indexOf("]")));
+									like.add(1);
+								}
+								break;
+							}
+						}
+					} else {
+						try {
+							if (list.contains(line.substring(0, line.indexOf(",")))) {
+								like.set(list.indexOf(line.substring(0, line.indexOf(","))),
+										like.get(list.indexOf(line.substring(0, line.indexOf(",")))) + 1);
+								line = line.substring(line.indexOf(",") + 1);
+							} else {
+								list.add(line.substring(0, line.indexOf(",")));
+								like.add(1);
+								line = line.substring(line.indexOf(",") + 1);
+							}
+						} catch (Exception ex) {
+							if (list.contains(line.substring(0, line.indexOf("]")))) {
+								like.set(list.indexOf(line.substring(0, line.indexOf("]"))),
+										like.get(list.indexOf(line.substring(0, line.indexOf("]")))) + 1);
+							} else {
+								list.add(line.substring(0, line.indexOf("]")));
 								like.add(1);
 							}
 							break;
 						}
 					}
-				} else {
-					try {
-						if (list.contains(line.substring(0, line.indexOf(",")))) {
-							like.set(list.indexOf(line.substring(0, line.indexOf(","))),
-									like.get(list.indexOf(line.substring(0, line.indexOf(",")))) + 1);
-							line = line.substring(line.indexOf(",") + 1);
-						} else {
-							list.add(line.substring(0, line.indexOf(",")));
-							like.add(1);
-							line = line.substring(line.indexOf(",") + 1);
-						}
-					} catch (Exception ex) {
-						if (list.contains(line.substring(0, line.indexOf("]")))) {
-							like.set(list.indexOf(line.substring(0, line.indexOf("]"))),
-									like.get(list.indexOf(line.substring(0, line.indexOf("]")))) + 1);
-						} else {
-							list.add(line.substring(0, line.indexOf("]")));
-							like.add(1);
-						}
-						break;
-					}
 				}
-			}
+			} else
+				break;
 		}
 
 		// bubbleSort
@@ -199,8 +206,9 @@ public class CheckLikes implements Runnable {
 			} else
 				break;
 		}
-
-		CheckLikesController.setTop(top);
+		JOptionPane.showMessageDialog(null, Thread.currentThread().getName());
+		CheckLikesController c = new CheckLikesController();
+		c.see(top);
 
 		// FOR CONSOLE ---->
 

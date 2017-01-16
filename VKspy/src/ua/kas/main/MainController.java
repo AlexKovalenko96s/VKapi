@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -102,6 +103,7 @@ public class MainController extends Application {
 			stage.setScene(new Scene(root));
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+			stage.getIcons().add(new Image(getClass().getResourceAsStream("main/vk_icon.png")));
 			stage.show();
 			start(stage);
 		}
