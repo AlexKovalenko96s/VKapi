@@ -15,6 +15,14 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
+
+			// primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			// @Override
+			// public void handle(WindowEvent event) {
+			// System.exit(0);
+			// }
+			// });
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -20,6 +20,8 @@ public class SpyOnline implements Runnable {
 	private String first_name = "";
 	private String last_name = "";
 
+	private boolean work = true;
+
 	public SpyOnline(String id) {
 		this.id = id;
 	}
@@ -50,16 +52,24 @@ public class SpyOnline implements Runnable {
 		// Добавим для него обработчик
 		exitItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-				// Thread.currentThread().interrupt();
+				Thread.currentThread().interrupt();// not work
+				work = false;
 			}
 		});
+		// Нулевая отметка
+		String status = null;
+		try {
+			status = getOnline();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 		// Добавим пункт в меню
 		popup.add(exitItem);
 		SystemTray systemTray = SystemTray.getSystemTray();
 		// получим картинку
 		Image image = Toolkit.getDefaultToolkit().getImage("img/vk_icon.png");
-		TrayIcon trayIcon = new TrayIcon(image, "VK_SpyOnline", popup);
+		TrayIcon trayIcon = new TrayIcon(image, "VK_SpyOnline - " + first_name + " " + last_name, popup);
 		trayIcon.setImageAutoSize(true);
 
 		// добавим иконку в трей
@@ -69,43 +79,40 @@ public class SpyOnline implements Runnable {
 			e1.printStackTrace();
 		}
 
-		String status = null;
-		try {
-			status = getOnline();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
 		trayIcon.displayMessage("VK_SpyOnline", first_name + " " + last_name + " - Spy activated!",
 				TrayIcon.MessageType.INFO);
 
 		// Бескоечный цикл
 		for (;;) {
+			// if (!Thread.currentThread().isInterrupted()) { //not work
+			if (work) {
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e1) {
+					return;
+				} // ждем три секунды
 
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			} // ждем три секунды
-
-			// Здесь отработка
-
-			try {
-				if (!status.equals(getOnline())) {
-					status = getOnline();
-					if (Integer.parseInt(status) == 1) {
-						trayIcon.displayMessage("VK_SpyOnline", first_name + " " + last_name + " - Online",
-								TrayIcon.MessageType.INFO);
-					} else if (Integer.parseInt(status) == 0) {
-						trayIcon.displayMessage("VK_SpyOnline", first_name + " " + last_name + " - Offline",
-								TrayIcon.MessageType.INFO);
-					} else if (Integer.parseInt(status) == 2) {
-						trayIcon.displayMessage("VK_SpyOnline", first_name + " " + last_name + " - Online_mobile",
-								TrayIcon.MessageType.INFO);
+				// Здесь отработка
+				try {
+					if (!status.equals(getOnline())) {
+						status = getOnline();
+						if (Integer.parseInt(status) == 1) {
+							trayIcon.displayMessage("VK_SpyOnline", first_name + " " + last_name + " - Online",
+									TrayIcon.MessageType.INFO);
+						} else if (Integer.parseInt(status) == 0) {
+							trayIcon.displayMessage("VK_SpyOnline", first_name + " " + last_name + " - Offline",
+									TrayIcon.MessageType.INFO);
+						} else if (Integer.parseInt(status) == 2) {
+							trayIcon.displayMessage("VK_SpyOnline", first_name + " " + last_name + " - Online_mobile",
+									TrayIcon.MessageType.INFO);
+						}
 					}
+				} catch (NumberFormatException | IOException e1) {
+					e1.printStackTrace();
 				}
-			} catch (NumberFormatException | IOException e1) {
-				e1.printStackTrace();
+			} else {
+				systemTray.remove(trayIcon);
+				return;
 			}
 		}
 	}

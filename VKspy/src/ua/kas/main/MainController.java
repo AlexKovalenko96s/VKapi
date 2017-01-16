@@ -7,14 +7,23 @@ import java.net.URL;
 
 import javax.swing.JOptionPane;
 
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import ua.kas.checkLikes.CheckLikes;
 import ua.kas.spyOnline.SpyOnline;
 
-public class MainController {
+public class MainController extends Application {
 	// 224429310
 	// 18472340
 
@@ -28,12 +37,9 @@ public class MainController {
 	@FXML
 	TextField tf_second;
 
-	@FXML
-	Button btn_first;
-	@FXML
-	Button btn_second;
+	private Thread thread = null;
 
-	public void checkLikes() throws IOException {
+	public boolean checkLikes() throws IOException {
 		String id = tf_first.getText();
 
 		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id;
@@ -42,7 +48,6 @@ public class MainController {
 		String line = reader.readLine();
 
 		if (!line.contains("\"error\"") && !(line.length() == 15)) {
-			Thread thread = null;
 			if (cb_photo.isSelected() || cb_wall.isSelected()) {
 				if (cb_wall.isSelected() && !cb_photo.isSelected()) {
 					thread = new Thread(new CheckLikes(id, 0));
@@ -52,7 +57,8 @@ public class MainController {
 					thread = new Thread(new CheckLikes(id, 2));
 				}
 				thread.start();
-				btn_first.setDisable(true);
+				return true;
+				// btn_first.setDisable(true);
 				// for (;;) {
 				// if (thread.isInterrupted()) {
 				// System.out.println("dd");
@@ -62,9 +68,11 @@ public class MainController {
 				// }
 			} else {
 				JOptionPane.showMessageDialog(null, "Please select categories!");
+				return false;
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, "Not correct ID!");
+			return false;
 		}
 	}
 
@@ -77,12 +85,35 @@ public class MainController {
 		String line = reader.readLine();
 
 		if (!line.contains("\"error\"")) {
-			Thread thread = new Thread(new SpyOnline(id));
+			thread = new Thread(new SpyOnline(id));
 			thread.start();
-			btn_second.setDisable(true);
 		} else {
 			JOptionPane.showMessageDialog(null, "Not correct ID!");
 		}
 	}
 
+	public void showDialog(ActionEvent actionEvent) throws Exception {
+
+		if (checkLikes()) {
+			Stage stage = new Stage();
+			Parent root = FXMLLoader.load(getClass().getResource("../checkLikes/CheckLikes.FXML"));
+			stage.setTitle("TOP");
+			stage.setResizable(false);
+			stage.setScene(new Scene(root));
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+			stage.show();
+			start(stage);
+		}
+	}
+
+	@Override
+	public void start(Stage stage) throws Exception {
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				thread.interrupt();
+			}
+		});
+	}
 }

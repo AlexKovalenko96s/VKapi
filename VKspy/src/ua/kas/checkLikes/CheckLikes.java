@@ -11,10 +11,13 @@ public class CheckLikes implements Runnable {
 	private static ArrayList<String> list = new ArrayList<>();
 	private static ArrayList<String> listIdWall = new ArrayList<>();
 	private static ArrayList<Integer> like = new ArrayList<>();
+	private static ArrayList<String> top = new ArrayList<>();
 
 	private URL url2;
 	private BufferedReader reader = null;
 
+	private String first_name = "";
+	private String last_name = "";
 	private String url = "";
 	private String id = "";
 	private String line = "";
@@ -59,7 +62,6 @@ public class CheckLikes implements Runnable {
 
 	@Override
 	public void run() {
-
 		if (check == 0) {
 			try {
 				wall();
@@ -170,29 +172,69 @@ public class CheckLikes implements Runnable {
 			}
 		}
 
-		reader = null;
-		for (int i = 0; i < list.size(); i++) {
-			try {
-				Thread.sleep(250);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + list.get(i);
-			try {
-				url2 = new URL(url);
-				reader = new BufferedReader(new InputStreamReader(url2.openStream()));
-				System.out.println(reader.readLine() + " поставил/ла:" + like.get(i));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		int size = (list.size() <= 10) ? list.size() : 10;
 
+		for (int i = 0; i < size; i++) {
+			if (!Thread.currentThread().isInterrupted()) {
+				try {
+					Thread.sleep(250);
+				} catch (InterruptedException e) {
+					return;
+				}
+				url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + list.get(i);
+				try {
+					url2 = new URL(url);
+					reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+
+					String line = reader.readLine();
+					line = line.substring(line.indexOf("\"first_name\":\"") + 14);
+					first_name = line.substring(0, line.indexOf("\""));
+					line = line.substring(line.indexOf("\"last_name\":\"") + 13);
+					last_name = line.substring(0, line.indexOf("\""));
+
+					top.add(first_name + " " + last_name + " поставил/ла:" + like.get(i));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else
+				break;
 		}
-		try {
+
+		CheckLikesController.setTop(top);
+
+		// FOR CONSOLE ---->
+
+		// reader = null;
+		// for (int i = 0; i < list.size(); i++) {
+		// if (!Thread.currentThread().isInterrupted()) {
+		// try {
+		// Thread.sleep(250);
+		// } catch (InterruptedException e) {
+		// return;
+		// }
+		// url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" +
+		// list.get(i);
+		// try {
+		// url2 = new URL(url);
+		// reader = new BufferedReader(new
+		// InputStreamReader(url2.openStream()));
+		// System.out.println(reader.readLine() + " поставил/ла:" +
+		// like.get(i));
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		// } else
+		// break;
+		// }
+
+		// <---- END CONSOLE
+
+		try
+
+		{
 			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		Thread.currentThread().interrupt();
 	}
 }
