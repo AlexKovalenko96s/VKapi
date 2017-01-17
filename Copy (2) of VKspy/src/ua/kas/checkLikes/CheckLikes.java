@@ -217,6 +217,8 @@ public class CheckLikes implements Runnable {
 		}
 
 		CheckLikesController.setTop(top);
+		// CheckLikesController c = new CheckLikesController();
+		// c.start(top);
 
 		// FOR CONSOLE ---->
 
