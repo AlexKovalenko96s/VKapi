@@ -3,6 +3,7 @@ package ua.kas.checkFriends;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -14,10 +15,13 @@ public class ThreadCheckFriends implements Runnable {
 
 	private ArrayList<String> list = new ArrayList<>();
 	private ArrayList<String> lastId = new ArrayList<>();
+	private ArrayList<String> addId = new ArrayList<>();
 
 	private File file = null;
 
 	private String id = "";
+	private String del = "";
+	private String add = "";
 
 	public ThreadCheckFriends(String id, File file) {
 		this.id = id;
@@ -41,6 +45,48 @@ public class ThreadCheckFriends implements Runnable {
 		}
 
 		getFriendsId();
+		check();
+	}
+
+	private void check() {
+		for (int i = 0; i < lastId.size(); i++) {
+			if (list.contains(lastId.get(i))) {
+				list.remove(lastId.get(i));
+			} else {
+				addId.add(lastId.get(i));
+			}
+		}
+
+		try {
+			saveFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if (list.size() != 0) {
+			try {
+				del = getUserName(list);
+			} catch (IOException | InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if (addId.size() != 0) {
+			try {
+				add = getUserName(addId);
+			} catch (IOException | InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if (add.length() > 0 && del.length() == 0)
+			JOptionPane.showMessageDialog(null, "Added users: \n" + add);
+		else if (del.length() > 0 && add.length() == 0)
+			JOptionPane.showMessageDialog(null, "Deleted users: \n" + del);
+		else if (add.length() > 0 && del.length() > 0)
+			JOptionPane.showMessageDialog(null, "Add users: \n" + add + "Delete users: \n" + del);
+		else
+			JOptionPane.showMessageDialog(null, "No change!");
 	}
 
 	private void getFriendsId() {
@@ -75,5 +121,35 @@ public class ThreadCheckFriends implements Runnable {
 		reader.close();
 
 		return line;
+	}
+
+	private void saveFile() throws IOException {
+		FileWriter fileWriter;
+		fileWriter = new FileWriter(new File(file.getAbsolutePath()));
+		for (int i = 0; i < lastId.size(); i++) {
+			fileWriter.write(lastId.get(i) + "|");
+		}
+		fileWriter.close();
+	}
+
+	public static String getUserName(ArrayList<String> list) throws IOException, InterruptedException {
+		BufferedReader reader = null;
+		String line = "";
+		String result = "";
+		for (int i = 0; i < list.size(); i++) {
+			Thread.sleep(250);
+			String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + list.get(i);
+
+			URL url2 = new URL(url);
+			reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+			line = reader.readLine();
+			line = line.substring(line.indexOf("\"first_name\":\"") + 14);
+			String first_name = line.substring(0, line.indexOf("\""));
+			line = line.substring(line.indexOf("\"last_name\":\"") + 13);
+			String last_name = line.substring(0, line.indexOf("\""));
+
+			result = result + first_name + " " + last_name + "\n";
+		}
+		return result;
 	}
 }
