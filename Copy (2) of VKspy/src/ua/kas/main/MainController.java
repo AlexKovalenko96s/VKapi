@@ -49,6 +49,7 @@ public class MainController {
 		URL url2 = new URL(url);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 		String line = reader.readLine();
+		System.out.println(line);
 
 		if (!line.contains("\"error\"") && line.length() != 15) {
 			if (cb_photo.isSelected() || cb_wall.isSelected()) {

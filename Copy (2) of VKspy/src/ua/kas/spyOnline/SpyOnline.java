@@ -68,6 +68,7 @@ public class SpyOnline implements Runnable {
 		popup.add(exitItem);
 		SystemTray systemTray = SystemTray.getSystemTray();
 		// получим картинку
+
 		Image image = Toolkit.getDefaultToolkit().getImage("img/vk_icon.png");
 		TrayIcon trayIcon = new TrayIcon(image, "VK_SpyOnline - " + first_name + " " + last_name, popup);
 		trayIcon.setImageAutoSize(true);
