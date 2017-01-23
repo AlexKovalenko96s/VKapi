@@ -17,6 +17,7 @@ public class Main extends Application {
 			primaryStage.setTitle("VKspy");
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("vk_icon.png")));
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 			primaryStage.show();
 
 			// primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {

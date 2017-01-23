@@ -7,9 +7,7 @@ import java.net.URL;
 
 import javax.swing.JOptionPane;
 
-import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -20,11 +18,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import ua.kas.checkFriends.CheckFriendsController;
 import ua.kas.checkLikes.CheckLikes;
 import ua.kas.spyOnline.SpyOnline;
 
-public class MainController extends Application {
+public class MainController {
 	// 224429310
 	// 18472340
 
@@ -37,10 +35,12 @@ public class MainController extends Application {
 	TextField tf_first;
 	@FXML
 	TextField tf_second;
+	@FXML
+	TextField tf_third;
 
 	private Thread thread = null;
 
-	public boolean checkLikes() throws IOException {
+	public boolean checkLikes(ActionEvent actionEvent) throws IOException, InterruptedException {
 		String id = tf_first.getText();
 
 		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id;
@@ -48,16 +48,20 @@ public class MainController extends Application {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 		String line = reader.readLine();
 
-		if (!line.contains("\"error\"") && !(line.length() == 15)) {
+		if (!line.contains("\"error\"") && line.length() != 15) {
 			if (cb_photo.isSelected() || cb_wall.isSelected()) {
 				if (cb_wall.isSelected() && !cb_photo.isSelected()) {
-					thread = new Thread(new CheckLikes(id, 0));
+					thread = new Thread(new CheckLikes(id, 0, actionEvent));
 				} else if (cb_photo.isSelected() && !cb_wall.isSelected()) {
-					thread = new Thread(new CheckLikes(id, 1));
+					thread = new Thread(new CheckLikes(id, 1, actionEvent));
 				} else if (cb_photo.isSelected() && cb_wall.isSelected()) {
-					thread = new Thread(new CheckLikes(id, 2));
+					thread = new Thread(new CheckLikes(id, 2, actionEvent));
 				}
 				thread.start();
+
+				JOptionPane.showMessageDialog(null, "Program was launched. Please wait, it will take some time.");
+
+				// threadUI.join();
 				return true;
 				// btn_first.setDisable(true);
 				// for (;;) {
@@ -85,7 +89,7 @@ public class MainController extends Application {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 		String line = reader.readLine();
 
-		if (!line.contains("\"error\"")) {
+		if (!line.contains("\"error\"") && line.length() != 15) {
 			thread = new Thread(new SpyOnline(id));
 			thread.start();
 		} else {
@@ -93,29 +97,29 @@ public class MainController extends Application {
 		}
 	}
 
-	public void showDialog(ActionEvent actionEvent) throws Exception {
+	public void checkFriends(ActionEvent actionEvent) throws IOException {
+		String id = tf_third.getText();
 
-		if (checkLikes()) {
+		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id;
+		URL url2 = new URL(url);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+		String line = reader.readLine();
+
+		if (!line.contains("\"error\"") && line.length() != 15) {
 			Stage stage = new Stage();
-			Parent root = FXMLLoader.load(getClass().getResource("../checkLikes/CheckLikes.FXML"));
-			stage.setTitle("TOP");
+			Parent root = FXMLLoader.load(this.getClass().getResource("CheckFriends.fxml"));
+			stage.setTitle("Check Friends");
 			stage.setResizable(false);
 			stage.setScene(new Scene(root));
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
-			stage.getIcons().add(new Image(getClass().getResourceAsStream("main/vk_icon.png")));
-			stage.show();
-			start(stage);
-		}
-	}
+			stage.getIcons().add(new Image(this.getClass().getResourceAsStream("vk_icon.png")));
 
-	@Override
-	public void start(Stage stage) throws Exception {
-		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-			@Override
-			public void handle(WindowEvent event) {
-				thread.interrupt();
-			}
-		});
+			CheckFriendsController.setId(id);
+
+			stage.show();
+		} else {
+			JOptionPane.showMessageDialog(null, "Not correct ID!");
+		}
 	}
 }

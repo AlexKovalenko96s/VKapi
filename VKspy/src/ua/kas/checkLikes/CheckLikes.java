@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
+import javafx.event.ActionEvent;
 
 public class CheckLikes implements Runnable {
 
@@ -16,7 +16,10 @@ public class CheckLikes implements Runnable {
 	private static ArrayList<String> top = new ArrayList<>();
 
 	private URL url2;
+
 	private BufferedReader reader = null;
+
+	private ActionEvent actionEvent = null;
 
 	private String first_name = "";
 	private String last_name = "";
@@ -26,9 +29,12 @@ public class CheckLikes implements Runnable {
 
 	private int check = 0;
 
-	public CheckLikes(String id, Integer check) {
+	UIController controller;
+
+	public CheckLikes(String id, Integer check, ActionEvent actionEvent) {
 		this.id = id;
 		this.check = check;
+		this.actionEvent = actionEvent;
 	}
 
 	private void photo() throws IOException {
@@ -64,6 +70,11 @@ public class CheckLikes implements Runnable {
 
 	@Override
 	public void run() {
+
+		like.clear();
+		listIdWall.clear();
+		list.clear();
+		top.clear();
 
 		if (check == 0) {
 			try {
@@ -160,26 +171,31 @@ public class CheckLikes implements Runnable {
 					}
 				}
 			} else
-				break;
+				return;
 		}
 
 		// bubbleSort
+
 		for (int i = like.size() - 1; i > 0; i--) {
-			for (int j = 0; j < i; j++) {
-				if (like.get(j) < like.get(j + 1)) {
-					int temp_int = like.get(j);
-					String temp_str = list.get(j);
+			if (!Thread.currentThread().isInterrupted()) {
+				for (int j = 0; j < i; j++) {
+					if (like.get(j) < like.get(j + 1)) {
+						int temp_int = like.get(j);
+						String temp_str = list.get(j);
 
-					like.set(j, like.get(j + 1));
-					list.set(j, list.get(j + 1));
+						like.set(j, like.get(j + 1));
+						list.set(j, list.get(j + 1));
 
-					like.set(j + 1, temp_int);
-					list.set(j + 1, temp_str);
+						like.set(j + 1, temp_int);
+						list.set(j + 1, temp_str);
+					}
 				}
-			}
+			} else
+				return;
 		}
 
-		int size = (list.size() <= 10) ? list.size() : 10;
+		int size = 10;
+		size = (list.size() <= 10) ? list.size() : 10;
 
 		for (int i = 0; i < size; i++) {
 			if (!Thread.currentThread().isInterrupted()) {
@@ -191,7 +207,7 @@ public class CheckLikes implements Runnable {
 				url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + list.get(i);
 				try {
 					url2 = new URL(url);
-					reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+					reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
 
 					String line = reader.readLine();
 					line = line.substring(line.indexOf("\"first_name\":\"") + 14);
@@ -204,11 +220,13 @@ public class CheckLikes implements Runnable {
 					e.printStackTrace();
 				}
 			} else
-				break;
+				return;
 		}
-		JOptionPane.showMessageDialog(null, Thread.currentThread().getName());
-		CheckLikesController c = new CheckLikesController();
-		c.see(top);
+
+		controller = new UIController(actionEvent);
+		CheckLikesController.setTop(top);
+		// CheckLikesController c = new CheckLikesController();
+		// c.start(top);
 
 		// FOR CONSOLE ---->
 
