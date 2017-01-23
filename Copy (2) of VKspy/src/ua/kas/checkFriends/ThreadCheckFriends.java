@@ -141,7 +141,7 @@ public class ThreadCheckFriends implements Runnable {
 			String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + list.get(i);
 
 			URL url2 = new URL(url);
-			reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+			reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
 			line = reader.readLine();
 			line = line.substring(line.indexOf("\"first_name\":\"") + 14);
 			String first_name = line.substring(0, line.indexOf("\""));

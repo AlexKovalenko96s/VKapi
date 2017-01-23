@@ -26,13 +26,13 @@ public class UIController extends Application implements Runnable {
 
 	public void showDialog() throws Exception {
 		Stage stage = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("../checkLikes/CheckLikes.FXML"));
+		Parent root = FXMLLoader.load(this.getClass().getResource("CheckLikes.fxml"));
 		stage.setTitle("TOP");
 		stage.setResizable(false);
 		stage.setScene(new Scene(root));
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
-		stage.getIcons().add(new Image(getClass().getResourceAsStream("vk_icon.png")));
+		stage.getIcons().add(new Image(this.getClass().getResourceAsStream("vk_icon.png")));
 		stage.show();
 		start(stage);
 	}

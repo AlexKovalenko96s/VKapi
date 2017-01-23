@@ -200,7 +200,7 @@ public class CheckLikes implements Runnable {
 				url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + list.get(i);
 				try {
 					url2 = new URL(url);
-					reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+					reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
 
 					String line = reader.readLine();
 					line = line.substring(line.indexOf("\"first_name\":\"") + 14);

@@ -29,7 +29,7 @@ public class SpyOnline implements Runnable {
 	private String getOnline() throws IOException {
 		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id + "&fields=online";
 		URL url2 = new URL(url);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
 		String line = reader.readLine();
 
 		line = line.substring(line.indexOf("\"first_name\":\"") + 14);
@@ -69,7 +69,7 @@ public class SpyOnline implements Runnable {
 		SystemTray systemTray = SystemTray.getSystemTray();
 		// получим картинку
 
-		Image image = Toolkit.getDefaultToolkit().getImage("img/vk_icon.png");
+		Image image = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/vk_icon.png"));
 		TrayIcon trayIcon = new TrayIcon(image, "VK_SpyOnline - " + first_name + " " + last_name, popup);
 		trayIcon.setImageAutoSize(true);
 

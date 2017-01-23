@@ -49,7 +49,6 @@ public class MainController {
 		URL url2 = new URL(url);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 		String line = reader.readLine();
-		System.out.println(line);
 
 		if (!line.contains("\"error\"") && line.length() != 15) {
 			if (cb_photo.isSelected() || cb_wall.isSelected()) {
@@ -109,13 +108,13 @@ public class MainController {
 
 		if (!line.contains("\"error\"") && line.length() != 15) {
 			Stage stage = new Stage();
-			Parent root = FXMLLoader.load(getClass().getResource("../checkFriends/CheckFriends.FXML"));
+			Parent root = FXMLLoader.load(this.getClass().getResource("CheckFriends.fxml"));
 			stage.setTitle("Check Friends");
 			stage.setResizable(false);
 			stage.setScene(new Scene(root));
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
-			stage.getIcons().add(new Image(getClass().getResourceAsStream("vk_icon.png")));
+			stage.getIcons().add(new Image(this.getClass().getResourceAsStream("vk_icon.png")));
 
 			CheckFriendsController.setId(id);
 
