@@ -32,8 +32,13 @@ public class ThreadAddFile implements Runnable {
 		}
 		for (int i = 0;; i++) {
 			if (i == 0) {
-				list.add(idFriends.substring(idFriends.indexOf("[") + 1, idFriends.indexOf(",")));
-				idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
+				try {
+					list.add(idFriends.substring(idFriends.indexOf("[") + 1, idFriends.indexOf(",")));
+					idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
+				} catch (Exception ex) {
+					list.add(idFriends.substring(idFriends.indexOf("[") + 1, idFriends.indexOf("]")));
+					break;
+				}
 			} else {
 				try {
 					list.add(idFriends.substring(0, idFriends.indexOf(",")));

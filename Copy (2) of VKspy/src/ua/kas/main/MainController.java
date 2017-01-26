@@ -50,7 +50,7 @@ public class MainController {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 		String line = reader.readLine();
 
-		if (!line.contains("\"error\"") && line.length() != 15) {
+		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			if (cb_photo.isSelected() || cb_wall.isSelected()) {
 				if (cb_wall.isSelected() && !cb_photo.isSelected()) {
 					thread = new Thread(new CheckLikes(id, 0));
@@ -90,7 +90,7 @@ public class MainController {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 		String line = reader.readLine();
 
-		if (!line.contains("\"error\"") && line.length() != 15) {
+		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			thread = new Thread(new SpyOnline(id));
 			thread.start();
 		} else {
@@ -106,7 +106,7 @@ public class MainController {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 		String line = reader.readLine();
 
-		if (!line.contains("\"error\"") && line.length() != 15) {
+		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			Stage stage = new Stage();
 			Parent root = FXMLLoader.load(this.getClass().getResource("CheckFriends.fxml"));
 			stage.setTitle("Check Friends");
