@@ -1,60 +1,117 @@
 package ua.kas.main;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
-public class ThreadConstructor implements Callable<ArrayList<String>> {
+public class ThreadConstructor implements Callable<String> {
 
-	private String id0 = "";
-	private String id1 = "";
-	private String id2 = "";
-	private String id3 = "";
-	private String id4 = "";
+	private static ArrayList<String> listIdWall = new ArrayList<>();
 
-	public ThreadConstructor(String id0) {
-		this.id0 = id0;
+	private URL url2;
+
+	private BufferedReader reader = null;
+
+	private String url = "";
+	private String id = "";
+	private String line = "";
+	private String userID = "";
+
+	private int count = 0;
+	private int check = 0;
+
+	public ThreadConstructor(String id, String userID, int check) {
+		this.id = id;
+		this.userID = userID;
+		this.check = check;
 	}
 
-	public ThreadConstructor(String id0, String id1) {
-		this.id0 = id0;
-		this.id1 = id1;
+	private void photo() throws IOException {
+		// список всех фоток
+		url = "https://api.vk.com/method/" + "photos.get" + "?owner_id=" + id + "&extended=1" + "&album_id=profile"
+				+ "&count=1000";
+		url2 = new URL(url);
+		reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+		line = reader.readLine();
+		reader.close();
+
+		while (line.contains("\"post_id\"")) {
+			line = line.substring(line.indexOf("\"post_id\":") + 10);
+			listIdWall.add(line.substring(0, (line.indexOf(","))));
+		}
 	}
 
-	public ThreadConstructor(String id0, String id1, String id2) {
-		this.id0 = id0;
-		this.id1 = id1;
-		this.id2 = id2;
-	}
+	private void wall() throws IOException {
+		// список всех постов
+		url = "https://api.vk.com/method/" + "wall.get" + "?owner_id=" + id + "&filter=all" + "&count=100";
+		url2 = new URL(url);
+		reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+		line = reader.readLine();
+		reader.close();
 
-	public ThreadConstructor(String id0, String id1, String id2, String id3) {
-		this.id0 = id0;
-		this.id1 = id1;
-		this.id2 = id2;
-		this.id3 = id3;
-	}
-
-	public ThreadConstructor(String id0, String id1, String id2, String id3, String id4) {
-		this.id0 = id0;
-		this.id1 = id1;
-		this.id2 = id2;
-		this.id3 = id3;
-		this.id4 = id4;
+		if (line.contains("This user hid his wall from accessing from outside")) {
+			return;
+		}
+		System.out.println("dd");
+		while (line.contains("\"id\":")) {
+			line = line.substring(line.indexOf("\"id\":") + 5);
+			if (!listIdWall.contains(line.substring(0, line.indexOf(",")))) {
+				listIdWall.add(line.substring(0, line.indexOf(",")));
+			}
+		}
 	}
 
 	@Override
-	public ArrayList<String> call() throws Exception {
-		ArrayList<String> list = new ArrayList<>();
-		if (!id0.equals(""))
-			list.add(id0);
-		if (!id1.equals(""))
-			list.add(id1);
-		if (!id2.equals(""))
-			list.add(id2);
-		if (!id3.equals(""))
-			list.add(id3);
-		if (!id4.equals(""))
-			list.add(id4);
-		return list;
-	}
+	public String call() throws Exception {
 
+		listIdWall.clear();
+
+		if (check == 0) {
+			try {
+				wall();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else if (check == 1) {
+			try {
+				photo();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else if (check == 2) {
+			try {
+				photo();
+				wall();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		for (int i = 0; i < listIdWall.size(); i++) {
+			if (!Thread.currentThread().isInterrupted()) {
+				try {
+					Thread.sleep(250);
+				} catch (InterruptedException e) {
+					break;
+				}
+				url = "https://api.vk.com/method/" + "likes.getList" + "?type=post" + "&owner_id=" + id + "&item_id="
+						+ listIdWall.get(i);
+				try {
+					url2 = new URL(url);
+					reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+					line = reader.readLine();
+					if (line.contains(userID))
+						count++;
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}
+		return id + " " + count;
+	}
 }
