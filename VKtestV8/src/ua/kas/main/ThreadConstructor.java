@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
+import javax.swing.JOptionPane;
+
 public class ThreadConstructor implements Callable<String> {
 
 	private static ArrayList<String> listIdWall = new ArrayList<>();
@@ -55,7 +57,7 @@ public class ThreadConstructor implements Callable<String> {
 		if (line.contains("This user hid his wall from accessing from outside")) {
 			return;
 		}
-		System.out.println("dd");
+
 		while (line.contains("\"id\":")) {
 			line = line.substring(line.indexOf("\"id\":") + 5);
 			if (!listIdWall.contains(line.substring(0, line.indexOf(",")))) {
@@ -103,11 +105,14 @@ public class ThreadConstructor implements Callable<String> {
 					url2 = new URL(url);
 					reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 					line = reader.readLine();
+
 					if (line.contains(userID))
 						count++;
+
 					reader.close();
 				} catch (IOException e) {
 					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, Thread.currentThread());
 				}
 
 			}

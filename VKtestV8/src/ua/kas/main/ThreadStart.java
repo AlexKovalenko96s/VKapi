@@ -35,6 +35,8 @@ public class ThreadStart implements Runnable {
 
 		ExecutorService ex = Executors.newCachedThreadPool();
 
+		System.out.println(listFriends.size());
+
 		for (int i = 0; i < listFriends.size(); i++) {
 			Future<String> s = ex.submit(new ThreadConstructor(listFriends.get(i), id, check));
 			listThreads.add(s);
