@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 public class ThreadConstructor implements Callable<String> {
 
-	private static ArrayList<String> listIdWall = new ArrayList<>();
+	private ArrayList<String> listIdWall = new ArrayList<>();
 
 	private URL url2;
 
@@ -53,17 +53,14 @@ public class ThreadConstructor implements Callable<String> {
 		reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 		line = reader.readLine();
 		reader.close();
-
-		if (line.contains("This user hid his wall from accessing from outside")) {
-			return;
-		}
-
+		System.out.println(line);
 		while (line.contains("\"id\":")) {
 			line = line.substring(line.indexOf("\"id\":") + 5);
 			if (!listIdWall.contains(line.substring(0, line.indexOf(",")))) {
 				listIdWall.add(line.substring(0, line.indexOf(",")));
 			}
 		}
+
 	}
 
 	@Override
@@ -93,6 +90,7 @@ public class ThreadConstructor implements Callable<String> {
 		}
 
 		for (int i = 0; i < listIdWall.size(); i++) {
+
 			if (!Thread.currentThread().isInterrupted()) {
 				try {
 					Thread.sleep(250);
@@ -117,6 +115,8 @@ public class ThreadConstructor implements Callable<String> {
 
 			}
 		}
+
 		return id + " " + count;
 	}
+
 }

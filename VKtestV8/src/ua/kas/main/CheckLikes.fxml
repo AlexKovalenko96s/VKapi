@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.kas.main.CheckLikesController">
+   <children>
+      <VBox alignment="TOP_CENTER" layoutX="37.0" layoutY="14.0" prefHeight="250.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="l0" alignment="CENTER" prefHeight="41.0" prefWidth="360.0" text="Please wait! The program works" underline="true">
+               <font>
+                  <Font name="Times New Roman Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="l1" alignment="CENTER" text="1." visible="false">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="l2" alignment="CENTER" text="2." visible="false">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="l3" alignment="CENTER" text="3." visible="false">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="l4" alignment="CENTER" text="4." visible="false">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="l5" alignment="CENTER" text="5." visible="false">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="l6" alignment="CENTER" text="6." visible="false">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="l7" alignment="CENTER" text="7." visible="false">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="l8" alignment="CENTER" text="8." visible="false">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="l9" alignment="CENTER" text="9." visible="false">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="l10" alignment="CENTER" text="10." visible="false">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
