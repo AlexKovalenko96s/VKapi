@@ -77,16 +77,16 @@ public class ThreadStart implements Runnable {
 		// }
 
 		int count = 0;
-		int fulSize = listFriends.size() / 300;
-		int restSize = listFriends.size() % 300;
+		int fulSize = listFriends.size() / 250;
+		int restSize = listFriends.size() % 250;
 
 		for (int i = 0; i <= fulSize; i++) {
 			ex = Executors.newCachedThreadPool();
 
-			count = (i == fulSize) ? restSize : 300;
+			count = (i == fulSize) ? restSize : 250;
 
 			for (int j = 0; j < count; j++) {
-				future = ex.submit(new ThreadConstructor(listFriends.get(j + (i * 300)), id, check));
+				future = ex.submit(new ThreadConstructor(listFriends.get(j + (i * 250)), id, check));
 				listThreads.add(future);
 			}
 
@@ -144,8 +144,6 @@ public class ThreadStart implements Runnable {
 					first_name = line.substring(0, line.indexOf("\""));
 					line = line.substring(line.indexOf("\"last_name\":\"") + 13);
 					last_name = line.substring(0, line.indexOf("\""));
-
-					System.out.println(first_name + " " + last_name);
 
 					top.add("У " + first_name + " " + last_name + " " + listCount.get(i));
 				} catch (IOException e) {

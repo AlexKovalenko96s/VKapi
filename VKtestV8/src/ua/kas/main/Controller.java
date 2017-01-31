@@ -35,28 +35,28 @@ public class Controller {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 		String line = reader.readLine();
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
-			if (!id.equals("224429310")) {
-				if (cb_photo.isSelected() || cb_wall.isSelected()) {
-					if (cb_wall.isSelected() && !cb_photo.isSelected()) {
-						thread = new Thread(new ThreadStart(id, 0, actionEvent));
-					} else if (cb_photo.isSelected() && !cb_wall.isSelected()) {
-						thread = new Thread(new ThreadStart(id, 1, actionEvent));
-					} else if (cb_photo.isSelected() && cb_wall.isSelected()) {
-						thread = new Thread(new ThreadStart(id, 2, actionEvent));
-					}
-					thread.start();
-
-					JOptionPane.showMessageDialog(null, "Program was launched. Please wait, it will take some time.");
-
-					return true;
-				} else {
-					JOptionPane.showMessageDialog(null, "Please select categories!");
-					return false;
+			// if (!id.equals("224429310")) {
+			if (cb_photo.isSelected() || cb_wall.isSelected()) {
+				if (cb_wall.isSelected() && !cb_photo.isSelected()) {
+					thread = new Thread(new ThreadStart(id, 0, actionEvent));
+				} else if (cb_photo.isSelected() && !cb_wall.isSelected()) {
+					thread = new Thread(new ThreadStart(id, 1, actionEvent));
+				} else if (cb_photo.isSelected() && cb_wall.isSelected()) {
+					thread = new Thread(new ThreadStart(id, 2, actionEvent));
 				}
+				thread.start();
+
+				JOptionPane.showMessageDialog(null, "Program was launched. Please wait, it will take some time.");
+
+				return true;
 			} else {
-				JOptionPane.showMessageDialog(null, "LOCKED!!");
+				JOptionPane.showMessageDialog(null, "Please select categories!");
 				return false;
 			}
+			// } else {
+			// JOptionPane.showMessageDialog(null, "LOCKED!!");
+			// return false;
+			// }
 		} else {
 			JOptionPane.showMessageDialog(null, "notCorrect");
 			return false;

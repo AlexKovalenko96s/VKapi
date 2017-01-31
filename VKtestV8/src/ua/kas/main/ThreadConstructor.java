@@ -53,7 +53,10 @@ public class ThreadConstructor implements Callable<String> {
 		reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 		line = reader.readLine();
 		reader.close();
-		System.out.println(line);
+
+		if (line.contains("error"))
+			return;
+
 		while (line.contains("\"id\":")) {
 			line = line.substring(line.indexOf("\"id\":") + 5);
 			if (!listIdWall.contains(line.substring(0, line.indexOf(",")))) {

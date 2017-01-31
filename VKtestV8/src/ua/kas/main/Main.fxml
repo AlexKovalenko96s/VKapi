@@ -10,6 +10,6 @@
       <Button layoutX="207.0" layoutY="38.0" mnemonicParsing="false" onAction="#button" text="Button" />
       <TextField fx:id="tf" layoutX="46.0" layoutY="38.0" />
       <CheckBox fx:id="cb_photo" layoutX="84.0" layoutY="69.0" mnemonicParsing="false" text="photo" />
-      <CheckBox fx:id="cb_wall" disable="true" layoutX="150.0" layoutY="69.0" mnemonicParsing="false" text="wall" />
+      <CheckBox fx:id="cb_wall" layoutX="150.0" layoutY="69.0" mnemonicParsing="false" text="wall" />
    </children>
 </AnchorPane>
