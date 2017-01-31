@@ -78,6 +78,6 @@ public class ThreadAddFile implements Runnable {
 		}
 		fileWriter.close();
 
-		JOptionPane.showMessageDialog(null, "File create.");
+		JOptionPane.showMessageDialog(null, "Файл друзей, создан!");
 	}
 }

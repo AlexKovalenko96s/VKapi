@@ -1,4 +1,4 @@
-package ua.kas.checkLikes;
+package ua.kas.checkUsersFriends;
 
 import java.net.URL;
 import java.util.ArrayList;

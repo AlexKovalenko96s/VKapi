@@ -70,7 +70,7 @@ public class SpyOnline implements Runnable {
 		// получим картинку
 
 		Image image = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("vk_icon.png"));
-		TrayIcon trayIcon = new TrayIcon(image, "VK_SpyOnline - " + first_name + " " + last_name, popup);
+		TrayIcon trayIcon = new TrayIcon(image, "OnlineR - " + first_name + " " + last_name, popup);
 		trayIcon.setImageAutoSize(true);
 
 		// добавим иконку в трей
@@ -80,7 +80,7 @@ public class SpyOnline implements Runnable {
 			e1.printStackTrace();
 		}
 
-		trayIcon.displayMessage("VK_SpyOnline", first_name + " " + last_name + " - Spy activated!",
+		trayIcon.displayMessage("OnlineR", first_name + " " + last_name + " - Слежка активирована!",
 				TrayIcon.MessageType.INFO);
 
 		// Бескоечный цикл
@@ -98,13 +98,13 @@ public class SpyOnline implements Runnable {
 					if (!status.equals(getOnline())) {
 						status = getOnline();
 						if (Integer.parseInt(status) == 1) {
-							trayIcon.displayMessage("VK_SpyOnline", first_name + " " + last_name + " - Online",
+							trayIcon.displayMessage("OnlineR", first_name + " " + last_name + " - Online",
 									TrayIcon.MessageType.INFO);
 						} else if (Integer.parseInt(status) == 0) {
-							trayIcon.displayMessage("VK_SpyOnline", first_name + " " + last_name + " - Offline",
+							trayIcon.displayMessage("OnlineR", first_name + " " + last_name + " - Offline",
 									TrayIcon.MessageType.INFO);
 						} else if (Integer.parseInt(status) == 2) {
-							trayIcon.displayMessage("VK_SpyOnline", first_name + " " + last_name + " - Online_mobile",
+							trayIcon.displayMessage("OnlineR", first_name + " " + last_name + " - Online_mobile",
 									TrayIcon.MessageType.INFO);
 						}
 					}

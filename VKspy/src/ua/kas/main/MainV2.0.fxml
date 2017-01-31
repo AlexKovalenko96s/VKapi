@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.kas.main.MainController">
+   <children>
+      <Separator layoutX="297.0" layoutY="92.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="297.0" AnchorPane.topAnchor="0.0" />
+      <Separator layoutX="233.0" layoutY="199.0" prefHeight="3.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="198.5" />
+      <Label layoutX="29.0" layoutY="14.0" text="Подсчет лайков на странице" underline="true">
+         <font>
+            <Font name="Times New Roman Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="57.0" prefHeight="51.0" prefWidth="276.0" text="Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов зависит времени подсчета." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tf_first" layoutX="29.0" layoutY="123.0" prefHeight="22.0" prefWidth="150.0" promptText="id*****">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font>
+      </TextField>
+      <Button layoutX="201.0" layoutY="123.0" mnemonicParsing="false" onAction="#checkLikes" prefHeight="58.0" prefWidth="81.0" text="Check!">
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
+      </Button>
+      <CheckBox fx:id="cb_photo" layoutX="29.0" layoutY="158.0" mnemonicParsing="false" text="photo">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="cb_wall" layoutX="83.0" layoutY="158.0" mnemonicParsing="false" text="wall">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font>
+      </CheckBox>
+      <Label layoutX="105.0" layoutY="211.0" text="OnlineR" underline="true">
+         <font>
+            <Font name="Times New Roman Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="238.0" prefHeight="69.0" prefWidth="276.0" text="Введите id &quot;жертвы&quot; и запускаете программу. Она являеться независимой от этой и будет следить за статусом &quot;online&quot; у &quot;жертвы&quot;. Сообщая об изменении статуса." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tf_second" layoutX="29.0" layoutY="322.0" promptText="id*****">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font>
+      </TextField>
+      <Button layoutX="201.0" layoutY="322.0" mnemonicParsing="false" onAction="#spyOnline" prefHeight="58.0" prefWidth="81.0" text="Spy!">
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
+      </Button>
+      <Label layoutX="322.0" layoutY="14.0" text="Подсчет поставленных лайков" underline="true">
+         <font>
+            <Font name="Times New Roman Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="306.0" layoutY="34.0" prefHeight="87.0" prefWidth="284.0" text="Программа считает количество лайков у друзей поставленных &quot;жертвой&quot; Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов и друзей зависит времени подсчета." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="317.0" layoutY="211.0" text="Добавленные и удаленные друзья" underline="true">
+         <font>
+            <Font name="Times New Roman Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="310.0" layoutY="254.0" prefHeight="51.0" prefWidth="276.0" text="Программа позволяет провести проверку на наличие новых друзей, а также удалившихся. Введите id &quot;жертвы&quot;." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tf_third" layoutX="329.0" layoutY="320.0" promptText="id*****">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font>
+      </TextField>
+      <Button layoutX="501.0" layoutY="320.0" mnemonicParsing="false" onAction="#checkFriends" prefHeight="58.0" prefWidth="81.0" text="Check!">
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
+      </Button>
+      <Label disable="true" layoutX="15.0" layoutY="378.0" text="Version 0.3">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font>
+      </Label>
+      <Button disable="true" layoutX="137.0" layoutY="154.0" mnemonicParsing="false" onAction="#addPathFirst" text="Save" />
+      <Label layoutX="11.0" layoutY="181.0" text="* сохранить результат - нажмите&quot;Save&quot; для создания файла">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tf_fourth" layoutX="330.0" layoutY="122.0" prefHeight="22.0" prefWidth="150.0" promptText="id*****">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font>
+      </TextField>
+      <Button layoutX="502.0" layoutY="122.0" mnemonicParsing="false" onAction="#checkUsersFriends" prefHeight="58.0" prefWidth="81.0" text="Check!">
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
+      </Button>
+      <CheckBox fx:id="cb_photo_fourth" layoutX="330.0" layoutY="157.0" mnemonicParsing="false" text="photo">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="cb_wall_fourth" layoutX="384.0" layoutY="157.0" mnemonicParsing="false" text="wall">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font>
+      </CheckBox>
+      <Button disable="true" layoutX="438.0" layoutY="153.0" mnemonicParsing="false" onAction="#addPathFourth" text="Save" />
+      <Label layoutX="312.0" layoutY="180.0" text="* сохранить результат - нажмите&quot;Save&quot; для создания файла">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
