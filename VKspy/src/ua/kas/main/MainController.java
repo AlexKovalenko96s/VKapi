@@ -53,41 +53,54 @@ public class MainController {
 	private String path_first = "";
 	private String path_fourth = "";
 
-	public boolean checkLikes(ActionEvent actionEvent) throws IOException, InterruptedException {
+	public boolean checkLikes(ActionEvent actionEvent) {
 		String id = tf_first.getText();
 
 		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id;
-		URL url2 = new URL(url);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
-		String line = reader.readLine();
+		URL url2;
+		String line = "";
+		try {
+			url2 = new URL(url);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
+			line = reader.readLine();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Отсутствует соединение с интернетом!");
+			return false;
+		}
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
-			if (cb_photo.isSelected() || cb_wall.isSelected()) {
-				String userName = getName(line);
+			if (!id.equals("224429310") || !id.equals("202930417")) {
 
-				if (cb_wall.isSelected() && !cb_photo.isSelected()) {
-					thread = new Thread(new CheckLikes(id, 0, actionEvent, userName, path_first));
-				} else if (cb_photo.isSelected() && !cb_wall.isSelected()) {
-					thread = new Thread(new CheckLikes(id, 1, actionEvent, userName, path_first));
-				} else if (cb_photo.isSelected() && cb_wall.isSelected()) {
-					thread = new Thread(new CheckLikes(id, 2, actionEvent, userName, path_first));
+				if (cb_photo.isSelected() || cb_wall.isSelected()) {
+					String userName = getName(line);
+
+					if (cb_wall.isSelected() && !cb_photo.isSelected()) {
+						thread = new Thread(new CheckLikes(id, 0, actionEvent, userName, path_first));
+					} else if (cb_photo.isSelected() && !cb_wall.isSelected()) {
+						thread = new Thread(new CheckLikes(id, 1, actionEvent, userName, path_first));
+					} else if (cb_photo.isSelected() && cb_wall.isSelected()) {
+						thread = new Thread(new CheckLikes(id, 2, actionEvent, userName, path_first));
+					}
+					thread.start();
+
+					JOptionPane.showMessageDialog(null, "Программа запущена.\nПожалуйста, подождите некоторое время.");
+
+					// threadUI.join();
+					return true;
+					// btn_first.setDisable(true);
+					// for (;;) {
+					// if (thread.isInterrupted()) {
+					// System.out.println("dd");
+					// btn_first.setDisable(false);
+					// break;
+					// }
+					// }
+				} else {
+					JOptionPane.showMessageDialog(null, "Пожалуйста, выберите категорию!");
+					return false;
 				}
-				thread.start();
-
-				JOptionPane.showMessageDialog(null, "Программа запущена.\nПожалуйста, подождите некоторое время.");
-
-				// threadUI.join();
-				return true;
-				// btn_first.setDisable(true);
-				// for (;;) {
-				// if (thread.isInterrupted()) {
-				// System.out.println("dd");
-				// btn_first.setDisable(false);
-				// break;
-				// }
-				// }
 			} else {
-				JOptionPane.showMessageDialog(null, "Пожалуйста, выберите категорию!");
+				JOptionPane.showMessageDialog(null, "LOCKED!!!");
 				return false;
 			}
 		} else {
@@ -100,13 +113,24 @@ public class MainController {
 		String id = tf_second.getText();
 
 		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id;
-		URL url2 = new URL(url);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
-		String line = reader.readLine();
+		URL url2;
+		String line = "";
+		try {
+			url2 = new URL(url);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
+			line = reader.readLine();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Отсутствует соединение с интернетом!");
+			return;
+		}
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
-			thread = new Thread(new SpyOnline(id));
-			thread.start();
+			if (!id.equals("224429310") || !id.equals("202930417")) {
+				thread = new Thread(new SpyOnline(id));
+				thread.start();
+			} else {
+				JOptionPane.showMessageDialog(null, "LOCKED!!!");
+			}
 		} else {
 			JOptionPane.showMessageDialog(null, "Указанный id являеться некорректным!");
 		}
@@ -116,23 +140,34 @@ public class MainController {
 		String id = tf_third.getText();
 
 		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id;
-		URL url2 = new URL(url);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
-		String line = reader.readLine();
+		URL url2;
+		String line = "";
+		try {
+			url2 = new URL(url);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
+			line = reader.readLine();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Отсутствует соединение с интернетом!");
+			return;
+		}
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
-			Stage stage = new Stage();
-			Parent root = FXMLLoader.load(this.getClass().getResource("CheckFriends.fxml"));
-			stage.setTitle("Check Friends");
-			stage.setResizable(false);
-			stage.setScene(new Scene(root));
-			stage.initModality(Modality.WINDOW_MODAL);
-			stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
-			stage.getIcons().add(new Image(this.getClass().getResourceAsStream("vk_icon.png")));
+			if (!id.equals("224429310") || !id.equals("202930417")) {
+				Stage stage = new Stage();
+				Parent root = FXMLLoader.load(this.getClass().getResource("CheckFriends.fxml"));
+				stage.setTitle("Check Friends");
+				stage.setResizable(false);
+				stage.setScene(new Scene(root));
+				stage.initModality(Modality.WINDOW_MODAL);
+				stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+				stage.getIcons().add(new Image(this.getClass().getResourceAsStream("vk_icon.png")));
 
-			CheckFriendsController.setId(id);
+				CheckFriendsController.setId(id);
 
-			stage.show();
+				stage.show();
+			} else {
+				JOptionPane.showMessageDialog(null, "LOCKED!!!");
+			}
 		} else {
 			JOptionPane.showMessageDialog(null, "Указанный id являеться некорректным!");
 		}
@@ -142,36 +177,43 @@ public class MainController {
 		String id = tf_fourth.getText();
 
 		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id;
-		URL url2 = new URL(url);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
-		String line = reader.readLine();
+		URL url2;
+		String line = "";
+		try {
+			url2 = new URL(url);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
+			line = reader.readLine();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Отсутствует соединение с интернетом!");
+			return false;
+		}
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
-			// if (!id.equals("224429310")) {
-			String userName = getName(line);
+			if (!id.equals("!224429310") || !id.equals("202930417")) {
+				String userName = getName(line);
 
-			if (cb_photo_fourth.isSelected() || cb_wall_fourth.isSelected()) {
-				if (cb_wall_fourth.isSelected() && !cb_photo_fourth.isSelected()) {
-					thread = new Thread(new ThreadStart(id, 0, actionEvent, userName));
-				} else if (cb_photo_fourth.isSelected() && !cb_wall_fourth.isSelected()) {
-					thread = new Thread(new ThreadStart(id, 1, actionEvent, userName));
-				} else if (cb_photo_fourth.isSelected() && cb_wall_fourth.isSelected()) {
-					thread = new Thread(new ThreadStart(id, 2, actionEvent, userName));
+				if (cb_photo_fourth.isSelected() || cb_wall_fourth.isSelected()) {
+					if (cb_wall_fourth.isSelected() && !cb_photo_fourth.isSelected()) {
+						thread = new Thread(new ThreadStart(id, 0, actionEvent, userName, path_fourth));
+					} else if (cb_photo_fourth.isSelected() && !cb_wall_fourth.isSelected()) {
+						thread = new Thread(new ThreadStart(id, 1, actionEvent, userName, path_fourth));
+					} else if (cb_photo_fourth.isSelected() && cb_wall_fourth.isSelected()) {
+						thread = new Thread(new ThreadStart(id, 2, actionEvent, userName, path_fourth));
+					}
+					thread.start();
+
+					JOptionPane.showMessageDialog(null, "Программа запущена.\nПожалуйста, подождите некоторое время.");
+
+					return true;
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Пожалуйста, выберите категорию!");
+					return false;
 				}
-				thread.start();
-
-				JOptionPane.showMessageDialog(null, "Программа запущена.\nПожалуйста, подождите некоторое время.");
-
-				return true;
-
 			} else {
-				JOptionPane.showMessageDialog(null, "Пожалуйста, выберите категорию!");
+				JOptionPane.showMessageDialog(null, "LOCKED!!!");
 				return false;
 			}
-			// } else {
-			// JOptionPane.showMessageDialog(null, "LOCKED!!");
-			// return false;
-			// }
 		} else {
 			JOptionPane.showMessageDialog(null, "Указанный id являеться некорректным!");
 			return false;
@@ -200,10 +242,14 @@ public class MainController {
 		File file = fileChooser.showSaveDialog(null);
 		FileWriter fileWriter;
 
-		fileWriter = new FileWriter(file);
-		fileWriter.close();
+		try {
+			fileWriter = new FileWriter(file);
+			fileWriter.close();
 
-		path_first = file.getAbsolutePath();
+			path_first = file.getAbsolutePath();
+
+		} catch (Exception ex) {
+		}
 	}
 
 	public void addPathFourth() throws IOException {
@@ -216,9 +262,12 @@ public class MainController {
 		File file = fileChooser.showSaveDialog(null);
 		FileWriter fileWriter;
 
-		fileWriter = new FileWriter(file);
-		fileWriter.close();
+		try {
+			fileWriter = new FileWriter(file);
+			fileWriter.close();
 
-		path_fourth = file.getAbsolutePath();
+			path_fourth = file.getAbsolutePath();
+		} catch (Exception ex) {
+		}
 	}
 }

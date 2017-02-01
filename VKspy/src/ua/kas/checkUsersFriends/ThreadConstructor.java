@@ -115,7 +115,6 @@ public class ThreadConstructor implements Callable<String> {
 					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, Thread.currentThread());
 				}
-
 			}
 		}
 

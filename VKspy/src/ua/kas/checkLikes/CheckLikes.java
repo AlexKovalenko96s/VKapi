@@ -1,8 +1,6 @@
 package ua.kas.checkLikes;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -205,19 +203,17 @@ public class CheckLikes implements Runnable {
 		int size = 10;
 		size = (list.size() <= 10) ? list.size() : 10;
 
-		getName(size, top);
+		if (path.length() != 0) {
+			Thread thread = new Thread(new ThreadSaveFile(list, like, path));
+			thread.start();
+		}
+
+		getName(size, list);
 
 		controller = new UIController(actionEvent);
 		CheckLikesController.setUserName(userName);
 		CheckLikesController.setTop(top);
 
-		if (path.length() != 0) {
-			try {
-				createFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 		// CheckLikesController c = new CheckLikesController();
 		// c.start(top);
 
@@ -265,7 +261,7 @@ public class CheckLikes implements Runnable {
 				} catch (InterruptedException e) {
 					return;
 				}
-				url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + list.get(i);
+				url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + listForAdding.get(i);
 				try {
 					url2 = new URL(url);
 					reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
@@ -276,25 +272,12 @@ public class CheckLikes implements Runnable {
 					line = line.substring(line.indexOf("\"last_name\":\"") + 13);
 					last_name = line.substring(0, line.indexOf("\""));
 
-					listForAdding.add(first_name + " " + last_name + " поставил/ла: " + like.get(i));
+					top.add(first_name + " " + last_name + " поставил/ла: " + like.get(i));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			} else
 				return;
 		}
-	}
-
-	private void createFile() throws IOException {
-		FileWriter fileWriter;
-		fileWriter = new FileWriter(new File(path));
-
-		getName(list.size(), topForFile);
-
-		for (int i = 0; i < top.size(); i++) {
-			fileWriter.write(list.get(i) + "\n");
-		}
-
-		fileWriter.close();
 	}
 }

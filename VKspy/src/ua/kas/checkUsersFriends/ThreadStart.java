@@ -37,16 +37,18 @@ public class ThreadStart implements Runnable {
 	private String last_name = "";
 	private String url = "";
 	private String userName = "";
+	private String path = "";
 
 	private int check = 0;
 
 	UIController controller;
 
-	public ThreadStart(String id, int check, ActionEvent actionEvent, String userName) {
+	public ThreadStart(String id, int check, ActionEvent actionEvent, String userName, String path) {
 		this.id = id;
 		this.check = check;
 		this.actionEvent = actionEvent;
 		this.userName = userName;
+		this.path = path;
 	}
 
 	@Override
@@ -79,17 +81,17 @@ public class ThreadStart implements Runnable {
 		// }
 
 		int count = 0;
-		int fulSize = listFriends.size() / 250;
-		int restSize = listFriends.size() % 250;
+		int fulSize = listFriends.size() / 100;
+		int restSize = listFriends.size() % 100;
 
 		for (int i = 0; i <= fulSize; i++) {
 			if (!Thread.currentThread().isInterrupted()) {
 				ex = Executors.newCachedThreadPool();
 
-				count = (i == fulSize) ? restSize : 250;
+				count = (i == fulSize) ? restSize : 100;
 
 				for (int j = 0; j < count; j++) {
-					future = ex.submit(new ThreadConstructor(listFriends.get(j + (i * 250)), id, check));
+					future = ex.submit(new ThreadConstructor(listFriends.get(j + (i * 100)), id, check));
 					listThreads.add(future);
 				}
 
@@ -134,6 +136,11 @@ public class ThreadStart implements Runnable {
 
 		int size = 10;
 		size = (listId.size() <= 10) ? listId.size() : 10;
+
+		if (path.length() != 0) {
+			Thread thread = new Thread(new ThreadSaveFile(listId, listCount, path));
+			thread.start();
+		}
 
 		for (int i = 0; i < size; i++) {
 			if (!Thread.currentThread().isInterrupted()) {
