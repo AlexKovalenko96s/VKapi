@@ -23,8 +23,7 @@ public class Main {
 	private static String access_token = "70b6fb754c2b39085ae447c80b6e2cea3aea304c5551e9ff7dbfe1c3ff77015e020b378f6502a5597dad2";
 
 	public static String getFriendsList() throws IOException {
-		String url = "https://api.vk.com/method/" + "friends.get" + "?user_id=224429310" + "&return_system=1"
-				+ "&access_token=" + access_token;
+		String url = "https://api.vk.com/method/" + "friends.get" + "?user_id=224429310" + "&return_system=1";
 		String line = "";
 		URL url2 = new URL(url);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
@@ -38,8 +37,8 @@ public class Main {
 		BufferedReader reader = null;
 		for (int i = 0; i < list.size(); i++) {
 			Thread.sleep(250);
-			String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + list.get(i) + "&access_token="
-					+ access_token;
+			String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + list.get(i)
+					+ "&fields=online,photo_big";
 
 			URL url2 = new URL(url);
 			reader = new BufferedReader(new InputStreamReader(url2.openStream()));
@@ -73,6 +72,19 @@ public class Main {
 		reader.close();
 
 		return line;
+	}
+
+	public static void getPhoto11() throws IOException, InterruptedException {
+		BufferedReader reader = null;
+		for (int i = 0; i < list.size(); i++) {
+			Thread.sleep(250);
+			String url = "https://api.vk.com/method/" + "photos.get" + "?user_ids=" + list.get(i);
+
+			URL url2 = new URL(url);
+			reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+			System.out.println(reader.readLine());
+		}
+		reader.close();
 	}
 
 	public static void likes() throws IOException {
@@ -149,25 +161,30 @@ public class Main {
 	public static void main(String[] args) throws ClientProtocolException, NoSuchAlgorithmException, IOException,
 			URISyntaxException, InterruptedException {
 
-		// String idFriends = getFriendsList();
+		String idFriends = getFriendsList();
 		// String idFriends = likes();
-		//
-		// for (int i = 0;; i++) {
-		// if (i == 0) {
-		// list.add(idFriends.substring(idFriends.indexOf("[") + 1,
-		// idFriends.indexOf(",")));
-		// idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
-		// } else {
-		// try {
-		// list.add(idFriends.substring(0, idFriends.indexOf(",")));
-		// idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
-		// } catch (Exception ex) {
-		// list.add(idFriends.substring(0, idFriends.indexOf("]")));
-		// break;
-		// }
-		// }
-		// }
 
+		// System.out.println(getFriendsList());
+
+		for (int i = 0;; i++) {
+			if (i == 0) {
+				list.add(idFriends.substring(idFriends.indexOf("[") + 1, idFriends.indexOf(",")));
+				idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
+			} else {
+				try {
+					list.add(idFriends.substring(0, idFriends.indexOf(",")));
+					idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
+				} catch (Exception ex) {
+					list.add(idFriends.substring(0, idFriends.indexOf("]")));
+					break;
+				}
+			}
+		}
+		System.out.println("dd");
+		// getUserName();
+		getPhoto();
+
+		//
 		// System.out.println(sendMessage());
 		// System.out.println(wallPost());
 
@@ -176,6 +193,6 @@ public class Main {
 
 		// wall();
 
-		getPhotoId();
+		// getPhotoId();
 	}
 }
