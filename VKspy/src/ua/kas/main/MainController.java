@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -38,6 +39,10 @@ public class MainController {
 	CheckBox cb_wall_fourth;
 	@FXML
 	CheckBox cb_photo_fourth;
+	@FXML
+	CheckBox cb_wall_fifth;
+	@FXML
+	CheckBox cb_photo_fifth;
 
 	@FXML
 	TextField tf_first;
@@ -47,11 +52,21 @@ public class MainController {
 	TextField tf_third;
 	@FXML
 	TextField tf_fourth;
+	@FXML
+	TextField tf_fifth;
+
+	@FXML
+	Button btn_selectFirst;
+	@FXML
+	Button btn_selectFourth;
+	@FXML
+	Button btn_selectFifth;
 
 	private Thread thread = null;
 
 	private String path_first = "";
 	private String path_fourth = "";
+	private String path_fifth = "";
 
 	public boolean checkLikes(ActionEvent actionEvent) {
 		String id = tf_first.getText();
@@ -69,11 +84,10 @@ public class MainController {
 		}
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
-			if (!id.equals("224429310") || !id.equals("202930417")) {
-
+			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
+			if (!id.equals("224429310") && !id.equals("202930417")) {
 				if (cb_photo.isSelected() || cb_wall.isSelected()) {
 					String userName = getName(line);
-
 					if (cb_wall.isSelected() && !cb_photo.isSelected()) {
 						thread = new Thread(new CheckLikes(id, 0, actionEvent, userName, path_first));
 					} else if (cb_photo.isSelected() && !cb_wall.isSelected()) {
@@ -84,17 +98,7 @@ public class MainController {
 					thread.start();
 
 					JOptionPane.showMessageDialog(null, "Программа запущена.\nПожалуйста, подождите некоторое время.");
-
-					// threadUI.join();
 					return true;
-					// btn_first.setDisable(true);
-					// for (;;) {
-					// if (thread.isInterrupted()) {
-					// System.out.println("dd");
-					// btn_first.setDisable(false);
-					// break;
-					// }
-					// }
 				} else {
 					JOptionPane.showMessageDialog(null, "Пожалуйста, выберите категорию!");
 					return false;
@@ -125,7 +129,8 @@ public class MainController {
 		}
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
-			if (!id.equals("224429310") || !id.equals("202930417")) {
+			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
+			if (!id.equals("224429310") && !id.equals("202930417")) {
 				thread = new Thread(new SpyOnline(id));
 				thread.start();
 			} else {
@@ -152,7 +157,8 @@ public class MainController {
 		}
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
-			if (!id.equals("224429310") || !id.equals("202930417")) {
+			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
+			if (!id.equals("224429310") && !id.equals("202930417")) {
 				Stage stage = new Stage();
 				Parent root = FXMLLoader.load(this.getClass().getResource("CheckFriends.fxml"));
 				stage.setTitle("Check Friends");
@@ -189,7 +195,8 @@ public class MainController {
 		}
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
-			if (!id.equals("!224429310") || !id.equals("202930417")) {
+			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
+			if (!id.equals("224429310") && !id.equals("202930417")) {
 				String userName = getName(line);
 
 				if (cb_photo_fourth.isSelected() || cb_wall_fourth.isSelected()) {
@@ -220,6 +227,54 @@ public class MainController {
 		}
 	}
 
+	public boolean whoLikesYou(ActionEvent actionEvent) {
+		String id = tf_fifth.getText();
+
+		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id;
+		URL url2;
+		String line = "";
+		try {
+			url2 = new URL(url);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
+			line = reader.readLine();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Отсутствует соединение с интернетом!");
+			return false;
+		}
+
+		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
+			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
+			if (!id.equals("224429310") && !id.equals("202930417")) {
+				if (cb_photo_fifth.isSelected() || cb_wall_fifth.isSelected()) {
+					String userName = getName(line);
+					if (cb_wall_fifth.isSelected() && !cb_photo_fifth.isSelected()) {
+						thread = new Thread(
+								new ua.kas.whoLikesYou.CheckLikes(id, 0, actionEvent, userName, path_fifth));
+					} else if (cb_photo_fifth.isSelected() && !cb_wall_fifth.isSelected()) {
+						thread = new Thread(
+								new ua.kas.whoLikesYou.CheckLikes(id, 1, actionEvent, userName, path_fifth));
+					} else if (cb_photo_fifth.isSelected() && cb_wall_fifth.isSelected()) {
+						thread = new Thread(
+								new ua.kas.whoLikesYou.CheckLikes(id, 2, actionEvent, userName, path_fifth));
+					}
+					thread.start();
+
+					JOptionPane.showMessageDialog(null, "Программа запущена.\nПожалуйста, подождите некоторое время.");
+					return true;
+				} else {
+					JOptionPane.showMessageDialog(null, "Пожалуйста, выберите категорию!");
+					return false;
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "LOCKED!!!");
+				return false;
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Указанный id являеться некорректным!");
+			return false;
+		}
+	}
+
 	private String getName(String line) {
 		String first_name = "";
 		String last_name = "";
@@ -232,7 +287,7 @@ public class MainController {
 		return first_name + " " + last_name;
 	}
 
-	public void addPathFirst() throws IOException {
+	public void addPath(ActionEvent e) throws IOException {
 		FileChooser fileChooser = new FileChooser();
 
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
@@ -246,27 +301,13 @@ public class MainController {
 			fileWriter = new FileWriter(file);
 			fileWriter.close();
 
-			path_first = file.getAbsolutePath();
+			if (e.getSource().equals(btn_selectFirst))
+				path_first = file.getAbsolutePath();
+			else if (e.getSource().equals(btn_selectFourth))
+				path_fourth = file.getAbsolutePath();
+			else if (e.getSource().equals(btn_selectFifth))
+				path_fifth = file.getAbsolutePath();
 
-		} catch (Exception ex) {
-		}
-	}
-
-	public void addPathFourth() throws IOException {
-		FileChooser fileChooser = new FileChooser();
-
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-		fileChooser.getExtensionFilters().add(extFilter);
-
-		// Show save file dialog
-		File file = fileChooser.showSaveDialog(null);
-		FileWriter fileWriter;
-
-		try {
-			fileWriter = new FileWriter(file);
-			fileWriter.close();
-
-			path_fourth = file.getAbsolutePath();
 		} catch (Exception ex) {
 		}
 	}

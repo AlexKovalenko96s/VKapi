@@ -1,10 +1,14 @@
-package ua.kas.checkLikes;
+package ua.kas.whoLikesYou;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javafx.event.ActionEvent;
 
@@ -12,8 +16,15 @@ public class CheckLikes implements Runnable {
 
 	private static ArrayList<String> list = new ArrayList<>();
 	private static ArrayList<String> listIdWall = new ArrayList<>();
-	private static ArrayList<Integer> like = new ArrayList<>();
 	private static ArrayList<String> top = new ArrayList<>();
+	private ArrayList<String> listId = new ArrayList<>();
+	private ArrayList<Integer> listCount = new ArrayList<>();
+
+	private ArrayList<Future<String>> listThreads = new ArrayList<>();
+
+	private Future<String> future = null;
+
+	private ExecutorService ex = null;
 
 	private URL url2;
 
@@ -28,6 +39,7 @@ public class CheckLikes implements Runnable {
 	private String line = "";
 	private String userName = "";
 	private String path = "";
+	private String temp = "";
 
 	private int check = 0;
 
@@ -75,30 +87,18 @@ public class CheckLikes implements Runnable {
 	@Override
 	public void run() {
 
-		like.clear();
 		listIdWall.clear();
 		list.clear();
 		top.clear();
+		listCount.clear();
+		listId.clear();
+		listThreads.clear();
 
-		if (check == 0) {
-			try {
-				wall();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else if (check == 1) {
-			try {
-				photo();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else if (check == 2) {
-			try {
-				photo();
-				wall();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		try {
+			photo();
+			wall();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 
 		// получаем лайкнувших
@@ -125,50 +125,29 @@ public class CheckLikes implements Runnable {
 					if (j == 0) {
 						line = line.substring(line.indexOf(",") + 1);
 						try {
-							if (list.contains(line.substring(line.indexOf("[") + 1, line.indexOf(",")))) {
-								like.set(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf(","))),
-										like.get(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf(","))))
-												+ 1);
-								line = line.substring(line.indexOf(",") + 1);
-							} else {
+							if (!list.contains(line.substring(line.indexOf("[") + 1, line.indexOf(",")))) {
 								list.add(line.substring(line.indexOf("[") + 1, line.indexOf(",")));
-								like.add(1);
-								line = line.substring(line.indexOf(",") + 1);
 							}
+							line = line.substring(line.indexOf(",") + 1);
 						} catch (Exception ex) {
 							if (line.substring(line.indexOf("[") + 1, line.indexOf("]")).length() == 0) {
 								break;
 							} else if (line.substring(line.indexOf("[") + 1, line.indexOf("]")).length() != 0) {
-								if (list.contains(line.substring(line.indexOf("[") + 1, line.indexOf("]")))) {
-									like.set(list.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf("]"))),
-											like.get(list
-													.indexOf(line.substring(line.indexOf("[") + 1, line.indexOf("]"))))
-													+ 1);
-								} else {
+								if (!list.contains(line.substring(line.indexOf("[") + 1, line.indexOf("]")))) {
 									list.add(line.substring(line.indexOf("[") + 1, line.indexOf("]")));
-									like.add(1);
 								}
 								break;
 							}
 						}
 					} else {
 						try {
-							if (list.contains(line.substring(0, line.indexOf(",")))) {
-								like.set(list.indexOf(line.substring(0, line.indexOf(","))),
-										like.get(list.indexOf(line.substring(0, line.indexOf(",")))) + 1);
-								line = line.substring(line.indexOf(",") + 1);
-							} else {
+							if (!list.contains(line.substring(0, line.indexOf(",")))) {
 								list.add(line.substring(0, line.indexOf(",")));
-								like.add(1);
-								line = line.substring(line.indexOf(",") + 1);
 							}
+							line = line.substring(line.indexOf(",") + 1);
 						} catch (Exception ex) {
-							if (list.contains(line.substring(0, line.indexOf("]")))) {
-								like.set(list.indexOf(line.substring(0, line.indexOf("]"))),
-										like.get(list.indexOf(line.substring(0, line.indexOf("]")))) + 1);
-							} else {
+							if (!list.contains(line.substring(0, line.indexOf("]")))) {
 								list.add(line.substring(0, line.indexOf("]")));
-								like.add(1);
 							}
 							break;
 						}
@@ -178,20 +157,58 @@ public class CheckLikes implements Runnable {
 				return;
 		}
 
+		// получив список все кто лайкал жертву "list". начинаем подсчет лайков
+		// у них от жертвы
+
+		int count = 0;
+		int fulSize = list.size() / 100;
+		int restSize = list.size() % 100;
+
+		for (int i = 0; i <= fulSize; i++) {
+			if (!Thread.currentThread().isInterrupted()) {
+				ex = Executors.newCachedThreadPool();
+
+				count = (i == fulSize) ? restSize : 100;
+
+				for (int j = 0; j < count; j++) {
+					future = ex.submit(new ThreadConstructor(list.get(j + (i * 100)), id, check));
+					listThreads.add(future);
+				}
+
+				for (int j = 0; j < listThreads.size(); j++) {
+					if (!Thread.currentThread().isInterrupted()) {
+						try {
+							temp = listThreads.get(j).get();
+							listId.add(temp.substring(0, temp.indexOf(" ")));
+							listCount.add(Integer.parseInt(temp.substring(temp.indexOf(" ") + 1)));
+						} catch (InterruptedException | ExecutionException e) {
+							e.printStackTrace();
+						}
+					} else {
+						return;
+					}
+				}
+
+				ex.shutdown();
+				listThreads.clear();
+			} else
+				return;
+		}
+
 		// bubbleSort
 
-		for (int i = like.size() - 1; i > 0; i--) {
+		for (int i = listCount.size() - 1; i > 0; i--) {
 			if (!Thread.currentThread().isInterrupted()) {
 				for (int j = 0; j < i; j++) {
-					if (like.get(j) < like.get(j + 1)) {
-						int temp_int = like.get(j);
-						String temp_str = list.get(j);
+					if (listCount.get(j) < listCount.get(j + 1)) {
+						int temp_int = listCount.get(j);
+						String temp_str = listId.get(j);
 
-						like.set(j, like.get(j + 1));
-						list.set(j, list.get(j + 1));
+						listCount.set(j, listCount.get(j + 1));
+						listId.set(j, listId.get(j + 1));
 
-						like.set(j + 1, temp_int);
-						list.set(j + 1, temp_str);
+						listCount.set(j + 1, temp_int);
+						listId.set(j + 1, temp_str);
 					}
 				}
 			} else
@@ -199,59 +216,13 @@ public class CheckLikes implements Runnable {
 		}
 
 		int size = 10;
-		size = (list.size() <= 10) ? list.size() : 10;
+		size = (listId.size() <= 10) ? listId.size() : 10;
 
 		if (path.length() != 0) {
-			Thread thread = new Thread(new ThreadSaveFile(list, like, path));
+			Thread thread = new Thread(new ThreadSaveFile(listId, listCount, path));
 			thread.start();
 		}
 
-		getName(size, list);
-
-		controller = new UIController(actionEvent);
-		CheckLikesController.setUserName(userName);
-		CheckLikesController.setTop(top);
-
-		// CheckLikesController c = new CheckLikesController();
-		// c.start(top);
-
-		// FOR CONSOLE ---->
-
-		// reader = null;
-		// for (int i = 0; i < list.size(); i++) {
-		// if (!Thread.currentThread().isInterrupted()) {
-		// try {
-		// Thread.sleep(250);
-		// } catch (InterruptedException e) {
-		// return;
-		// }
-		// url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" +
-		// list.get(i);
-		// try {
-		// url2 = new URL(url);
-		// reader = new BufferedReader(new
-		// InputStreamReader(url2.openStream()));
-		// System.out.println(reader.readLine() + " поставил/ла:" +
-		// like.get(i));
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		// } else
-		// break;
-		// }
-
-		// <---- END CONSOLE
-
-		try
-
-		{
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void getName(Integer size, ArrayList<String> listForAdding) {
 		for (int i = 0; i < size; i++) {
 			if (!Thread.currentThread().isInterrupted()) {
 				try {
@@ -259,7 +230,7 @@ public class CheckLikes implements Runnable {
 				} catch (InterruptedException e) {
 					return;
 				}
-				url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + listForAdding.get(i);
+				url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + listId.get(i);
 				try {
 					url2 = new URL(url);
 					reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
@@ -270,12 +241,22 @@ public class CheckLikes implements Runnable {
 					line = line.substring(line.indexOf("\"last_name\":\"") + 13);
 					last_name = line.substring(0, line.indexOf("\""));
 
-					top.add(first_name + " " + last_name + " поставил/ла: " + like.get(i));
+					top.add("У " + first_name + " " + last_name + " - " + listCount.get(i));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			} else
 				return;
+		}
+
+		controller = new UIController(actionEvent);
+		CheckLikesController.setUserName(userName);
+		CheckLikesController.setTop(top);
+
+		try {
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

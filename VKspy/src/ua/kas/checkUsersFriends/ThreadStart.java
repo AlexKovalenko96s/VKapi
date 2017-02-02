@@ -58,6 +58,7 @@ public class ThreadStart implements Runnable {
 		listFriends.clear();
 		listId.clear();
 		listThreads.clear();
+		top.clear();
 
 		try {
 			parseFriendsList();
@@ -104,8 +105,9 @@ public class ThreadStart implements Runnable {
 						} catch (InterruptedException | ExecutionException e) {
 							e.printStackTrace();
 						}
-					} else
+					} else {
 						return;
+					}
 				}
 
 				ex.shutdown();

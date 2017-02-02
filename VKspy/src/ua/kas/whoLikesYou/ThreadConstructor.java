@@ -1,4 +1,4 @@
-package ua.kas.checkUsersFriends;
+package ua.kas.whoLikesYou;
 
 import java.io.BufferedReader;
 import java.io.IOException;
