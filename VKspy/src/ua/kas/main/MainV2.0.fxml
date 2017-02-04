@@ -8,16 +8,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="450.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.kas.main.MainController">
+<AnchorPane prefHeight="440.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.kas.main.MainController">
    <children>
-      <Separator layoutX="297.0" layoutY="92.0" orientation="VERTICAL" prefHeight="450.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="322.0" AnchorPane.topAnchor="0.0" />
-      <Separator layoutX="233.0" layoutY="199.0" prefHeight="3.0" prefWidth="650.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="223.5" />
+      <Separator layoutX="297.0" layoutY="92.0" orientation="VERTICAL" prefHeight="440.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="322.0" AnchorPane.topAnchor="0.0" />
       <Label layoutX="34.0" layoutY="18.0" text="Подсчет лайков на странице" underline="true">
          <font>
             <Font name="Times New Roman Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="15.0" layoutY="61.0" prefHeight="51.0" prefWidth="276.0" text="Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов зависит времени подсчета." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="25.0" layoutY="56.0" prefHeight="51.0" prefWidth="276.0" text="Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов зависит время подсчета." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Times New Roman" size="14.0" />
          </font>
@@ -32,32 +31,32 @@
             <Font name="Times New Roman" size="18.0" />
          </font>
       </Button>
-      <CheckBox fx:id="cb_photo" layoutX="34.0" layoutY="162.0" mnemonicParsing="false" text="photo">
+      <CheckBox fx:id="cb_photo" layoutX="34.0" layoutY="161.0" mnemonicParsing="false" text="photo">
          <font>
             <Font name="Times New Roman" size="12.0" />
          </font>
       </CheckBox>
-      <CheckBox fx:id="cb_wall" layoutX="88.0" layoutY="162.0" mnemonicParsing="false" text="wall">
+      <CheckBox fx:id="cb_wall" layoutX="88.0" layoutY="161.0" mnemonicParsing="false" text="wall">
          <font>
             <Font name="Times New Roman" size="12.0" />
          </font>
       </CheckBox>
-      <Label layoutX="121.0" layoutY="247.0" text="OnlineR" underline="true">
+      <Label layoutX="121.0" layoutY="238.0" text="OnlineR" underline="true">
          <font>
             <Font name="Times New Roman Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="26.0" layoutY="274.0" prefHeight="69.0" prefWidth="276.0" text="Введите id &quot;жертвы&quot; и запускаете программу. Она являеться независимой от этой и будет следить за статусом &quot;online&quot; у &quot;жертвы&quot;. Сообщая об изменении статуса." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="25.0" layoutY="276.0" prefHeight="51.0" prefWidth="276.0" text="Введите id &quot;жертвы&quot; и запустите программу. Она будет следить за статусом &quot;online&quot; у &quot;жертвы&quot;. Сообщая об изменении статуса." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Times New Roman" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="tf_second" layoutX="45.0" layoutY="358.0" promptText="id*****">
+      <TextField fx:id="tf_second" layoutX="34.0" layoutY="347.0" promptText="id*****">
          <font>
             <Font name="Times New Roman" size="12.0" />
          </font>
       </TextField>
-      <Button layoutX="217.0" layoutY="358.0" mnemonicParsing="false" onAction="#spyOnline" prefHeight="58.0" prefWidth="81.0" text="Spy!">
+      <Button layoutX="206.0" layoutY="347.0" mnemonicParsing="false" onAction="#spyOnline" prefHeight="58.0" prefWidth="81.0" text="Spy!">
          <font>
             <Font name="Times New Roman" size="18.0" />
          </font>
@@ -67,38 +66,38 @@
             <Font name="Times New Roman Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="342.0" layoutY="38.0" prefHeight="87.0" prefWidth="284.0" text="Программа считает количество лайков у друзей поставленных &quot;жертвой&quot; Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов и друзей зависит времени подсчета." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="345.0" layoutY="38.0" prefHeight="87.0" prefWidth="284.0" text="Программа считает количество лайков у друзей поставленных &quot;жертвой&quot; Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов и друзей зависит време подсчета." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Times New Roman" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="349.0" layoutY="247.0" text="Добавленные и удаленные друзья" underline="true">
+      <Label layoutX="349.0" layoutY="238.0" text="Добавленные и удаленные друзья" underline="true">
          <font>
             <Font name="Times New Roman Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="342.0" layoutY="290.0" prefHeight="51.0" prefWidth="276.0" text="Программа позволяет провести проверку на наличие новых друзей, а также удалившихся. Введите id &quot;жертвы&quot;." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="345.0" layoutY="276.0" prefHeight="51.0" prefWidth="276.0" text="Программа позволяет провести проверку на наличие новых друзей, а также удалившихся. Введите id &quot;жертвы&quot;." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Times New Roman" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="tf_third" layoutX="361.0" layoutY="356.0" promptText="id*****">
+      <TextField fx:id="tf_third" layoutX="366.0" layoutY="347.0" promptText="id*****">
          <font>
             <Font name="Times New Roman" size="12.0" />
          </font>
       </TextField>
-      <Button layoutX="533.0" layoutY="356.0" mnemonicParsing="false" onAction="#checkFriends" prefHeight="58.0" prefWidth="81.0" text="Check!">
+      <Button layoutX="538.0" layoutY="347.0" mnemonicParsing="false" onAction="#checkFriends" prefHeight="58.0" prefWidth="81.0" text="Check!">
          <font>
             <Font name="Times New Roman" size="18.0" />
          </font>
       </Button>
-      <Label disable="true" layoutX="1.0" layoutY="409.0" prefHeight="14.0" prefWidth="162.0" text="autor: Alex Kovalenko " wrapText="true">
+      <Label disable="true" layoutX="1.0" layoutY="396.0" prefHeight="14.0" prefWidth="162.0" text="autor: Alex Kovalenko " wrapText="true">
          <font>
             <Font name="Times New Roman" size="12.0" />
          </font>
       </Label>
-      <Button fx:id="btn_selectFirst" layoutX="142.0" layoutY="158.0" mnemonicParsing="false" onAction="#addPath" text="Save" />
-      <Label layoutX="16.0" layoutY="185.0" text="* сохранить результат - нажмите&quot;Save&quot; для создания файла">
+      <Button fx:id="btn_selectFirst" layoutX="142.0" layoutY="157.0" mnemonicParsing="false" onAction="#addPath" text="Save" />
+      <Label layoutX="16.0" layoutY="184.0" text="* сохранить результат - нажмите&quot;Save&quot; для создания файла">
          <font>
             <Font size="10.0" />
          </font>
@@ -129,23 +128,23 @@
             <Font size="10.0" />
          </font>
       </Label>
-      <Label disable="true" layoutY="423.0" text="email: alex.kovalenko.s96@gmail.com">
+      <Label disable="true" layoutY="410.0" text="email: alex.kovalenko.s96@gmail.com">
          <font>
             <Font name="Times New Roman" size="12.0" />
          </font>
       </Label>
-      <Label disable="true" layoutY="436.0" text="version 0.4">
+      <Label disable="true" layoutY="423.0" text="version 0.41">
          <font>
             <Font name="Times New Roman" size="12.0" />
          </font>
       </Label>
-      <Separator layoutX="594.0" layoutY="2.0" orientation="VERTICAL" prefHeight="450.0" prefWidth="6.0" AnchorPane.leftAnchor="644.0" />
+      <Separator layoutX="594.0" layoutY="2.0" orientation="VERTICAL" prefHeight="440.0" prefWidth="6.0" AnchorPane.leftAnchor="644.0" />
       <Label layoutX="718.0" layoutY="18.0" text="&quot;Ты - мне, я - тебе&quot;" underline="true">
          <font>
             <Font name="Times New Roman Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="667.0" layoutY="38.0" prefHeight="87.0" prefWidth="284.0" text="Программа считает всех кто ставил лайки &quot;жертве&quot; и считает у них лайки &quot;жертвы&quot;. Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов зависит времени подсчета." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="667.0" layoutY="38.0" prefHeight="87.0" prefWidth="284.0" text="Программа считает, всех кто ставил лайки &quot;жертве&quot; и считает у них лайки &quot;жертвы&quot;. Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов зависит время подсчета." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Times New Roman" size="14.0" />
          </font>
@@ -186,5 +185,6 @@
             <Font size="10.0" />
          </font>
       </Label>
+      <Separator layoutY="220.0" prefWidth="975.0" />
    </children>
 </AnchorPane>
