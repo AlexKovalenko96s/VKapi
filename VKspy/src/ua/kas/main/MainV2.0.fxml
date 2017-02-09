@@ -1,190 +1,317 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="440.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.kas.main.MainController">
-   <children>
-      <Separator layoutX="297.0" layoutY="92.0" orientation="VERTICAL" prefHeight="440.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="322.0" AnchorPane.topAnchor="0.0" />
-      <Label layoutX="34.0" layoutY="18.0" text="Подсчет лайков на странице" underline="true">
-         <font>
-            <Font name="Times New Roman Bold Italic" size="18.0" />
-         </font>
-      </Label>
-      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="25.0" layoutY="56.0" prefHeight="51.0" prefWidth="276.0" text="Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов зависит время подсчета." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-         <font>
-            <Font name="Times New Roman" size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="tf_first" layoutX="34.0" layoutY="127.0" prefHeight="22.0" prefWidth="150.0" promptText="id*****">
-         <font>
-            <Font name="Times New Roman" size="12.0" />
-         </font>
-      </TextField>
-      <Button layoutX="206.0" layoutY="127.0" mnemonicParsing="false" onAction="#checkLikes" prefHeight="58.0" prefWidth="81.0" text="Check!">
-         <font>
-            <Font name="Times New Roman" size="18.0" />
-         </font>
-      </Button>
-      <CheckBox fx:id="cb_photo" layoutX="34.0" layoutY="161.0" mnemonicParsing="false" text="photo">
-         <font>
-            <Font name="Times New Roman" size="12.0" />
-         </font>
-      </CheckBox>
-      <CheckBox fx:id="cb_wall" layoutX="88.0" layoutY="161.0" mnemonicParsing="false" text="wall">
-         <font>
-            <Font name="Times New Roman" size="12.0" />
-         </font>
-      </CheckBox>
-      <Label layoutX="121.0" layoutY="238.0" text="OnlineR" underline="true">
-         <font>
-            <Font name="Times New Roman Bold Italic" size="18.0" />
-         </font>
-      </Label>
-      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="25.0" layoutY="276.0" prefHeight="51.0" prefWidth="276.0" text="Введите id &quot;жертвы&quot; и запустите программу. Она будет следить за статусом &quot;online&quot; у &quot;жертвы&quot;. Сообщая об изменении статуса." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-         <font>
-            <Font name="Times New Roman" size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="tf_second" layoutX="34.0" layoutY="347.0" promptText="id*****">
-         <font>
-            <Font name="Times New Roman" size="12.0" />
-         </font>
-      </TextField>
-      <Button layoutX="206.0" layoutY="347.0" mnemonicParsing="false" onAction="#spyOnline" prefHeight="58.0" prefWidth="81.0" text="Spy!">
-         <font>
-            <Font name="Times New Roman" size="18.0" />
-         </font>
-      </Button>
-      <Label layoutX="325.0" layoutY="18.0" text="Подсчет поставленных лайков друзьям" underline="true">
-         <font>
-            <Font name="Times New Roman Bold Italic" size="18.0" />
-         </font>
-      </Label>
-      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="345.0" layoutY="38.0" prefHeight="87.0" prefWidth="284.0" text="Программа считает количество лайков у друзей поставленных &quot;жертвой&quot; Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов и друзей зависит време подсчета." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-         <font>
-            <Font name="Times New Roman" size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="349.0" layoutY="238.0" text="Добавленные и удаленные друзья" underline="true">
-         <font>
-            <Font name="Times New Roman Bold Italic" size="18.0" />
-         </font>
-      </Label>
-      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="345.0" layoutY="276.0" prefHeight="51.0" prefWidth="276.0" text="Программа позволяет провести проверку на наличие новых друзей, а также удалившихся. Введите id &quot;жертвы&quot;." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-         <font>
-            <Font name="Times New Roman" size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="tf_third" layoutX="366.0" layoutY="347.0" promptText="id*****">
-         <font>
-            <Font name="Times New Roman" size="12.0" />
-         </font>
-      </TextField>
-      <Button layoutX="538.0" layoutY="347.0" mnemonicParsing="false" onAction="#checkFriends" prefHeight="58.0" prefWidth="81.0" text="Check!">
-         <font>
-            <Font name="Times New Roman" size="18.0" />
-         </font>
-      </Button>
-      <Label disable="true" layoutX="1.0" layoutY="396.0" prefHeight="14.0" prefWidth="162.0" text="autor: Alex Kovalenko " wrapText="true">
-         <font>
-            <Font name="Times New Roman" size="12.0" />
-         </font>
-      </Label>
-      <Button fx:id="btn_selectFirst" layoutX="142.0" layoutY="157.0" mnemonicParsing="false" onAction="#addPath" text="Save" />
-      <Label layoutX="16.0" layoutY="184.0" text="* сохранить результат - нажмите&quot;Save&quot; для создания файла">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <TextField fx:id="tf_fourth" layoutX="366.0" layoutY="126.0" prefHeight="22.0" prefWidth="150.0" promptText="id*****">
-         <font>
-            <Font name="Times New Roman" size="12.0" />
-         </font>
-      </TextField>
-      <Button layoutX="538.0" layoutY="126.0" mnemonicParsing="false" onAction="#checkUsersFriends" prefHeight="58.0" prefWidth="81.0" text="Check!">
-         <font>
-            <Font name="Times New Roman" size="18.0" />
-         </font>
-      </Button>
-      <CheckBox fx:id="cb_photo_fourth" layoutX="366.0" layoutY="161.0" mnemonicParsing="false" text="photo">
-         <font>
-            <Font name="Times New Roman" size="12.0" />
-         </font>
-      </CheckBox>
-      <CheckBox fx:id="cb_wall_fourth" layoutX="420.0" layoutY="161.0" mnemonicParsing="false" text="wall">
-         <font>
-            <Font name="Times New Roman" size="12.0" />
-         </font>
-      </CheckBox>
-      <Button fx:id="btn_selectFourth" layoutX="474.0" layoutY="157.0" mnemonicParsing="false" onAction="#addPath" text="Save" />
-      <Label layoutX="348.0" layoutY="184.0" text="* сохранить результат - нажмите&quot;Save&quot; для создания файла">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <Label disable="true" layoutY="410.0" text="email: alex.kovalenko.s96@gmail.com">
-         <font>
-            <Font name="Times New Roman" size="12.0" />
-         </font>
-      </Label>
-      <Label disable="true" layoutY="423.0" text="version 0.41">
-         <font>
-            <Font name="Times New Roman" size="12.0" />
-         </font>
-      </Label>
-      <Separator layoutX="594.0" layoutY="2.0" orientation="VERTICAL" prefHeight="440.0" prefWidth="6.0" AnchorPane.leftAnchor="644.0" />
-      <Label layoutX="718.0" layoutY="18.0" text="&quot;Ты - мне, я - тебе&quot;" underline="true">
-         <font>
-            <Font name="Times New Roman Bold Italic" size="18.0" />
-         </font>
-      </Label>
-      <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="667.0" layoutY="38.0" prefHeight="87.0" prefWidth="284.0" text="Программа считает, всех кто ставил лайки &quot;жертве&quot; и считает у них лайки &quot;жертвы&quot;. Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов зависит время подсчета." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-         <font>
-            <Font name="Times New Roman" size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="tf_fifth" layoutX="691.0" layoutY="126.0" prefHeight="22.0" prefWidth="150.0" promptText="id*****">
-         <font>
-            <Font name="Times New Roman" size="12.0" />
-         </font>
-      </TextField>
-      <Button layoutX="863.0" layoutY="126.0" mnemonicParsing="false" onAction="#whoLikesYou" prefHeight="58.0" prefWidth="81.0" text="Check!">
-         <font>
-            <Font name="Times New Roman" size="18.0" />
-         </font>
-      </Button>
-      <CheckBox fx:id="cb_photo_fifth" layoutX="691.0" layoutY="161.0" mnemonicParsing="false" text="photo">
-         <font>
-            <Font name="Times New Roman" size="12.0" />
-         </font>
-      </CheckBox>
-      <Button fx:id="btn_selectFifth" layoutX="799.0" layoutY="157.0" mnemonicParsing="false" onAction="#addPath" text="Save" />
-      <Label layoutX="673.0" layoutY="184.0" text="* сохранить результат - нажмите&quot;Save&quot; для создания файла">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <CheckBox fx:id="cb_wall_fifth" layoutX="745.0" layoutY="161.0" mnemonicParsing="false" text="wall">
-         <font>
-            <Font name="Times New Roman" size="12.0" />
-         </font>
-      </CheckBox>
-      <Label disable="true" layoutX="717.0" layoutY="307.0" rotate="30.0" text="Coming soon!">
-         <font>
-            <Font name="Times New Roman" size="36.0" />
-         </font>
-      </Label>
-      <Label layoutX="673.0" layoutY="200.0" prefHeight="14.0" prefWidth="276.0" text="** &quot;photo/wall&quot; для тех, кто лайки ставил, а не для жертвы" wrapText="true">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <Separator layoutY="220.0" prefWidth="975.0" />
-   </children>
-</AnchorPane>
+<SplitPane fx:id="splitPane" dividerPositions="0.5" orientation="VERTICAL" pickOnBounds="false" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.kas.main.MainController">
+   <items>
+      <AnchorPane prefHeight="80.0" prefWidth="870.0" styleClass="background">
+         <children>
+            <Label layoutX="23.0" layoutY="15.0" text="VKspy" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="40.0" />
+               </font>
+            </Label>
+            <Label layoutX="357.0" layoutY="14.0" text="Добро пожаловать" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="275.0" layoutY="37.0" text="здесь вы найдете для себя очень много интересного!" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font></Label>
+            <Label layoutX="310.0" layoutY="59.0" text="Наводите на названия, чтобы узнать больше" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma" size="12.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" disable="true" layoutX="701.0" layoutY="52.0" prefHeight="14.0" prefWidth="162.0" text="Alex Kovalenko -  autor" textAlignment="RIGHT" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Times New Roman" size="12.0" />
+               </font>
+            </Label>
+            <Label disable="true" layoutX="671.0" layoutY="67.0" text="alex.kovalenko.s96@gmail.com - email" textFill="WHITE">
+               <font>
+                  <Font name="Times New Roman" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="340.0" prefWidth="870.0">
+         <children>
+            <Separator layoutX="308.0" layoutY="70.0" orientation="VERTICAL" prefHeight="240.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="290.0" AnchorPane.topAnchor="0.0" />
+            <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="51.0" prefWidth="270.0" text="Подсчет лайков на странице" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Tahoma Bold" size="18.0" />
+               </font>
+               <tooltip>
+                  <Tooltip prefWidth="250.0" text="Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов зависит время подсчета." textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font name="Tahoma" size="12.0" />
+                     </font>
+                  </Tooltip>
+               </tooltip>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <TextField fx:id="tf_first" layoutX="30.0" layoutY="74.0" prefHeight="22.0" prefWidth="160.0" promptText="id*****">
+               <font>
+                  <Font name="Times New Roman" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+            </TextField>
+            <Button layoutX="201.0" layoutY="72.0" mnemonicParsing="false" onAction="#checkLikes" prefHeight="58.0" prefWidth="81.0" text="Check!" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <CheckBox fx:id="cb_photo" layoutX="30.0" layoutY="104.0" mnemonicParsing="false" prefWidth="70.0" text="photo">
+               <font>
+                  <Font name="Tahoma" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </CheckBox>
+            <CheckBox fx:id="cb_wall" layoutX="84.0" layoutY="104.0" mnemonicParsing="false" prefWidth="70.0" text="wall">
+               <font>
+                  <Font name="Tahoma" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </CheckBox>
+            <Label alignment="CENTER" layoutX="14.0" layoutY="184.0" prefHeight="51.0" prefWidth="270.0" text="OnlineR" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Tahoma Bold" size="18.0" />
+               </font>
+               <tooltip>
+                  <Tooltip prefWidth="250.0" text="Введите id &quot;жертвы&quot; и запустите программу. Она будет следить за статусом &quot;online&quot; у &quot;жертвы&quot;. Сообщая об изменении статуса." textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font name="Tahoma" size="12.0" />
+                     </font>
+                  </Tooltip>
+               </tooltip>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <TextField fx:id="tf_second" layoutX="30.0" layoutY="244.0" prefWidth="160.0" promptText="id*****">
+               <font>
+                  <Font name="Times New Roman" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+            </TextField>
+            <Button layoutX="201.0" layoutY="242.0" mnemonicParsing="false" onAction="#spyOnline" prefHeight="58.0" prefWidth="81.0" text="Spy!" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="300.0" layoutY="14.0" prefHeight="48.0" prefWidth="270.0" text="Подсчет поставленных лайков друзьям" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" wrapText="true">
+               <font>
+                  <Font name="Tahoma Bold" size="18.0" />
+               </font>
+               <tooltip>
+                  <Tooltip prefWidth="250.0" text="Программа считает количество лайков у друзей поставленных &quot;жертвой&quot; Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов и друзей зависит время подсчета." textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font name="Tahoma" size="12.0" />
+                     </font>
+                  </Tooltip>
+               </tooltip>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label alignment="CENTER" layoutX="300.0" layoutY="184.0" prefHeight="51.0" prefWidth="270.0" text="Добавленные и удаленные друзья" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" wrapText="true">
+               <font>
+                  <Font name="Tahoma Bold" size="18.0" />
+               </font>
+               <tooltip>
+                  <Tooltip prefWidth="250.0" text="Программа позволяет провести проверку на наличие новых друзей, а также удалившихся. Введите id &quot;жертвы&quot;." textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font name="Tahoma" size="12.0" />
+                     </font>
+                  </Tooltip>
+               </tooltip>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <TextField fx:id="tf_third" layoutX="320.0" layoutY="244.0" prefWidth="160.0" promptText="id*****">
+               <font>
+                  <Font name="Times New Roman" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+            </TextField>
+            <Button layoutX="491.0" layoutY="242.0" mnemonicParsing="false" onAction="#checkFriends" prefHeight="58.0" prefWidth="81.0" text="Check!" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="btn_selectFirst" layoutX="136.0" layoutY="100.0" mnemonicParsing="false" onAction="#addPath" text="Save" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Tahoma Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="9.0" layoutY="140.0" prefHeight="22.0" prefWidth="281.0" text="* сохранить результат - нажмите&quot;Save&quot; для создания файла">
+               <font>
+                  <Font name="Tahoma" size="10.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tf_fourth" layoutX="320.0" layoutY="74.0" prefHeight="22.0" prefWidth="160.0" promptText="id*****">
+               <font>
+                  <Font name="Times New Roman" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+            </TextField>
+            <Button layoutX="491.0" layoutY="72.0" mnemonicParsing="false" onAction="#checkUsersFriends" prefHeight="58.0" prefWidth="81.0" text="Check!" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <CheckBox fx:id="cb_photo_fourth" layoutX="320.0" layoutY="104.0" mnemonicParsing="false" text="photo">
+               <font>
+                  <Font name="Tahoma" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </CheckBox>
+            <CheckBox fx:id="cb_wall_fourth" layoutX="374.0" layoutY="104.0" mnemonicParsing="false" text="wall">
+               <font>
+                  <Font name="Tahoma" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </CheckBox>
+            <Button fx:id="btn_selectFourth" layoutX="426.0" layoutY="100.0" mnemonicParsing="false" onAction="#addPath" text="Save" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Tahoma Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="299.0" layoutY="144.0" text="* сохранить результат - нажмите&quot;Save&quot; для создания файла">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label disable="true" layoutY="326.0" text="version 0.41">
+               <font>
+                  <Font name="Times New Roman" size="12.0" />
+               </font>
+            </Label>
+            <Separator layoutX="613.0" layoutY="7.0" orientation="VERTICAL" prefHeight="340.0" prefWidth="6.0" AnchorPane.leftAnchor="580.0" AnchorPane.topAnchor="0.0" />
+            <Label alignment="CENTER" layoutX="589.0" layoutY="14.0" prefHeight="51.0" prefWidth="270.0" text="&quot;Ты - мне, я - тебе&quot;" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Tahoma Bold" size="18.0" />
+               </font>
+               <tooltip>
+                  <Tooltip prefWidth="250.0" text="Программа считает, всех кто ставил лайки &quot;жертве&quot; и считает у них лайки &quot;жертвы&quot;. Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов зависит время подсчета." textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font name="Tahoma" size="12.0" />
+                     </font>
+                  </Tooltip>
+               </tooltip>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <TextField fx:id="tf_fifth" layoutX="610.0" layoutY="74.0" prefHeight="22.0" prefWidth="160.0" promptText="id*****">
+               <font>
+                  <Font name="Times New Roman" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+            </TextField>
+            <Button layoutX="781.0" layoutY="72.0" mnemonicParsing="false" onAction="#whoLikesYou" prefHeight="58.0" prefWidth="81.0" text="Check!" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <CheckBox fx:id="cb_photo_fifth" layoutX="610.0" layoutY="104.0" mnemonicParsing="false" text="photo">
+               <font>
+                  <Font name="Tahoma" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </CheckBox>
+            <Button fx:id="btn_selectFifth" layoutX="716.0" layoutY="100.0" mnemonicParsing="false" onAction="#addPath" text="Save" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Tahoma Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="587.0" layoutY="136.0" text="* сохранить результат - нажмите&quot;Save&quot; для создания файла">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <CheckBox fx:id="cb_wall_fifth" layoutX="664.0" layoutY="104.0" mnemonicParsing="false" text="wall">
+               <font>
+                  <Font name="Tahoma" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </CheckBox>
+            <Label disable="true" layoutX="651.0" layoutY="229.0" rotate="30.0" text="Coming soon!">
+               <font>
+                  <Font name="Tahoma" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="586.0" layoutY="154.0" prefHeight="14.0" prefWidth="276.0" text="** &quot;photo/wall&quot; для тех, кто лайки ставил, а не для жертвы" wrapText="true">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Separator layoutY="170.0" prefHeight="0.0" prefWidth="870.0" />
+         </children>
+      </AnchorPane>
+   </items>
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+</SplitPane>

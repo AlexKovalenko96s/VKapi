@@ -33,8 +33,11 @@ public class Main extends Application {
 				scene = new Scene(root, 290, 140);
 			} else {
 				root = FXMLLoader.load(getClass().getResource("MainV2.0.fxml"));
-				scene = new Scene(root, 965, 430);
+				scene = new Scene(root, 860, 415);
 			}
+
+			URL path = getClass().getResource("./MainV2.0.fxml");
+			System.out.println(path);
 
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setTitle("VKspy");

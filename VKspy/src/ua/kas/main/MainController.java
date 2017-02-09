@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
@@ -30,6 +31,9 @@ import ua.kas.spyOnline.SpyOnline;
 public class MainController {
 	// 224429310
 	// 18472340
+
+	@FXML
+	SplitPane splitPane = new SplitPane();
 
 	@FXML
 	CheckBox cb_wall;
@@ -67,6 +71,10 @@ public class MainController {
 	private String path_first = "";
 	private String path_fourth = "";
 	private String path_fifth = "";
+
+	public MainController() {
+		splitPane.setScaleShape(true);
+	}
 
 	public boolean checkLikes(ActionEvent actionEvent) {
 		String id = tf_first.getText();
@@ -163,7 +171,9 @@ public class MainController {
 				Parent root = FXMLLoader.load(this.getClass().getResource("CheckFriends.fxml"));
 				stage.setTitle("Check Friends");
 				stage.setResizable(false);
-				stage.setScene(new Scene(root));
+				Scene scene = new Scene(root);
+				stage.setScene(scene);
+				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				stage.initModality(Modality.WINDOW_MODAL);
 				stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
 				stage.getIcons().add(new Image(this.getClass().getResourceAsStream("vk_icon.png")));

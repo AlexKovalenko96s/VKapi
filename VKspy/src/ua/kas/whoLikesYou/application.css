@@ -1,1 +1,18 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.root {
+	-fx-background-color: #edeef0;
+	-fx-background-image: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+}
+
+.button {
+	-fx-background-color: #6888AD;
+}
+
+.button:hover {
+	-fx-background-color: #7291B5;
+}
+
+.background {
+	-fx-background-color: #507299;
+}

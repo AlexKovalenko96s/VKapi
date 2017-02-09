@@ -24,7 +24,9 @@ public class UIController implements Runnable {
 		Parent root = FXMLLoader.load(this.getClass().getResource("CheckLikes.fxml"));
 		stage.setTitle("TOP");
 		stage.setResizable(false);
-		stage.setScene(new Scene(root));
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
 		stage.getIcons().add(new Image(this.getClass().getResourceAsStream("vk_icon.png")));

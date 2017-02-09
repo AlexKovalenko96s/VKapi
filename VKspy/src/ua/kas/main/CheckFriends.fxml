@@ -8,25 +8,25 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.kas.checkFriends.CheckFriendsController">
    <children>
-      <Button layoutX="78.0" layoutY="75.0" mnemonicParsing="false" onAction="#addFile" text="Создать файл друзей">
+      <Button layoutX="71.0" layoutY="79.0" mnemonicParsing="false" onAction="#addFile" text="Создать файл друзей" textFill="WHITE">
          <font>
-            <Font name="Times New Roman" size="14.0" />
+            <Font name="Tahoma" size="14.0" />
          </font></Button>
-      <Label alignment="CENTER" layoutX="15.0" layoutY="14.0" prefHeight="50.0" prefWidth="275.0" text="Если вы первый раз запустили программу или хотите создать новый файл друзей нажмите &quot;Создать файл друзей&quot;." textAlignment="CENTER" wrapText="true">
+      <Label alignment="CENTER" layoutX="20.0" layoutY="14.0" prefHeight="58.0" prefWidth="275.0" text="Если вы первый раз запустили программу или хотите создать новый файл друзей нажмите &quot;Создать файл друзей&quot;." textAlignment="CENTER" wrapText="true">
          <font>
-            <Font name="Times New Roman" size="14.0" />
+            <Font name="Tahoma" size="14.0" />
          </font></Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="120.0" prefHeight="50.0" prefWidth="275.0" text="Выбирите файл друзей для проверки. Будьте внимательны, после проверки файл перезапишится." textAlignment="CENTER" wrapText="true">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="120.0" prefHeight="58.0" prefWidth="275.0" text="Выбирите файл друзей для проверки. Будьте внимательны, после проверки файл перезапишится." textAlignment="CENTER" wrapText="true">
          <font>
-            <Font name="Times New Roman" size="14.0" />
+            <Font name="Tahoma" size="14.0" />
          </font></Label>
-      <Button layoutX="78.0" layoutY="183.0" mnemonicParsing="false" onAction="#selectFile" text="Выбрать файл друзей">
+      <Button layoutX="70.0" layoutY="185.0" mnemonicParsing="false" onAction="#selectFile" text="Выбрать файл друзей" textFill="WHITE">
          <font>
-            <Font name="Times New Roman" size="14.0" />
+            <Font name="Tahoma" size="14.0" />
          </font></Button>
       <Button fx:id="btn_start" disable="true" layoutX="62.0" layoutY="236.0" mnemonicParsing="false" onAction="#start" prefHeight="50.0" prefWidth="181.0" text="Запустить проверку!">
          <font>
-            <Font name="Times New Roman" size="16.0" />
+            <Font name="Tahoma" size="14.0" />
          </font></Button>
       <Separator layoutY="221.0" prefHeight="3.0" prefWidth="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="221.0" />
    </children>
