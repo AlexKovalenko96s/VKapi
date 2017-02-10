@@ -21,15 +21,15 @@ public class UIController implements Runnable {
 
 	public void showDialog() throws Exception {
 		Stage stage = new Stage();
-		Parent root = FXMLLoader.load(this.getClass().getResource("CheckLikes.fxml"));
+		Parent root = FXMLLoader.load(this.getClass().getResource("res/CheckLikes.fxml"));
 		stage.setTitle("TOP");
 		stage.setResizable(false);
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
-		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("res/application.css").toExternalForm());
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
-		stage.getIcons().add(new Image(this.getClass().getResourceAsStream("vk_icon.png")));
+		stage.getIcons().add(new Image(this.getClass().getResourceAsStream("res/vk_icon.png")));
 		stage.show();
 	}
 

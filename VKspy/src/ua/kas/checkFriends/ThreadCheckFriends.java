@@ -11,6 +11,11 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+
 public class ThreadCheckFriends implements Runnable {
 
 	private ArrayList<String> list = new ArrayList<>();
@@ -36,7 +41,13 @@ public class ThreadCheckFriends implements Runnable {
 			buf_reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "windows-1251"));
 			str = buf_reader.readLine();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Not correct file!");
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("VKspy");
+			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+			stage.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
+			alert.setHeaderText("Выбран некорректный файл!");
+			alert.setContentText(null);
+			stage.show();
 		}
 
 		while (str.length() >= 1) {

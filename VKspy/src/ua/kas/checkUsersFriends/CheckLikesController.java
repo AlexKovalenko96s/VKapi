@@ -1,8 +1,15 @@
 package ua.kas.checkUsersFriends;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -70,7 +77,27 @@ public class CheckLikesController implements Initializable {
 					label.get(i).setText(top.get(i));
 					label.get(i).setVisible(true);
 				}
+				sound();
 			}
 		});
+	}
+
+	private void sound() {
+		Clip clip = null;
+		try {
+			clip = AudioSystem.getClip();
+		} catch (LineUnavailableException e1) {
+			e1.printStackTrace();
+		}
+
+		AudioInputStream inputStream;
+
+		try {
+			inputStream = AudioSystem.getAudioInputStream(this.getClass().getResource("res/sound.wav"));
+			clip.open(inputStream);
+			clip.start();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 }

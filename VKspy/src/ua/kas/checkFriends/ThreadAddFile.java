@@ -8,7 +8,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 public class ThreadAddFile implements Runnable {
 
@@ -78,6 +81,12 @@ public class ThreadAddFile implements Runnable {
 		}
 		fileWriter.close();
 
-		JOptionPane.showMessageDialog(null, "Файл друзей, создан!");
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("VKspy");
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
+		alert.setHeaderText("Файл друзей, создан!");
+		alert.setContentText(null);
+		stage.show();
 	}
 }

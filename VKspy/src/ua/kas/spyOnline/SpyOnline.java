@@ -14,6 +14,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 public class SpyOnline implements Runnable {
 
 	private String id = "";
@@ -107,6 +113,7 @@ public class SpyOnline implements Runnable {
 							trayIcon.displayMessage("OnlineR", first_name + " " + last_name + " - Online_mobile",
 									TrayIcon.MessageType.INFO);
 						}
+						sound();
 					}
 				} catch (NumberFormatException | IOException e1) {
 					e1.printStackTrace();
@@ -115,6 +122,25 @@ public class SpyOnline implements Runnable {
 				systemTray.remove(trayIcon);
 				return;
 			}
+		}
+	}
+
+	private void sound() {
+		Clip clip = null;
+		try {
+			clip = AudioSystem.getClip();
+		} catch (LineUnavailableException e1) {
+			e1.printStackTrace();
+		}
+
+		AudioInputStream inputStream;
+
+		try {
+			inputStream = AudioSystem.getAudioInputStream(this.getClass().getResource("sound.wav"));
+			clip.open(inputStream);
+			clip.start();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			e.printStackTrace();
 		}
 	}
 }

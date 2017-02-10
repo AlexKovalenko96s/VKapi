@@ -5,15 +5,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.kas.whoLikesYou.CheckLikesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.kas.checkLikes.CheckLikesController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="37.0" layoutY="14.0" prefHeight="250.0" prefWidth="3000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane prefHeight="50.0" prefWidth="450.0">
          <children>
-            <Label fx:id="l0" alignment="CENTER" prefHeight="55.0" prefWidth="360.0" text="Please wait! The program works" underline="true">
+            <Label fx:id="l0" alignment="CENTER" prefHeight="50.0" prefWidth="460.0" styleClass="background" text="Please wait! The program works" textAlignment="CENTER" textFill="WHITE" underline="true">
                <font>
                   <Font name="Tahoma Bold" size="22.0" />
                </font>
             </Label>
+         </children>
+      </AnchorPane>
+      <VBox alignment="TOP_CENTER" layoutX="37.0" layoutY="64.0" prefHeight="240.0" prefWidth="450.0" styleClass="root" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+         <children>
             <Label fx:id="l1" alignment="CENTER" text="1." visible="false">
                <font>
                   <Font name="Tahoma" size="18.0" />

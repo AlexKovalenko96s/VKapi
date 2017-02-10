@@ -15,6 +15,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.SplitPane;
@@ -77,6 +79,11 @@ public class MainController {
 	}
 
 	public boolean checkLikes(ActionEvent actionEvent) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("VKspy");
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
+
 		String id = tf_first.getText();
 
 		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id;
@@ -87,7 +94,11 @@ public class MainController {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
 			line = reader.readLine();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Отсутствует соединение с интернетом!");
+			alert.setAlertType(AlertType.ERROR);
+			alert.setHeaderText("Отсутствует соединение с интернетом!");
+			alert.setContentText(null);
+			stage.show();
+
 			return false;
 		}
 
@@ -103,25 +114,46 @@ public class MainController {
 					} else if (cb_photo.isSelected() && cb_wall.isSelected()) {
 						thread = new Thread(new CheckLikes(id, 2, actionEvent, userName, path_first));
 					}
+
+					alert.setHeaderText("Программа запущена.");
+					alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
+					stage.show();
+
 					thread.start();
 
-					JOptionPane.showMessageDialog(null, "Программа запущена.\nПожалуйста, подождите некоторое время.");
 					return true;
 				} else {
-					JOptionPane.showMessageDialog(null, "Пожалуйста, выберите категорию!");
+					alert.setAlertType(AlertType.WARNING);
+					alert.setHeaderText("Пожалуйста, выберите категорию!");
+					alert.setContentText(null);
+					stage.show();
+
 					return false;
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "LOCKED!!!");
+				alert.setAlertType(AlertType.ERROR);
+				alert.setHeaderText("LOCKED!!!");
+				alert.setContentText(null);
+				stage.show();
+
 				return false;
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Указанный id являеться некорректным!");
+			alert.setAlertType(AlertType.WARNING);
+			alert.setHeaderText("Указанный id являеться некорректным!");
+			alert.setContentText(null);
+			stage.show();
+
 			return false;
 		}
 	}
 
 	public void spyOnline() throws IOException {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("VKspy");
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
+
 		String id = tf_second.getText();
 
 		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id;
@@ -132,24 +164,38 @@ public class MainController {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
 			line = reader.readLine();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Отсутствует соединение с интернетом!");
+			alert.setAlertType(AlertType.ERROR);
+			alert.setHeaderText("Отсутствует соединение с интернетом!");
+			alert.setContentText(null);
+			stage.show();
 			return;
 		}
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
-			if (!id.equals("224429310") && !id.equals("202930417")) {
+			if (!id.equals("!224429310") && !id.equals("202930417")) {
 				thread = new Thread(new SpyOnline(id));
 				thread.start();
 			} else {
-				JOptionPane.showMessageDialog(null, "LOCKED!!!");
+				alert.setAlertType(AlertType.ERROR);
+				alert.setHeaderText("LOCKED!!!");
+				alert.setContentText(null);
+				stage.show();
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Указанный id являеться некорректным!");
+			alert.setAlertType(AlertType.WARNING);
+			alert.setHeaderText("Указанный id являеться некорректным!");
+			alert.setContentText(null);
+			stage.show();
 		}
 	}
 
 	public void checkFriends(ActionEvent actionEvent) throws IOException {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("VKspy");
+		Stage stageAlert = (Stage) alert.getDialogPane().getScene().getWindow();
+		stageAlert.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
+
 		String id = tf_third.getText();
 
 		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id;
@@ -160,7 +206,11 @@ public class MainController {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
 			line = reader.readLine();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Отсутствует соединение с интернетом!");
+			alert.setAlertType(AlertType.ERROR);
+			alert.setHeaderText("Отсутствует соединение с интернетом!");
+			alert.setContentText(null);
+			stageAlert.show();
+
 			return;
 		}
 
@@ -168,28 +218,39 @@ public class MainController {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
 			if (!id.equals("224429310") && !id.equals("202930417")) {
 				Stage stage = new Stage();
-				Parent root = FXMLLoader.load(this.getClass().getResource("CheckFriends.fxml"));
+				Parent root = FXMLLoader.load(this.getClass().getResource("res/CheckFriends.fxml"));
 				stage.setTitle("Check Friends");
 				stage.setResizable(false);
 				Scene scene = new Scene(root);
 				stage.setScene(scene);
-				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				scene.getStylesheets().add(getClass().getResource("res/application.css").toExternalForm());
 				stage.initModality(Modality.WINDOW_MODAL);
 				stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
-				stage.getIcons().add(new Image(this.getClass().getResourceAsStream("vk_icon.png")));
+				stage.getIcons().add(new Image(this.getClass().getResourceAsStream("res/vk_icon.png")));
 
 				CheckFriendsController.setId(id);
 
 				stage.show();
 			} else {
-				JOptionPane.showMessageDialog(null, "LOCKED!!!");
+				alert.setAlertType(AlertType.ERROR);
+				alert.setHeaderText("LOCKED!!!");
+				alert.setContentText(null);
+				stageAlert.show();
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Указанный id являеться некорректным!");
+			alert.setAlertType(AlertType.WARNING);
+			alert.setHeaderText("Указанный id являеться некорректным!");
+			alert.setContentText(null);
+			stageAlert.show();
 		}
 	}
 
 	public boolean checkUsersFriends(ActionEvent actionEvent) throws IOException, InterruptedException {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("VKspy");
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
+
 		String id = tf_fourth.getText();
 
 		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id;
@@ -200,13 +261,17 @@ public class MainController {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
 			line = reader.readLine();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Отсутствует соединение с интернетом!");
+			alert.setAlertType(AlertType.ERROR);
+			alert.setHeaderText("Отсутствует соединение с интернетом!");
+			alert.setContentText(null);
+			stage.show();
+
 			return false;
 		}
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
-			if (!id.equals("224429310") && !id.equals("202930417")) {
+			if (!id.equals("!224429310") && !id.equals("202930417")) {
 				String userName = getName(line);
 
 				if (cb_photo_fourth.isSelected() || cb_wall_fourth.isSelected()) {
@@ -219,25 +284,44 @@ public class MainController {
 					}
 					thread.start();
 
-					JOptionPane.showMessageDialog(null, "Программа запущена.\nПожалуйста, подождите некоторое время.");
+					alert.setHeaderText("Программа запущена.");
+					alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
+					stage.show();
 
 					return true;
 
 				} else {
-					JOptionPane.showMessageDialog(null, "Пожалуйста, выберите категорию!");
+					alert.setAlertType(AlertType.WARNING);
+					alert.setHeaderText("Пожалуйста, выберите категорию!");
+					alert.setContentText(null);
+					stage.show();
+
 					return false;
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "LOCKED!!!");
+				alert.setAlertType(AlertType.ERROR);
+				alert.setHeaderText("LOCKED!!!");
+				alert.setContentText(null);
+				stage.show();
+
 				return false;
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Указанный id являеться некорректным!");
+			alert.setAlertType(AlertType.WARNING);
+			alert.setHeaderText("Указанный id являеться некорректным!");
+			alert.setContentText(null);
+			stage.show();
+
 			return false;
 		}
 	}
 
 	public boolean whoLikesYou(ActionEvent actionEvent) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("VKspy");
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
+
 		String id = tf_fifth.getText();
 
 		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id;
@@ -254,7 +338,7 @@ public class MainController {
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
-			if (!id.equals("224429310") && !id.equals("202930417")) {
+			if (!id.equals("!224429310") && !id.equals("202930417")) {
 				if (cb_photo_fifth.isSelected() || cb_wall_fifth.isSelected()) {
 					String userName = getName(line);
 					if (cb_wall_fifth.isSelected() && !cb_photo_fifth.isSelected()) {
@@ -269,18 +353,33 @@ public class MainController {
 					}
 					thread.start();
 
-					JOptionPane.showMessageDialog(null, "Программа запущена.\nПожалуйста, подождите некоторое время.");
+					alert.setHeaderText("Программа запущена.");
+					alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
+					stage.show();
+
 					return true;
 				} else {
-					JOptionPane.showMessageDialog(null, "Пожалуйста, выберите категорию!");
+					alert.setAlertType(AlertType.WARNING);
+					alert.setHeaderText("Пожалуйста, выберите категорию!");
+					alert.setContentText(null);
+					stage.show();
+
 					return false;
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "LOCKED!!!");
+				alert.setAlertType(AlertType.ERROR);
+				alert.setHeaderText("LOCKED!!!");
+				alert.setContentText(null);
+				stage.show();
+
 				return false;
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Указанный id являеться некорректным!");
+			alert.setAlertType(AlertType.WARNING);
+			alert.setHeaderText("Указанный id являеться некорректным!");
+			alert.setContentText(null);
+			stage.show();
+
 			return false;
 		}
 	}
