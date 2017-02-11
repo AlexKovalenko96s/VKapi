@@ -173,7 +173,7 @@ public class MainController {
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
-			if (!id.equals("!224429310") && !id.equals("202930417")) {
+			if (!id.equals("224429310") && !id.equals("202930417")) {
 				thread = new Thread(new SpyOnline(id));
 				thread.start();
 			} else {
@@ -271,7 +271,7 @@ public class MainController {
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
-			if (!id.equals("!224429310") && !id.equals("202930417")) {
+			if (!id.equals("224429310") && !id.equals("202930417")) {
 				String userName = getName(line);
 
 				if (cb_photo_fourth.isSelected() || cb_wall_fourth.isSelected()) {
@@ -338,7 +338,7 @@ public class MainController {
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
-			if (!id.equals("!224429310") && !id.equals("202930417")) {
+			if (!id.equals("224429310") && !id.equals("202930417")) {
 				if (cb_photo_fifth.isSelected() || cb_wall_fifth.isSelected()) {
 					String userName = getName(line);
 					if (cb_wall_fifth.isSelected() && !cb_photo_fifth.isSelected()) {

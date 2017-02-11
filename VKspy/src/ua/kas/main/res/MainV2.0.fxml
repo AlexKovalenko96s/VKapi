@@ -231,7 +231,7 @@
                   <Font size="10.0" />
                </font>
             </Label>
-            <Label disable="true" layoutY="326.0" text="version 0.41">
+            <Label disable="true" layoutY="326.0" text="version 0.42">
                <font>
                   <Font name="Times New Roman" size="12.0" />
                </font>

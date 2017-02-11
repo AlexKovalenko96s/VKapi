@@ -2,7 +2,7 @@
 
 .root {
 	-fx-background-color: #edeef0;
-	-fx-background-image: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+	-fx-background-image: url("asfalt-dark.png");
 }
 
 .button {
