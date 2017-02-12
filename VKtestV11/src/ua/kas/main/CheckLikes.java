@@ -1,0 +1,161 @@
+package ua.kas.main;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+public class CheckLikes implements Runnable {
+
+	private Future<String> futureGender = null;
+	private Future<String> futureFriend = null;
+
+	private ExecutorService ex = null;
+
+	private static ArrayList<String> listIdWall = new ArrayList<>();
+	private static ArrayList<String> list = new ArrayList<>();
+
+	private URL url2;
+
+	private BufferedReader reader = null;
+
+	private String url = "";
+	private String line = "";
+	private String id = "";
+
+	private int check;
+
+	public CheckLikes(String id, Integer check) {
+		this.id = id;
+		this.check = check;
+	}
+
+	@Override
+	public void run() {
+		listIdWall.clear();
+
+		try {
+			photo();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// получаем лайкнувших
+		for (int i = 0; i < listIdWall.size(); i++) {
+			if (!Thread.currentThread().isInterrupted()) {
+				try {
+					Thread.sleep(250);
+				} catch (InterruptedException e) {
+					break;
+				}
+				url = "https://api.vk.com/method/" + "likes.getList" + "?type=post" + "&owner_id=" + id + "&item_id="
+						+ listIdWall.get(i);
+				line = "";
+				try {
+					url2 = new URL(url);
+					reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+					line = reader.readLine();
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				if (check == 1) {
+					for (int j = 0;; j++) {
+						if (j == 0) {
+							line = line.substring(line.indexOf(",") + 1);
+							try {
+								if (!list.contains(line.substring(line.indexOf("[") + 1, line.indexOf(",")))) {
+									list.add(line.substring(line.indexOf("[") + 1, line.indexOf(",")));
+								}
+								line = line.substring(line.indexOf(",") + 1);
+							} catch (Exception ex) {
+								if (line.substring(line.indexOf("[") + 1, line.indexOf("]")).length() == 0) {
+									break;
+								} else if (line.substring(line.indexOf("[") + 1, line.indexOf("]")).length() != 0) {
+									if (!list.contains(line.substring(line.indexOf("[") + 1, line.indexOf("]")))) {
+										list.add(line.substring(line.indexOf("[") + 1, line.indexOf("]")));
+									}
+									break;
+								}
+							}
+						} else {
+							try {
+								if (!list.contains(line.substring(0, line.indexOf(",")))) {
+									list.add(line.substring(0, line.indexOf(",")));
+								}
+								line = line.substring(line.indexOf(",") + 1);
+							} catch (Exception ex) {
+								if (!list.contains(line.substring(0, line.indexOf("]")))) {
+									list.add(line.substring(0, line.indexOf("]")));
+								}
+								break;
+							}
+						}
+					}
+				} else if (check == 2) {
+					for (int j = 0;; j++) {
+						if (j == 0) {
+							line = line.substring(line.indexOf(",") + 1);
+							try {
+								list.add(line.substring(line.indexOf("[") + 1, line.indexOf(",")));
+								line = line.substring(line.indexOf(",") + 1);
+							} catch (Exception ex) {
+								if (line.substring(line.indexOf("[") + 1, line.indexOf("]")).length() == 0) {
+									break;
+								} else if (line.substring(line.indexOf("[") + 1, line.indexOf("]")).length() != 0) {
+									list.add(line.substring(line.indexOf("[") + 1, line.indexOf("]")));
+									break;
+								}
+							}
+						} else {
+							try {
+								list.add(line.substring(0, line.indexOf(",")));
+								line = line.substring(line.indexOf(",") + 1);
+							} catch (Exception ex) {
+								list.add(line.substring(0, line.indexOf("]")));
+								break;
+							}
+						}
+					}
+				}
+			} else
+				return;
+		}
+
+		ex = Executors.newCachedThreadPool();
+
+		// 224429310
+
+		futureGender = ex.submit(new FutureGender(list));
+		futureFriend = ex.submit(new FutureFriend(list, id));
+
+		try {
+			System.out.println(futureGender.get());
+			System.out.println(futureFriend.get());
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void photo() throws IOException {
+		// список всех фоток
+		url = "https://api.vk.com/method/" + "photos.get" + "?owner_id=" + id + "&extended=1" + "&album_id=profile"
+				+ "&count=1000";
+		url2 = new URL(url);
+		reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+		line = reader.readLine();
+		reader.close();
+		System.out.println(line);
+		while (line.contains("\"post_id\"")) {
+			line = line.substring(line.indexOf("\"post_id\":") + 10);
+			listIdWall.add(line.substring(0, (line.indexOf(","))));
+		}
+	}
+
+}
