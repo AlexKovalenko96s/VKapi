@@ -49,7 +49,7 @@ public class Controller {
 			if (!id.equals("!224429310") && !id.equals("202930417")) {
 				String userName = getName(line);
 
-				thread = new Thread(new CheckLikes(id, 2));
+				thread = new Thread(new CheckLikes(id, 2, actionEvent, userName));
 
 				alert.setHeaderText("Программа запущена.");
 				alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");

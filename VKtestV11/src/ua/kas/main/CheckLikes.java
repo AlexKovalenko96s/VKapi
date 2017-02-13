@@ -10,12 +10,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import javafx.event.ActionEvent;
+
 public class CheckLikes implements Runnable {
 
 	private Future<String> futureGender = null;
 	private Future<String> futureFriend = null;
 
 	private ExecutorService ex = null;
+
+	private ActionEvent actionEvent;
 
 	private static ArrayList<String> listIdWall = new ArrayList<>();
 	private static ArrayList<String> list = new ArrayList<>();
@@ -27,12 +31,17 @@ public class CheckLikes implements Runnable {
 	private String url = "";
 	private String line = "";
 	private String id = "";
+	private String name = "";
 
 	private int check;
 
-	public CheckLikes(String id, Integer check) {
+	UIController controller;
+
+	public CheckLikes(String id, Integer check, ActionEvent actionEvent, String name) {
 		this.id = id;
 		this.check = check;
+		this.actionEvent = actionEvent;
+		this.name = name;
 	}
 
 	@Override
@@ -40,7 +49,9 @@ public class CheckLikes implements Runnable {
 		listIdWall.clear();
 
 		try {
+			ava();
 			photo();
+			wall();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -136,25 +147,62 @@ public class CheckLikes implements Runnable {
 		futureFriend = ex.submit(new FutureFriend(list, id));
 
 		try {
-			System.out.println(futureGender.get());
-			System.out.println(futureFriend.get());
+			ChartController.setManWoman(futureGender.get());
+			ChartController.setFriendsOrNo(futureFriend.get());
+			ChartController.setName(name);
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
+
+		controller = new UIController(actionEvent);
+
+		ex.shutdown();
+
 	}
 
-	private void photo() throws IOException {
-		// список всех фоток
+	private void ava() throws IOException {
+		// список всех ав
 		url = "https://api.vk.com/method/" + "photos.get" + "?owner_id=" + id + "&extended=1" + "&album_id=profile"
 				+ "&count=1000";
 		url2 = new URL(url);
 		reader = new BufferedReader(new InputStreamReader(url2.openStream()));
 		line = reader.readLine();
 		reader.close();
-		System.out.println(line);
 		while (line.contains("\"post_id\"")) {
 			line = line.substring(line.indexOf("\"post_id\":") + 10);
-			listIdWall.add(line.substring(0, (line.indexOf(","))));
+			if (!listIdWall.contains(line.substring(0, line.indexOf(","))))
+				listIdWall.add(line.substring(0, line.indexOf(",")));
+		}
+	}
+
+	private void wall() throws IOException {
+		// список всех постов
+		url = "https://api.vk.com/method/" + "wall.get" + "?owner_id=" + id + "&filter=all" + "&count=100";
+		url2 = new URL(url);
+		reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+		line = reader.readLine();
+		reader.close();
+
+		while (line.contains("\"id\":")) {
+			line = line.substring(line.indexOf("\"id\":") + 5);
+			if (!listIdWall.contains(line.substring(0, line.indexOf(","))))
+				listIdWall.add(line.substring(0, line.indexOf(",")));
+		}
+	}
+
+	private void photo() throws IOException {
+		// список всех фоток
+		url = "https://api.vk.com/method/" + "photos.get" + "?owner_id=" + id + "&extended=1" + "&album_id=wall"
+				+ "&count=1000";
+		url2 = new URL(url);
+		reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+		line = reader.readLine();
+		reader.close();
+
+		while (line.contains("\"post_id\"")) {
+			line = line.substring(line.indexOf("\"post_id\":") + 10);
+			if (!listIdWall.contains(line.substring(0, line.indexOf(","))))
+				listIdWall.add(line.substring(0, line.indexOf(",")));
 		}
 	}
 

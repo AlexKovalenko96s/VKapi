@@ -71,7 +71,7 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		// usersGet(stringToList());
+		usersGet(stringToList());
 		System.out.println(getGroups());
 	}
 }

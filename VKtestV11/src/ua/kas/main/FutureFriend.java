@@ -40,7 +40,6 @@ public class FutureFriend implements Callable<String> {
 		}
 
 		return "sum" + sum + ",friends=" + (sum - all.size()) + ",noFriends=" + all.size();
-
 	}
 
 	private String getFriendsList() throws IOException {
