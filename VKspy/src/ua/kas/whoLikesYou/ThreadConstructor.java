@@ -21,18 +21,18 @@ public class ThreadConstructor implements Callable<String> {
 	private String id = "";
 	private String line = "";
 	private String userID = "";
+	private String check = "";
 
 	private int count = 0;
-	private int check = 0;
 
-	public ThreadConstructor(String id, String userID, int check) {
+	public ThreadConstructor(String id, String userID, String check) {
 		this.id = id;
 		this.userID = userID;
 		this.check = check;
 	}
 
-	private void photo() throws IOException {
-		// список всех фоток
+	private void ava() throws IOException {
+		// список всех ав
 		url = "https://api.vk.com/method/" + "photos.get" + "?owner_id=" + id + "&extended=1" + "&album_id=profile"
 				+ "&count=1000";
 		url2 = new URL(url);
@@ -42,7 +42,8 @@ public class ThreadConstructor implements Callable<String> {
 
 		while (line.contains("\"post_id\"")) {
 			line = line.substring(line.indexOf("\"post_id\":") + 10);
-			listIdWall.add(line.substring(0, (line.indexOf(","))));
+			if (!listIdWall.contains(line.substring(0, line.indexOf(","))))
+				listIdWall.add(line.substring(0, line.indexOf(",")));
 		}
 	}
 
@@ -59,11 +60,25 @@ public class ThreadConstructor implements Callable<String> {
 
 		while (line.contains("\"id\":")) {
 			line = line.substring(line.indexOf("\"id\":") + 5);
-			if (!listIdWall.contains(line.substring(0, line.indexOf(",")))) {
+			if (!listIdWall.contains(line.substring(0, line.indexOf(","))))
 				listIdWall.add(line.substring(0, line.indexOf(",")));
-			}
 		}
 
+	}
+
+	private void photo() throws IOException {
+		// список всех фоток
+		url = "https://api.vk.com/method/" + "photos.get" + "?owner_id=" + id + "&extended=1" + "&album_id=wall"
+				+ "&count=1000";
+		url2 = new URL(url);
+		reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+		line = reader.readLine();
+		reader.close();
+		while (line.contains("\"post_id\"")) {
+			line = line.substring(line.indexOf("\"post_id\":") + 10);
+			if (!listIdWall.contains(line.substring(0, line.indexOf(","))))
+				listIdWall.add(line.substring(0, line.indexOf(",")));
+		}
 	}
 
 	@Override
@@ -71,22 +86,23 @@ public class ThreadConstructor implements Callable<String> {
 
 		listIdWall.clear();
 
-		if (check == 0) {
+		if (check.contains("0")) {
 			try {
 				wall();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if (check == 1) {
+		}
+		if (check.contains("2")) {
 			try {
-				photo();
+				ava();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if (check == 2) {
+		}
+		if (check.contains("1")) {
 			try {
 				photo();
-				wall();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -119,5 +135,4 @@ public class ThreadConstructor implements Callable<String> {
 		}
 		return id + " " + count;
 	}
-
 }

@@ -29,7 +29,7 @@ public class Main extends Application {
 			Parent root = null;
 			Scene scene = null;
 
-			if (line.contains("202930417") || !line.contains("224429310")) {
+			if (line.contains("!202930417") || !line.contains("224429310")) {
 				root = FXMLLoader.load(getClass().getResource("res/MainBaner.fxml"));
 				scene = new Scene(root, 290, 140);
 			} else {
@@ -58,7 +58,7 @@ public class Main extends Application {
 			stage.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
 			alert.setHeaderText("Отсутствует соединение с интернетом!");
 			alert.setContentText(null);
-			stage.show();
+			alert.showAndWait();
 		}
 	}
 

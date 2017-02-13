@@ -87,6 +87,6 @@ public class ThreadAddFile implements Runnable {
 		stage.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
 		alert.setHeaderText("Файл друзей, создан!");
 		alert.setContentText(null);
-		stage.show();
+		alert.showAndWait();
 	}
 }

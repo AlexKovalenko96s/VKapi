@@ -38,12 +38,11 @@ public class ThreadStart implements Runnable {
 	private String url = "";
 	private String userName = "";
 	private String path = "";
-
-	private int check = 0;
+	private String check = "";
 
 	UIController controller;
 
-	public ThreadStart(String id, int check, ActionEvent actionEvent, String userName, String path) {
+	public ThreadStart(String id, String check, ActionEvent actionEvent, String userName, String path) {
 		this.id = id;
 		this.check = check;
 		this.actionEvent = actionEvent;

@@ -40,12 +40,11 @@ public class CheckLikes implements Runnable {
 	private String userName = "";
 	private String path = "";
 	private String temp = "";
-
-	private int check = 0;
+	private String check = "";
 
 	UIController controller;
 
-	public CheckLikes(String id, Integer check, ActionEvent actionEvent, String userName, String path) {
+	public CheckLikes(String id, String check, ActionEvent actionEvent, String userName, String path) {
 		this.id = id;
 		this.check = check;
 		this.actionEvent = actionEvent;
@@ -53,8 +52,8 @@ public class CheckLikes implements Runnable {
 		this.path = path;
 	}
 
-	private void photo() throws IOException {
-		// список всех фоток
+	private void ava() throws IOException {
+		// список всех ав
 		url = "https://api.vk.com/method/" + "photos.get" + "?owner_id=" + id + "&extended=1" + "&album_id=profile"
 				+ "&count=1000";
 		url2 = new URL(url);
@@ -64,7 +63,8 @@ public class CheckLikes implements Runnable {
 
 		while (line.contains("\"post_id\"")) {
 			line = line.substring(line.indexOf("\"post_id\":") + 10);
-			listIdWall.add(line.substring(0, (line.indexOf(","))));
+			if (!listIdWall.contains(line.substring(0, line.indexOf(","))))
+				listIdWall.add(line.substring(0, line.indexOf(",")));
 		}
 	}
 
@@ -78,9 +78,23 @@ public class CheckLikes implements Runnable {
 
 		while (line.contains("\"id\":")) {
 			line = line.substring(line.indexOf("\"id\":") + 5);
-			if (!listIdWall.contains(line.substring(0, line.indexOf(",")))) {
+			if (!listIdWall.contains(line.substring(0, line.indexOf(","))))
 				listIdWall.add(line.substring(0, line.indexOf(",")));
-			}
+		}
+	}
+
+	private void photo() throws IOException {
+		// список всех фоток
+		url = "https://api.vk.com/method/" + "photos.get" + "?owner_id=" + id + "&extended=1" + "&album_id=wall"
+				+ "&count=1000";
+		url2 = new URL(url);
+		reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+		line = reader.readLine();
+		reader.close();
+		while (line.contains("\"post_id\"")) {
+			line = line.substring(line.indexOf("\"post_id\":") + 10);
+			if (!listIdWall.contains(line.substring(0, line.indexOf(","))))
+				listIdWall.add(line.substring(0, line.indexOf(",")));
 		}
 	}
 
@@ -95,8 +109,9 @@ public class CheckLikes implements Runnable {
 		listThreads.clear();
 
 		try {
-			photo();
+			ava();
 			wall();
+			photo();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

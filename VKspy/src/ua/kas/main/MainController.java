@@ -38,13 +38,19 @@ public class MainController {
 	SplitPane splitPane = new SplitPane();
 
 	@FXML
+	CheckBox cb_ava;
+	@FXML
 	CheckBox cb_wall;
 	@FXML
 	CheckBox cb_photo;
 	@FXML
+	CheckBox cb_ava_fourth;
+	@FXML
 	CheckBox cb_wall_fourth;
 	@FXML
 	CheckBox cb_photo_fourth;
+	@FXML
+	CheckBox cb_ava_fifth;
 	@FXML
 	CheckBox cb_wall_fifth;
 	@FXML
@@ -60,6 +66,8 @@ public class MainController {
 	TextField tf_fourth;
 	@FXML
 	TextField tf_fifth;
+	@FXML
+	TextField tf_sixth;
 
 	@FXML
 	Button btn_selectFirst;
@@ -67,8 +75,6 @@ public class MainController {
 	Button btn_selectFourth;
 	@FXML
 	Button btn_selectFifth;
-
-	private Thread thread = null;
 
 	private String path_first = "";
 	private String path_fourth = "";
@@ -97,27 +103,30 @@ public class MainController {
 			alert.setAlertType(AlertType.ERROR);
 			alert.setHeaderText("Отсутствует соединение с интернетом!");
 			alert.setContentText(null);
-			stage.show();
+			alert.showAndWait();
 
 			return false;
 		}
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
-			if (!id.equals("224429310") && !id.equals("202930417")) {
-				if (cb_photo.isSelected() || cb_wall.isSelected()) {
+			if (!id.equals("!224429310") && !id.equals("202930417")) {
+				if (cb_photo.isSelected() || cb_wall.isSelected() || cb_ava.isSelected()) {
 					String userName = getName(line);
-					if (cb_wall.isSelected() && !cb_photo.isSelected()) {
-						thread = new Thread(new CheckLikes(id, 0, actionEvent, userName, path_first));
-					} else if (cb_photo.isSelected() && !cb_wall.isSelected()) {
-						thread = new Thread(new CheckLikes(id, 1, actionEvent, userName, path_first));
-					} else if (cb_photo.isSelected() && cb_wall.isSelected()) {
-						thread = new Thread(new CheckLikes(id, 2, actionEvent, userName, path_first));
-					}
+					String check = "";
+
+					if (cb_wall.isSelected())
+						check += "0";
+					if (cb_photo.isSelected())
+						check += "1";
+					if (cb_ava.isSelected())
+						check += "2";
+
+					Thread thread = new Thread(new CheckLikes(id, check, actionEvent, userName, path_first));
 
 					alert.setHeaderText("Программа запущена.");
 					alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
-					stage.show();
+					alert.showAndWait();
 
 					thread.start();
 
@@ -126,7 +135,7 @@ public class MainController {
 					alert.setAlertType(AlertType.WARNING);
 					alert.setHeaderText("Пожалуйста, выберите категорию!");
 					alert.setContentText(null);
-					stage.show();
+					alert.showAndWait();
 
 					return false;
 				}
@@ -134,7 +143,7 @@ public class MainController {
 				alert.setAlertType(AlertType.ERROR);
 				alert.setHeaderText("LOCKED!!!");
 				alert.setContentText(null);
-				stage.show();
+				alert.showAndWait();
 
 				return false;
 			}
@@ -142,7 +151,7 @@ public class MainController {
 			alert.setAlertType(AlertType.WARNING);
 			alert.setHeaderText("Указанный id являеться некорректным!");
 			alert.setContentText(null);
-			stage.show();
+			alert.showAndWait();
 
 			return false;
 		}
@@ -167,26 +176,27 @@ public class MainController {
 			alert.setAlertType(AlertType.ERROR);
 			alert.setHeaderText("Отсутствует соединение с интернетом!");
 			alert.setContentText(null);
-			stage.show();
+			alert.showAndWait();
 			return;
 		}
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
 			if (!id.equals("224429310") && !id.equals("202930417")) {
-				thread = new Thread(new SpyOnline(id));
+				Thread thread = new Thread(new SpyOnline(id));
 				thread.start();
+
 			} else {
 				alert.setAlertType(AlertType.ERROR);
 				alert.setHeaderText("LOCKED!!!");
 				alert.setContentText(null);
-				stage.show();
+				alert.showAndWait();
 			}
 		} else {
 			alert.setAlertType(AlertType.WARNING);
 			alert.setHeaderText("Указанный id являеться некорректным!");
 			alert.setContentText(null);
-			stage.show();
+			alert.showAndWait();
 		}
 	}
 
@@ -209,7 +219,7 @@ public class MainController {
 			alert.setAlertType(AlertType.ERROR);
 			alert.setHeaderText("Отсутствует соединение с интернетом!");
 			alert.setContentText(null);
-			stageAlert.show();
+			alert.showAndWait();
 
 			return;
 		}
@@ -230,18 +240,18 @@ public class MainController {
 
 				CheckFriendsController.setId(id);
 
-				stage.show();
+				alert.showAndWait();
 			} else {
 				alert.setAlertType(AlertType.ERROR);
 				alert.setHeaderText("LOCKED!!!");
 				alert.setContentText(null);
-				stageAlert.show();
+				alert.showAndWait();
 			}
 		} else {
 			alert.setAlertType(AlertType.WARNING);
 			alert.setHeaderText("Указанный id являеться некорректным!");
 			alert.setContentText(null);
-			stageAlert.show();
+			alert.showAndWait();
 		}
 	}
 
@@ -264,29 +274,31 @@ public class MainController {
 			alert.setAlertType(AlertType.ERROR);
 			alert.setHeaderText("Отсутствует соединение с интернетом!");
 			alert.setContentText(null);
-			stage.show();
+			alert.showAndWait();
 
 			return false;
 		}
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
-			if (!id.equals("224429310") && !id.equals("202930417")) {
-				String userName = getName(line);
+			if (!id.equals("!224429310") && !id.equals("202930417")) {
+				if (cb_photo_fourth.isSelected() || cb_wall_fourth.isSelected() || cb_ava_fourth.isSelected()) {
+					String userName = getName(line);
+					String check = "";
 
-				if (cb_photo_fourth.isSelected() || cb_wall_fourth.isSelected()) {
-					if (cb_wall_fourth.isSelected() && !cb_photo_fourth.isSelected()) {
-						thread = new Thread(new ThreadStart(id, 0, actionEvent, userName, path_fourth));
-					} else if (cb_photo_fourth.isSelected() && !cb_wall_fourth.isSelected()) {
-						thread = new Thread(new ThreadStart(id, 1, actionEvent, userName, path_fourth));
-					} else if (cb_photo_fourth.isSelected() && cb_wall_fourth.isSelected()) {
-						thread = new Thread(new ThreadStart(id, 2, actionEvent, userName, path_fourth));
-					}
+					if (cb_wall_fourth.isSelected())
+						check += "0";
+					if (cb_photo_fourth.isSelected())
+						check += "1";
+					if (cb_ava_fourth.isSelected())
+						check += "2";
+
+					Thread thread = new Thread(new ThreadStart(id, check, actionEvent, userName, path_fourth));
 					thread.start();
 
 					alert.setHeaderText("Программа запущена.");
 					alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
-					stage.show();
+					alert.showAndWait();
 
 					return true;
 
@@ -294,7 +306,7 @@ public class MainController {
 					alert.setAlertType(AlertType.WARNING);
 					alert.setHeaderText("Пожалуйста, выберите категорию!");
 					alert.setContentText(null);
-					stage.show();
+					alert.showAndWait();
 
 					return false;
 				}
@@ -302,7 +314,7 @@ public class MainController {
 				alert.setAlertType(AlertType.ERROR);
 				alert.setHeaderText("LOCKED!!!");
 				alert.setContentText(null);
-				stage.show();
+				alert.showAndWait();
 
 				return false;
 			}
@@ -310,7 +322,7 @@ public class MainController {
 			alert.setAlertType(AlertType.WARNING);
 			alert.setHeaderText("Указанный id являеться некорректным!");
 			alert.setContentText(null);
-			stage.show();
+			alert.showAndWait();
 
 			return false;
 		}
@@ -338,31 +350,32 @@ public class MainController {
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
-			if (!id.equals("224429310") && !id.equals("202930417")) {
-				if (cb_photo_fifth.isSelected() || cb_wall_fifth.isSelected()) {
+			if (!id.equals("!224429310") && !id.equals("202930417")) {
+				if (cb_photo_fifth.isSelected() || cb_wall_fifth.isSelected() || cb_ava_fifth.isSelected()) {
 					String userName = getName(line);
-					if (cb_wall_fifth.isSelected() && !cb_photo_fifth.isSelected()) {
-						thread = new Thread(
-								new ua.kas.whoLikesYou.CheckLikes(id, 0, actionEvent, userName, path_fifth));
-					} else if (cb_photo_fifth.isSelected() && !cb_wall_fifth.isSelected()) {
-						thread = new Thread(
-								new ua.kas.whoLikesYou.CheckLikes(id, 1, actionEvent, userName, path_fifth));
-					} else if (cb_photo_fifth.isSelected() && cb_wall_fifth.isSelected()) {
-						thread = new Thread(
-								new ua.kas.whoLikesYou.CheckLikes(id, 2, actionEvent, userName, path_fifth));
-					}
+					String check = "";
+
+					if (cb_wall_fifth.isSelected())
+						check += "0";
+					if (cb_photo_fifth.isSelected())
+						check += "1";
+					if (cb_ava_fifth.isSelected())
+						check += "2";
+
+					Thread thread = new Thread(
+							new ua.kas.whoLikesYou.CheckLikes(id, check, actionEvent, userName, path_fifth));
 					thread.start();
 
 					alert.setHeaderText("Программа запущена.");
 					alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
-					stage.show();
+					alert.showAndWait();
 
 					return true;
 				} else {
 					alert.setAlertType(AlertType.WARNING);
 					alert.setHeaderText("Пожалуйста, выберите категорию!");
 					alert.setContentText(null);
-					stage.show();
+					alert.showAndWait();
 
 					return false;
 				}
@@ -370,7 +383,7 @@ public class MainController {
 				alert.setAlertType(AlertType.ERROR);
 				alert.setHeaderText("LOCKED!!!");
 				alert.setContentText(null);
-				stage.show();
+				alert.showAndWait();
 
 				return false;
 			}
@@ -378,7 +391,63 @@ public class MainController {
 			alert.setAlertType(AlertType.WARNING);
 			alert.setHeaderText("Указанный id являеться некорректным!");
 			alert.setContentText(null);
-			stage.show();
+			alert.showAndWait();
+
+			return false;
+		}
+	}
+
+	public boolean analytic(ActionEvent actionEvent) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("VKspy");
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
+
+		String id = tf_sixth.getText();
+
+		String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + id;
+		URL url2;
+		String line = "";
+		try {
+			url2 = new URL(url);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream(), "UTF-8"));
+			line = reader.readLine();
+		} catch (IOException e) {
+			alert.setAlertType(AlertType.ERROR);
+			alert.setHeaderText("Отсутствует соединение с интернетом!");
+			alert.setContentText(null);
+			alert.showAndWait();
+
+			return false;
+		}
+
+		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
+			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
+			if (!id.equals("!224429310") && !id.equals("202930417")) {
+				String userName = getName(line);
+
+				alert.setHeaderText("Программа запущена.");
+				alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
+				alert.showAndWait();
+
+				Thread thread = new Thread(new ua.kas.analytic.CheckLikes(id, 2, actionEvent, userName));
+				thread.start();
+
+				return true;
+
+			} else {
+				alert.setAlertType(AlertType.ERROR);
+				alert.setHeaderText("LOCKED!!!");
+				alert.setContentText(null);
+				alert.showAndWait();
+
+				return false;
+			}
+		} else {
+			alert.setAlertType(AlertType.WARNING);
+			alert.setHeaderText("Указанный id являеться некорректным!");
+			alert.setContentText(null);
+			alert.showAndWait();
 
 			return false;
 		}
