@@ -21,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -55,6 +56,12 @@ public class MainController {
 	CheckBox cb_wall_fifth;
 	@FXML
 	CheckBox cb_photo_fifth;
+	@FXML
+	CheckBox cb_ava_sixth;
+	@FXML
+	CheckBox cb_wall_sixth;
+	@FXML
+	CheckBox cb_photo_sixth;
 
 	@FXML
 	TextField tf_first;
@@ -68,6 +75,9 @@ public class MainController {
 	TextField tf_fifth;
 	@FXML
 	TextField tf_sixth;
+
+	@FXML
+	ToggleButton toggleButton;
 
 	@FXML
 	Button btn_selectFirst;
@@ -110,7 +120,7 @@ public class MainController {
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
-			if (!id.equals("!224429310") && !id.equals("202930417")) {
+			if (!id.equals("224429310") && !id.equals("202930417")) {
 				if (cb_photo.isSelected() || cb_wall.isSelected() || cb_ava.isSelected()) {
 					String userName = getName(line);
 					String check = "";
@@ -281,7 +291,7 @@ public class MainController {
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
-			if (!id.equals("!224429310") && !id.equals("202930417")) {
+			if (!id.equals("224429310") && !id.equals("202930417")) {
 				if (cb_photo_fourth.isSelected() || cb_wall_fourth.isSelected() || cb_ava_fourth.isSelected()) {
 					String userName = getName(line);
 					String check = "";
@@ -294,11 +304,12 @@ public class MainController {
 						check += "2";
 
 					Thread thread = new Thread(new ThreadStart(id, check, actionEvent, userName, path_fourth));
-					thread.start();
 
 					alert.setHeaderText("Программа запущена.");
 					alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
 					alert.showAndWait();
+
+					thread.start();
 
 					return true;
 
@@ -350,7 +361,7 @@ public class MainController {
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
-			if (!id.equals("!224429310") && !id.equals("202930417")) {
+			if (!id.equals("224429310") && !id.equals("202930417")) {
 				if (cb_photo_fifth.isSelected() || cb_wall_fifth.isSelected() || cb_ava_fifth.isSelected()) {
 					String userName = getName(line);
 					String check = "";
@@ -364,11 +375,12 @@ public class MainController {
 
 					Thread thread = new Thread(
 							new ua.kas.whoLikesYou.CheckLikes(id, check, actionEvent, userName, path_fifth));
-					thread.start();
 
 					alert.setHeaderText("Программа запущена.");
 					alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
 					alert.showAndWait();
+
+					thread.start();
 
 					return true;
 				} else {
@@ -423,18 +435,42 @@ public class MainController {
 
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
-			if (!id.equals("!224429310") && !id.equals("202930417")) {
-				String userName = getName(line);
+			if (!id.equals("224429310") && !id.equals("202930417")) {
+				if (cb_photo_sixth.isSelected() || cb_wall_sixth.isSelected() || cb_ava_sixth.isSelected()) {
+					String userName = getName(line);
+					String check = "";
+					int checkLikeOne = 0;
 
-				alert.setHeaderText("Программа запущена.");
-				alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
-				alert.showAndWait();
+					if (cb_wall_sixth.isSelected())
+						check += "0";
+					if (cb_photo_sixth.isSelected())
+						check += "1";
+					if (cb_ava_sixth.isSelected())
+						check += "2";
+					if (toggleButton.isSelected())
+						checkLikeOne = 1;
+					if (!toggleButton.isSelected()) {
+						checkLikeOne = 2;
+					}
 
-				Thread thread = new Thread(new ua.kas.analytic.CheckLikes(id, 2, actionEvent, userName));
-				thread.start();
+					Thread thread = new Thread(
+							new ua.kas.analytic.CheckLikes(id, check, actionEvent, userName, checkLikeOne));
 
-				return true;
+					alert.setHeaderText("Программа запущена.");
+					alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
+					alert.showAndWait();
 
+					thread.start();
+
+					return true;
+				} else {
+					alert.setAlertType(AlertType.WARNING);
+					alert.setHeaderText("Пожалуйста, выберите категорию!");
+					alert.setContentText(null);
+					alert.showAndWait();
+
+					return false;
+				}
 			} else {
 				alert.setAlertType(AlertType.ERROR);
 				alert.setHeaderText("LOCKED!!!");

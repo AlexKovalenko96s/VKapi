@@ -32,16 +32,18 @@ public class CheckLikes implements Runnable {
 	private String line = "";
 	private String id = "";
 	private String name = "";
+	private String check = "";
 
-	private int check;
+	private Integer checkLikeOne = 0;
 
 	UIController controller;
 
-	public CheckLikes(String id, Integer check, ActionEvent actionEvent, String name) {
+	public CheckLikes(String id, String check, ActionEvent actionEvent, String name, Integer checkLikeOne) {
 		this.id = id;
 		this.check = check;
 		this.actionEvent = actionEvent;
 		this.name = name;
+		this.checkLikeOne = checkLikeOne;
 	}
 
 	@Override
@@ -49,12 +51,26 @@ public class CheckLikes implements Runnable {
 		listIdWall.clear();
 		list.clear();
 
-		try {
-			ava();
-			photo();
-			wall();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (check.contains("0")) {
+			try {
+				wall();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (check.contains("2")) {
+			try {
+				ava();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (check.contains("1")) {
+			try {
+				photo();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		// получаем лайкнувших
@@ -77,7 +93,7 @@ public class CheckLikes implements Runnable {
 					e.printStackTrace();
 				}
 
-				if (check == 1) {
+				if (checkLikeOne == 1) {
 					for (int j = 0;; j++) {
 						if (j == 0) {
 							line = line.substring(line.indexOf(",") + 1);
@@ -110,7 +126,7 @@ public class CheckLikes implements Runnable {
 							}
 						}
 					}
-				} else if (check == 2) {
+				} else if (checkLikeOne == 2) {
 					for (int j = 0;; j++) {
 						if (j == 0) {
 							line = line.substring(line.indexOf(",") + 1);

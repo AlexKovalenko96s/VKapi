@@ -52,7 +52,11 @@ public class FutureGender implements Callable<String> {
 				deleted++;
 			}
 		}
-		reader.close();
+
+		try {
+			reader.close();
+		} catch (Exception e) {
+		}
 	}
 
 }

@@ -57,17 +57,21 @@ public class FutureFriend implements Callable<String> {
 		String idFriends = getFriendsList();
 
 		for (int i = 0;; i++) {
-			if (i == 0) {
-				friendsList.add(idFriends.substring(idFriends.indexOf("[") + 1, idFriends.indexOf(",")));
-				idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
-			} else {
-				try {
-					friendsList.add(idFriends.substring(0, idFriends.indexOf(",")));
+			try {
+				if (i == 0) {
+					friendsList.add(idFriends.substring(idFriends.indexOf("[") + 1, idFriends.indexOf(",")));
 					idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
-				} catch (Exception ex) {
-					friendsList.add(idFriends.substring(0, idFriends.indexOf("]")));
-					break;
+				} else {
+					try {
+						friendsList.add(idFriends.substring(0, idFriends.indexOf(",")));
+						idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
+					} catch (Exception ex) {
+						friendsList.add(idFriends.substring(0, idFriends.indexOf("]")));
+						break;
+					}
 				}
+			} catch (Exception e) {
+				break;
 			}
 		}
 	}

@@ -16,3 +16,12 @@
 .background {
 	-fx-background-color: #507299;
 }
+
+.togglebutton {
+	-fx-background-color: #6888AD;
+}
+
+.togglebutton:selected {
+	-fx-underline: true;
+	-fx-background-color: #8eacce;
+}

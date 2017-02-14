@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -231,7 +232,7 @@
                   <Font size="10.0" />
                </font>
             </Label>
-            <Label disable="true" layoutY="326.0" text="version 0.42">
+            <Label disable="true" layoutY="326.0" text="version 1.0">
                <font>
                   <Font name="Times New Roman" size="12.0" />
                </font>
@@ -304,9 +305,18 @@
             </Label>
             <Separator layoutY="170.0" prefHeight="0.0" prefWidth="870.0" />
             <Label fx:id="label" layoutX="242.0" layoutY="6.0" text="WORK" visible="false" />
-            <CheckBox fx:id="cb_photo" layoutX="93.0" layoutY="104.0" mnemonicParsing="false" text="photo" />
-            <CheckBox fx:id="cb_photo_fourth" layoutX="383.0" layoutY="104.0" mnemonicParsing="false" text="photo" />
-            <CheckBox fx:id="cb_photo_fifth" layoutX="673.0" layoutY="104.0" mnemonicParsing="false" text="photo" />
+            <CheckBox fx:id="cb_photo" layoutX="93.0" layoutY="104.0" mnemonicParsing="false" text="photo">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></CheckBox>
+            <CheckBox fx:id="cb_photo_fourth" layoutX="383.0" layoutY="104.0" mnemonicParsing="false" text="photo">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></CheckBox>
+            <CheckBox fx:id="cb_photo_fifth" layoutX="673.0" layoutY="104.0" mnemonicParsing="false" text="photo">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></CheckBox>
             <Label layoutX="10.0" layoutY="148.0" prefHeight="22.0" prefWidth="281.0" text="** &quot;photo&quot; - только фотографии со стены">
                <font>
                   <Font name="Tahoma" size="10.0" />
@@ -317,7 +327,7 @@
                   <Font name="Tahoma" size="10.0" />
                </font>
             </Label>
-            <Label layoutX="586.0" layoutY="152.0" prefHeight="22.0" prefWidth="281.0" text="*** &quot;photo&quot; - только фотографии со стены">
+            <Label layoutX="586.0" layoutY="152.0" prefHeight="22.0" prefWidth="281.0" text="*** &quot;photo&quot; - только фотографии со стены" AnchorPane.leftAnchor="586.0">
                <font>
                   <Font name="Tahoma" size="10.0" />
                </font>
@@ -327,7 +337,7 @@
                   <Font name="Tahoma Bold" size="18.0" />
                </font>
                <tooltip>
-                  <Tooltip prefWidth="250.0" text="Программа считает количество лайков у друзей поставленных &quot;жертвой&quot; в выбранной категории. Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов и друзей зависит время подсчета." textAlignment="CENTER" wrapText="true">
+                  <Tooltip prefWidth="250.0" text="Программа считает лайки у &quot;жертвы&quot; в категорииях на выбор и проводит их анализ. Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов зависит время подсчета." textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font name="Tahoma" size="12.0" />
                      </font>
@@ -353,7 +363,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <CheckBox layoutX="594.0" layoutY="301.0" mnemonicParsing="false" text="avatars">
+            <CheckBox fx:id="cb_ava_sixth" layoutX="610.0" layoutY="274.0" mnemonicParsing="false" selected="true" text="avatars">
                <font>
                   <Font name="Tahoma" size="12.0" />
                </font>
@@ -361,7 +371,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </CheckBox>
-            <CheckBox layoutX="724.0" layoutY="301.0" mnemonicParsing="false" text="wall">
+            <CheckBox fx:id="cb_wall_sixth" layoutX="730.0" layoutY="276.0" mnemonicParsing="false" selected="true" text="wall">
                <font>
                   <Font name="Tahoma" size="12.0" />
                </font>
@@ -369,7 +379,28 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </CheckBox>
-            <CheckBox layoutX="660.0" layoutY="301.0" mnemonicParsing="false" text="photo" />
+            <CheckBox fx:id="cb_photo_sixth" layoutX="673.0" layoutY="274.0" mnemonicParsing="false" selected="true" text="photo">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></CheckBox>
+            <ToggleButton fx:id="toggleButton" layoutX="718.0" layoutY="242.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="54.0" styleClass="togglebutton" text="LikeOne" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="9.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ToggleButton>
+            <Label layoutX="586.0" layoutY="315.0" prefHeight="22.0" prefWidth="281.0" text="** &quot;photo&quot; - только фотографии со стены" AnchorPane.leftAnchor="586.0">
+               <font>
+                  <Font name="Tahoma" size="10.0" />
+               </font>
+            </Label>
+            <Label layoutX="584.0" layoutY="300.0" prefHeight="22.0" prefWidth="281.0" text="* &quot;LikeOne&quot; - от каждого пользователя только один лайк" AnchorPane.leftAnchor="586.0">
+               <font>
+                  <Font name="Tahoma" size="10.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </items>
