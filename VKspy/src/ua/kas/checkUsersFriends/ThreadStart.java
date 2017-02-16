@@ -157,7 +157,11 @@ public class ThreadStart implements Runnable {
 
 					String line = reader.readLine();
 					line = line.substring(line.indexOf("\"first_name\":\"") + 14);
-					first_name = line.substring(0, line.indexOf("\""));
+					try {
+						first_name = line.substring(0, line.indexOf("\""));
+					} catch (Exception e) {
+						break;
+					}
 					line = line.substring(line.indexOf("\"last_name\":\"") + 13);
 					last_name = line.substring(0, line.indexOf("\""));
 

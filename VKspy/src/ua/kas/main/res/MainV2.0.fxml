@@ -55,7 +55,7 @@
                   <Font name="Tahoma Bold" size="18.0" />
                </font>
                <tooltip>
-                  <Tooltip prefWidth="250.0" text="Введите id &quot;жертвы&quot; и выберите категорию/и для подсчета. От количество фотографий/постов зависит время подсчета." textAlignment="CENTER" wrapText="true">
+                  <Tooltip prefWidth="250.0" styleClass="tooltrip" text="Введите id &quot;жертвы&quot; и выберите категорию/и для подсчета." textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font name="Tahoma" size="12.0" />
                      </font>
@@ -102,7 +102,7 @@
                   <Font name="Tahoma Bold" size="18.0" />
                </font>
                <tooltip>
-                  <Tooltip prefWidth="250.0" text="Введите id &quot;жертвы&quot; и запустите программу. Она будет следить за статусом &quot;online&quot; у &quot;жертвы&quot;. Сообщая об изменении статуса." textAlignment="CENTER" wrapText="true">
+                  <Tooltip autoHide="true" prefWidth="250.0" styleClass="tooltrip" text="Введите id &quot;жертвы&quot; и запустите программу. Она будет следить за статусом &quot;online&quot; у &quot;жертвы&quot;. Сообщая об изменении статуса." textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font name="Tahoma" size="12.0" />
                      </font>
@@ -133,7 +133,7 @@
                   <Font name="Tahoma Bold" size="18.0" />
                </font>
                <tooltip>
-                  <Tooltip prefWidth="250.0" text="Программа считает количество лайков у друзей поставленных &quot;жертвой&quot; в выбранной категории. Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов и друзей зависит время подсчета." textAlignment="CENTER" wrapText="true">
+                  <Tooltip autoHide="true" prefWidth="250.0" styleClass="tooltrip" text="Программа считает количество лайков у друзей поставленных &quot;жертвой&quot; в выбранной категории." textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font name="Tahoma" size="12.0" />
                      </font>
@@ -148,7 +148,7 @@
                   <Font name="Tahoma Bold" size="18.0" />
                </font>
                <tooltip>
-                  <Tooltip prefWidth="250.0" text="Программа позволяет провести проверку на наличие новых друзей, а также удалившихся. Введите id &quot;жертвы&quot;." textAlignment="CENTER" wrapText="true">
+                  <Tooltip autoHide="true" prefWidth="250.0" styleClass="tooltrip" text="Программа позволяет провести проверку на наличие новых друзей, а также удалившихся. Введите id &quot;жертвы&quot;." textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font name="Tahoma" size="12.0" />
                      </font>
@@ -243,7 +243,7 @@
                   <Font name="Tahoma Bold" size="18.0" />
                </font>
                <tooltip>
-                  <Tooltip prefWidth="250.0" text="Программа считает, всех кто ставил лайки &quot;жертве&quot; и считает с их страниц лайки &quot;жертвы&quot;. Введите id &quot;жертвы&quot; и выберите категорию/и. У &quot;жертвы&quot; считываются все возможные лайки. От количество фотографий/постов зависит время подсчета." textAlignment="CENTER" wrapText="true">
+                  <Tooltip autoHide="true" prefWidth="250.0" styleClass="tooltrip" text="Программа считывает всех кто ставил лайки &quot;жертве&quot;  и проверяет сколько &quot;жертва&quot; поставила им лайков. " textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font name="Tahoma" size="12.0" />
                      </font>
@@ -337,7 +337,7 @@
                   <Font name="Tahoma Bold" size="18.0" />
                </font>
                <tooltip>
-                  <Tooltip prefWidth="250.0" text="Программа считает лайки у &quot;жертвы&quot; в категорииях на выбор и проводит их анализ. Введите id &quot;жертвы&quot; и выберите категорию/и. От количество фотографий/постов зависит время подсчета." textAlignment="CENTER" wrapText="true">
+                  <Tooltip autoHide="true" prefWidth="250.0" styleClass="tooltrip" text="Программа считает лайки у &quot;жертвы&quot; в категорииях на выбор и проводит их анализ." textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font name="Tahoma" size="12.0" />
                      </font>

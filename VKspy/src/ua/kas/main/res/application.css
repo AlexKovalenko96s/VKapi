@@ -25,3 +25,7 @@
 	-fx-underline: true;
 	-fx-background-color: #8eacce;
 }
+
+.tooltrip {
+	-fx-background-color: #7291B5;
+}
