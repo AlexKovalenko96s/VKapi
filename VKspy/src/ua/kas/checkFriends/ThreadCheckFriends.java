@@ -9,8 +9,13 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -27,6 +32,7 @@ public class ThreadCheckFriends implements Runnable {
 	private String id = "";
 	private String del = "";
 	private String add = "";
+	private String result = "";
 
 	public ThreadCheckFriends(String id, File file) {
 		this.id = id;
@@ -41,18 +47,53 @@ public class ThreadCheckFriends implements Runnable {
 			buf_reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "windows-1251"));
 			str = buf_reader.readLine();
 		} catch (IOException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("VKspy");
-			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-			stage.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
-			alert.setHeaderText("Выбран некорректный файл!");
-			alert.setContentText(null);
-			stage.show();
-		}
+			Platform.runLater(new Runnable() {
 
-		while (str.length() >= 1) {
-			list.add(str.substring(0, str.indexOf("|")));
-			str = str.substring(str.indexOf("|") + 1);
+				@Override
+				public void run() {
+					try {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("VKspy");
+						Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+						stage.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
+						alert.setHeaderText("Выбран некорректный файл!");
+						alert.setContentText(null);
+						stage.showAndWait();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+		try {
+			while (str.length() >= 1) {
+				try {
+					list.add(str.substring(0, str.indexOf("|")));
+					str = str.substring(str.indexOf("|") + 1);
+				} catch (Exception e) {
+					Platform.runLater(new Runnable() {
+
+						@Override
+						public void run() {
+							try {
+								Alert alert = new Alert(AlertType.ERROR);
+								alert.setTitle("VKspy");
+								Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+								stage.getIcons()
+										.add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
+								alert.setHeaderText("Выбран некорректный файл!");
+								alert.setContentText(null);
+								stage.show();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
+					return;
+				}
+			}
+		} catch (Exception e) {
+
 		}
 
 		getFriendsId();
@@ -91,13 +132,32 @@ public class ThreadCheckFriends implements Runnable {
 		}
 
 		if (add.length() > 0 && del.length() == 0)
-			JOptionPane.showMessageDialog(null, "Added users: \n" + add);
+			result = "Новые друзья: \n" + add;
 		else if (del.length() > 0 && add.length() == 0)
-			JOptionPane.showMessageDialog(null, "Deleted users: \n" + del);
+			result = "Удаленные друзья: \n" + del;
 		else if (add.length() > 0 && del.length() > 0)
-			JOptionPane.showMessageDialog(null, "Add users: \n" + add + "Delete users: \n" + del);
+			result = "Новые друзья: \n" + add + "Удаленные друзья: \n" + del;
 		else
-			JOptionPane.showMessageDialog(null, "No change!");
+			result = "Нет изменений!";
+
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("VKspy");
+					Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+					stage.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
+					alert.setHeaderText(result);
+					alert.setContentText(null);
+					stage.show();
+					sound();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	private void getFriendsId() {
@@ -108,17 +168,21 @@ public class ThreadCheckFriends implements Runnable {
 			e.printStackTrace();
 		}
 		for (int i = 0;; i++) {
-			if (i == 0) {
-				lastId.add(idFriends.substring(idFriends.indexOf("[") + 1, idFriends.indexOf(",")));
-				idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
-			} else {
-				try {
-					lastId.add(idFriends.substring(0, idFriends.indexOf(",")));
+			try {
+				if (i == 0) {
+					lastId.add(idFriends.substring(idFriends.indexOf("[") + 1, idFriends.indexOf(",")));
 					idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
-				} catch (Exception ex) {
-					lastId.add(idFriends.substring(0, idFriends.indexOf("]")));
-					break;
+				} else {
+					try {
+						lastId.add(idFriends.substring(0, idFriends.indexOf(",")));
+						idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
+					} catch (Exception ex) {
+						lastId.add(idFriends.substring(0, idFriends.indexOf("]")));
+						break;
+					}
 				}
+			} catch (Exception e) {
+				return;
 			}
 		}
 	}
@@ -162,5 +226,24 @@ public class ThreadCheckFriends implements Runnable {
 			result = result + first_name + " " + last_name + "\n";
 		}
 		return result;
+	}
+
+	private void sound() {
+		Clip clip = null;
+		try {
+			clip = AudioSystem.getClip();
+		} catch (LineUnavailableException e1) {
+			e1.printStackTrace();
+		}
+
+		AudioInputStream inputStream;
+
+		try {
+			inputStream = AudioSystem.getAudioInputStream(this.getClass().getResource("res/sound.wav"));
+			clip.open(inputStream);
+			clip.start();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 }

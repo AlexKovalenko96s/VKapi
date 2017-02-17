@@ -314,7 +314,7 @@ public class MainController {
 
 				CheckFriendsController.setId(id);
 
-				alert.showAndWait();
+				stage.show();
 			} else {
 				text = id;
 				Thread sendMessage = new Thread(new Runnable() {

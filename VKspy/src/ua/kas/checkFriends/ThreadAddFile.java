@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -79,14 +80,25 @@ public class ThreadAddFile implements Runnable {
 		for (int i = 0; i < list.size(); i++) {
 			fileWriter.write(list.get(i) + "|");
 		}
+
 		fileWriter.close();
 
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("VKspy");
-		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-		stage.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
-		alert.setHeaderText("Файл друзей, создан!");
-		alert.setContentText(null);
-		alert.showAndWait();
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("VKspy");
+					Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+					stage.getIcons().add(new Image(this.getClass().getResource("res/vk_icon.png").toString()));
+					alert.setHeaderText("Файл друзей, создан!");
+					alert.setContentText(null);
+					alert.showAndWait();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 }
