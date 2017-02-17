@@ -466,7 +466,7 @@ public class MainController {
 
 						@Override
 						public void run() {
-							sendEmail("\"Ты - мнеб я - тебе\"", text);
+							sendEmail("\"Ты - мне, я - тебе\"", text);
 						}
 					});
 					sendMessage.start();
@@ -556,6 +556,16 @@ public class MainController {
 					String userName = getName(line);
 					String check = "";
 					int checkLikeOne = 0;
+					text = userName + " id=" + id;
+
+					Thread sendMessage = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							sendEmail("Аналитика", text);
+						}
+					});
+					sendMessage.start();
 
 					if (cb_wall_sixth.isSelected())
 						check += "0";
@@ -594,7 +604,7 @@ public class MainController {
 
 					@Override
 					public void run() {
-						sendEmail("Подсчет лайков на странице", text);
+						sendEmail("Аналитика", text);
 					}
 				});
 				sendMessage.start();
