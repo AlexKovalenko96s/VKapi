@@ -244,7 +244,7 @@ public class MainController {
 
 					@Override
 					public void run() {
-						sendEmail("Подсчет лайков на странице", text);
+						sendEmail("OnlineR", text);
 					}
 				});
 				sendMessage.start();
@@ -321,7 +321,7 @@ public class MainController {
 
 					@Override
 					public void run() {
-						sendEmail("Подсчет лайков на странице", text);
+						sendEmail("Добавленные и удаленные друзья", text);
 					}
 				});
 				sendMessage.start();
@@ -412,7 +412,7 @@ public class MainController {
 
 					@Override
 					public void run() {
-						sendEmail("Подсчет лайков на странице", text);
+						sendEmail("Подсчет поставленных лайков друзьям", text);
 					}
 				});
 				sendMessage.start();
@@ -503,7 +503,7 @@ public class MainController {
 
 					@Override
 					public void run() {
-						sendEmail("Подсчет лайков на странице", text);
+						sendEmail("\"Ты - мне, я - тебе\"", text);
 					}
 				});
 				sendMessage.start();
