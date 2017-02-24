@@ -37,8 +37,7 @@ public class Main {
 		BufferedReader reader = null;
 		for (int i = 0; i < list.size(); i++) {
 			Thread.sleep(250);
-			String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + list.get(i)
-					+ "&fields=online,photo_big";
+			String url = "https://api.vk.com/method/" + "users.get" + "?user_ids=" + list.get(i) + "&fields=online";
 
 			URL url2 = new URL(url);
 			reader = new BufferedReader(new InputStreamReader(url2.openStream()));
@@ -161,28 +160,29 @@ public class Main {
 	public static void main(String[] args) throws ClientProtocolException, NoSuchAlgorithmException, IOException,
 			URISyntaxException, InterruptedException {
 
-		String idFriends = getFriendsList();
+		// String idFriends = getFriendsList();
 		// String idFriends = likes();
 
 		// System.out.println(getFriendsList());
 
-		for (int i = 0;; i++) {
-			if (i == 0) {
-				list.add(idFriends.substring(idFriends.indexOf("[") + 1, idFriends.indexOf(",")));
-				idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
-			} else {
-				try {
-					list.add(idFriends.substring(0, idFriends.indexOf(",")));
-					idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
-				} catch (Exception ex) {
-					list.add(idFriends.substring(0, idFriends.indexOf("]")));
-					break;
-				}
-			}
-		}
-		System.out.println("dd");
+		// for (int i = 0;; i++) {
+		// if (i == 0) {
+		// list.add(idFriends.substring(idFriends.indexOf("[") + 1,
+		// idFriends.indexOf(",")));
+		// idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
+		// } else {
+		// try {
+		// list.add(idFriends.substring(0, idFriends.indexOf(",")));
+		// idFriends = idFriends.substring(idFriends.indexOf(",") + 1);
+		// } catch (Exception ex) {
+		// list.add(idFriends.substring(0, idFriends.indexOf("]")));
+		// break;
+		// }
+		// }
+		// }
+		// System.out.println("dd");
 		// getUserName();
-		getPhoto();
+		// getPhoto();
 
 		//
 		// System.out.println(sendMessage());
