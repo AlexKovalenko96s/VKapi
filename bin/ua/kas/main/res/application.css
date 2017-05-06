@@ -1,0 +1,31 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.root {
+	-fx-background-color: #edeef0;
+	-fx-background-image: url("asfalt-dark.png");
+}
+
+.button {
+	-fx-background-color: #6888AD;
+}
+
+.button:hover {
+	-fx-background-color: #7291B5;
+}
+
+.background {
+	-fx-background-color: #507299;
+}
+
+.togglebutton {
+	-fx-background-color: #6888AD;
+}
+
+.togglebutton:selected {
+	-fx-underline: true;
+	-fx-background-color: #8eacce;
+}
+
+.tooltrip {
+	-fx-background-color: #7291B5;
+}

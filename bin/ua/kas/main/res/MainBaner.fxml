@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="150.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label prefHeight="71.0" prefWidth="314.0" text="Данная версия не поддерживается!" textAlignment="CENTER" underline="true" wrapText="true">
+         <font>
+            <Font name="Tahoma Bold" size="28.0" />
+         </font>
+      </Label>
+      <Label disable="true" layoutX="1.0" layoutY="109.0" prefHeight="14.0" prefWidth="162.0" text="autor: Alex Kovalenko " wrapText="true">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font>
+      </Label>
+      <Label disable="true" layoutY="123.0" text="email: alex.kovalenko.s96@gmail.com">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font>
+      </Label>
+      <Label disable="true" layoutY="136.0" text="version 1.0">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="71.0" prefHeight="47.0" prefWidth="271.0" text="Для получения свежей версии свяжитесь со мной по емейлу." textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="Tahoma" size="12.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

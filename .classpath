@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="Copy (2) of VKspy/src"/>
+	<classpathentry kind="src" path="VKspy/src"/>
+	<classpathentry kind="src" path="VKtestV10/src"/>
+	<classpathentry kind="src" path="VKtestV11/src"/>
+	<classpathentry kind="src" path="VKtestV3/src"/>
+	<classpathentry kind="src" path="VKtestV4/src"/>
+	<classpathentry kind="src" path="VKtestV5/src"/>
+	<classpathentry kind="src" path="VKtestV6/src"/>
+	<classpathentry kind="src" path="VKtestV7/src"/>
+	<classpathentry kind="src" path="VKtestV8/src"/>
+	<classpathentry kind="src" path="VKtestV9/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

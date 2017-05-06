@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="370.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.kas.main.ChartController">
+   <children>
+      <AnchorPane layoutX="200.0" layoutY="-86.0" prefHeight="50.0" prefWidth="600.0" styleClass="background" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="l_name" alignment="CENTER" prefHeight="50.0" prefWidth="600.0" styleClass="background" text="Please wait! The program works" textAlignment="CENTER" textFill="WHITE" underline="true">
+               <font>
+                  <Font name="Tahoma Bold" size="22.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+      <PieChart fx:id="pieChartFirst" clockwise="false" focusTraversable="true" labelLineLength="5.0" labelsVisible="false" layoutY="50.0" prefHeight="250.0" prefWidth="297.0" title="Соотношение парней и девушек" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="55.0" />
+      <PieChart fx:id="pieChartSecond" clockwise="false" focusTraversable="true" labelLineLength="5.0" labelsVisible="false" layoutX="302.0" layoutY="50.0" prefHeight="250.0" prefWidth="297.0" title="Соотношение друзей и не друзей" AnchorPane.leftAnchor="303.0" AnchorPane.topAnchor="55.0" />
+      <Separator layoutX="297.0" layoutY="114.0" orientation="VERTICAL" prefHeight="320.0" AnchorPane.leftAnchor="297.0" AnchorPane.topAnchor="50.0" />
+      <Label fx:id="l_firstSum" layoutX="14.0" layoutY="312.0" text="Всего лайков: " AnchorPane.leftAnchor="14.0">
+         <font>
+            <Font name="Tahoma" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="l_man" layoutX="32.0" layoutY="329.0" text="от парней: ">
+         <font>
+            <Font name="Tahoma" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="l_woman" layoutX="24.0" layoutY="347.0" text="от девушек: ">
+         <font>
+            <Font name="Tahoma" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="l_secondSum" layoutX="303.0" layoutY="312.0" text="Всего лайков: " AnchorPane.leftAnchor="317.0">
+         <font>
+            <Font name="Tahoma" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="l_friend" layoutX="339.0" layoutY="329.0" text="от друзей: ">
+         <font>
+            <Font name="Tahoma" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="l_noFriends" layoutX="320.0" layoutY="347.0" text="от не друзей: ">
+         <font>
+            <Font name="Tahoma" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
